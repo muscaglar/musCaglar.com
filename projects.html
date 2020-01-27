@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<!--#include file="metaTags.html" -->
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="filter.js"></script>
+		<noscript>
+		<style> .btn {display: none;}</style>
+		</noscript>
+		</head>
+		<body>
+			<div id="wm-ipp-base" lang="en" style="display: block; direction: ltr;">
+			</div>
+			<div class="wb-autocomplete-suggestions">
+			</div>
+			<div class = "vertical-line">
+			</div>
+			<div class="app-left">
+				<!--#include file="menu.html" -->
+				<div id="menu_mus">
+					<label for="modal-mus">
+						<img src="images/tired_mus.png" alt="Mus" class="responsive">
+						</label>
+				</div>
+			</div>
+			<div class="app-right" style="padding-left: 15px;padding-top: 15px;">
+				<div class="row">
+					<div class="leftcolumn">
+						
+<!-- Control buttons -->
+<div id="myBtnContainer" class="myBtnContainer">
+  <button class="btn active" onclick="filterSelection('all')"> Show All</button>
+  <button class="btn" onclick="filterSelection('Python')"> Python</button>
+  <button class="btn" onclick="filterSelection('R')"> R</button>
+  <button class="btn" onclick="filterSelection('Matlab')"> Matlab</button>
+  <button class="btn" onclick="filterSelection('Labview')"> Labview</button>
+  <button class="btn" onclick="filterSelection('SQL')"> SQL</button>
+  <button class="btn" onclick="filterSelection('Regression')"> Regression</button>
+  <button class="btn" onclick="filterSelection('BayesianStatistics')"> Bayesian</button>
+  <button class="btn" onclick="filterSelection('dataMining')"> Data Mining</button>
+  <button class="btn" onclick="filterSelection('CNN')"> Neural Networks</button>
+  <button class="btn" onclick="filterSelection('ImageProcessing')"> Image/Signal Analysis</button>
+  <button class="btn" onclick="filterSelection('dataViz')"> Data Visualisation</button>  
+</div>
+
+<!-- The filterable elements. Note that some have multiple class names (this can be used if they belong to multiple categories) -->
+  <div class="filterDiv Python dataMining CNN ImageProcessing">
+	  <div class="card">
+							<a href="http://muscaglar.com/posts_DNA" class="class3 hvr-bob"><h2 class="red">DNA Sensing through 2D Nanopores</h2></a>
+							<h5>Ongoing</h5>
+							<p>
+								DNA translocation through nanopores can be studied by applying a voltage and measuring the current - 'resistive pulse sensing'. In order to increase the resolution of such systems nanopores in 2D membranes could be used - however these are inherently noisy. With many terabytes of noisy data, a trained CNN could be used to detangle the translocations from the noise.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>Python</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>k-means Clustering</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Neural Network</b></em></p></li>
+								  <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Signal Processing</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>
+  </div>
+  <div class="filterDiv Python R Regression BayesianStatistics">
+	  <div class="card">
+							<a href="http://muscaglar.com/posts_GHK" class="class3 hvr-bob"><h2 class="red">Current through graphene: Can we do better than Ohm's Law? </h2></a>
+							<h5>September 2019</h5>
+							<p>
+								Bayesian statistics is used to determine a favourable model for the charge flow across defects in graphene. Following this, R is used to perform non-linear regression to fit to experimental data and extract fitting statistics.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>Python</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>R</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Nonlinear Regression</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Bayesian Statistics</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>  
+  </div>
+  <div class="filterDiv Python ImageProcessing">
+	  						<div class="card">
+							<a href="http://muscaglar.com/posts_tem_recon" class="class3 hvr-bob"><h2 class="red">Exit Wave Reconstruction of TEM Images</h2></a>
+							<h5>May 2019</h5>
+							<p>
+								Effectively imaging features on the nanoscale requires the use of both powerful microscopes and image processing techniques. An example of such is a transmission electron microscope (TEM), which achieves some of the highest resolutions possible. Given the high resolution, lens aberrations can become limiting - image processing can be used to remove these aberrations and retrieve a higher resolution image.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>Python</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Image Processing</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Electron Wavefunctions</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>
+  </div>
+  <div class="filterDiv R Regression BayesianStatistics">
+							<div class="card">
+							<a href="http://muscaglar.com/posts_GCN" class="class3 hvr-bob"><h2 class="red">Great Crested Newts: Predicting Habitats</h2></a>
+							<h5>January 2019</h5>
+							<p>
+								As a protected species, knowledge of the extent and distribution of habitats of the Great Crested Newts (GCNs) is of paramount importance within both the rail and construction sectors. Using data sourced from Network Rail, I apply an adjusted 10 point scale (Oldham et. al.) to determine the likelihood of areas being occupied by GCNs - alleviating the need for costly site visits.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>R</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Logistic Regression</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Naive Bayes</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>	  
+  </div>  
+  <div class="filterDiv Labview">
+	  						<div class="card">
+							<a href="http://muscaglar.com/posts_LV_Breakdown" class="class3 hvr-bob"><h2 class="red">Displacing Carbon atoms using Labview</h2></a>
+							<h5>December 2018</h5>
+							<p>
+								Perforating graphene has many applications ranging from ionic transport to single-molecule sensing. In particular, we are interesting in displacing a sufficient number of carbon atoms from graphene to create 5+ nm pores allowing the passage of DNA through such pores to be sensed.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>Labview</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Nanopores</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b> 	</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>	  
+  </div> 
+  <div class="filterDiv dataViz Matlab Python SQL">
+	  						<div class="card">
+							<a href="http://muscaglar.com/posts_phdWorkflow_2" class="class3 hvr-bob"><h2 class="red">PhD Workflow 2: Data Visualisation </h2></a>
+							<h5>August 2017</h5>
+							<p>
+								Fetching data from a database, analysing and storing values in the cloud is achieved mostly using Java, Matlab and Python. 
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>Origin</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Matlab</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>Python</b></em></p></li>
+								  <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b>SQL</b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						<hr class="horiztonal">
+						</div>
+  </div>
+  <div class="filterDiv SQL Matlab Java">	  
+	  					<div class="card">
+							<a href="http://muscaglar.com/posts_phdWorkflow_1" class="class3 hvr-bob"><h2 class="red">PhD Workflow 1: Data Capture and Storage</h2></a>
+							<h5>March 2017</h5>
+							<p>
+								Managing large amounts of data generated from experiments is a critical part my workflow. Knowing where this data is stored and storing the analysis values saves much hassle and time.
+								<div id="projectKeywords">
+								<ul>
+								  <li><p><em><b>SQL</b></em></p></li>
+								  <li><p> </p></li>
+								  <li><p> </p></li>
+								  <li><p><em><b>Azure Cloud</b></em></p></li>
+								   <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b> Java </b></em></p></li>
+								  <li><p> </p></li>
+								   <li><p> </p></li>
+								  <li><p><em><b> Matlab </b></em></p></li>
+								</ul>
+								</div>	
+							</p>
+						</div>	  
+  </div>	
+					</div>
+				</div>
+			</div>
+			<div class="app-right_top">
+			<!--#include file="mobile_menu.html" -->
+	</div>
+		</body>
+</html>
