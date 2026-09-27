@@ -63,6 +63,7 @@ assets/js/          Small scripts: theme switch, photo viewer
 static/             Files published exactly as they are (_headers sets Cloudflare's headers)
 archetypes/         The starting text of new files made with `hugo new content`
 scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally,
+                    preview-address.py reads the address of a preview for the pull request,
                     signature/ redraws the name and cuts the typeface of the titles
 wrangler.jsonc      How Cloudflare serves the site
 .github/workflows/  What GitHub does on every push: build, check, publish
