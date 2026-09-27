@@ -1,0 +1,3 @@
+{{- $target := partial "link-target.html" (dict "hook" .) -}}
+<a href="{{ $target.href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $target.external }} class="external" rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- /* chomp trailing newline */ -}}

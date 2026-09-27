@@ -1,0 +1,12 @@
+{{- /* Returns the recipes in the order they are listed: the ones that are settled first, newest
+       first; then the ones still being worked out; then the ideas. The last two by name. */ -}}
+{{- $settled := slice -}}
+{{- $unsettled := slice -}}
+{{- $ideas := slice -}}
+{{- range (where site.RegularPages "Section" "recipes").ByDate.Reverse -}}
+  {{- $status := .Params.status | default "" | lower -}}
+  {{- if eq $status "concept" }}{{ $ideas = $ideas | append . }}
+  {{- else if eq $status "developing" }}{{ $unsettled = $unsettled | append . }}
+  {{- else }}{{ $settled = $settled | append . }}{{ end -}}
+{{- end -}}
+{{- return ($settled | append (sort $unsettled "Title") | append (sort $ideas "Title")) -}}

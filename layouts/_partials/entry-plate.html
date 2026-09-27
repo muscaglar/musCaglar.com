@@ -1,0 +1,17 @@
+{{- /* One entry of a section as a plate: its title, its drawing (or its picture), and one sentence. */ -}}
+<li>
+  <a class="plate" href="{{ .RelPermalink }}">
+    <span class="plate__head"><span class="plate__name">{{ .Title }}{{ partial "status.html" . }}</span> <span class="plate__go">→</span></span>
+    {{- $sketch := partial "sketch.html" (dict "page" . "name" .Params.figure) }}
+    {{- if $sketch }}
+    {{ $sketch }}
+    {{- else }}
+    <span class="plate__picture">
+      {{- with partial "cover.html" . }}
+      {{ partial "picture.html" (dict "img" . "alt" "" "sizes" "(min-width: 62rem) 17rem, (min-width: 40rem) 46vw, 100vw" "widths" (slice 320 480 800) "crop" "4x3") }}
+      {{- end }}
+    </span>
+    {{- end }}
+    <span class="plate__caption">{{ with partial "date.html" (dict "page" . "format" "year" "class" "key") }}{{ . }} {{ end }}{{ with .Params.summary }}{{ . }}{{ end }}</span>
+  </a>
+</li>

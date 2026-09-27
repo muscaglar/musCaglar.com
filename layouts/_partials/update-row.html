@@ -1,0 +1,5 @@
+<li data-kind="{{ .Section }}">
+  {{ partial "date.html" (dict "page" . "format" "short" "class" "key") }}
+  <span class="kind">{{ partial "kind.html" . }}</span>
+  <h3 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h3>
+</li>

@@ -1,0 +1,25 @@
+{{- /*
+  Sets two to four pictures side by side, each with its caption:
+
+      {{< figures >}}
+      ![What it shows](a.png "Caption")
+      ![What it shows](b.png "Caption")
+      {{< /figures >}}
+
+  Each line between the tags is one picture, written as in the rest of the page.
+*/ -}}
+{{- $page := .Page -}}
+{{- $pictures := findRESubmatch `!\[([^\]]*)\]\(\s*([^\s)]+)(?:\s+"([^"]*)")?\s*\)` .Inner -}}
+<div class="figures" data-count="{{ len $pictures }}">
+  {{- range $pictures }}
+    {{- $alt := index . 1 }}
+    {{- $file := index . 2 }}
+    {{- $caption := index . 3 }}
+    {{- $img := partial "find-picture.html" (dict "page" $page "path" $file) }}
+    {{- if $img }}
+  {{ partial "figure.html" (dict "img" $img "alt" $alt "caption" $caption "sizes" "(min-width: 50rem) 23rem, 100vw") }}
+    {{- else }}
+      {{- warnf "Picture %q was not found (used in %s)" $file $page.Path }}
+    {{- end }}
+  {{- end }}
+</div>

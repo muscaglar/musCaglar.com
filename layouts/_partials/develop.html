@@ -1,0 +1,11 @@
+{{- /* What is still to be worked out on a page: the list `develop` of its front matter. */ -}}
+{{- with .Params.develop }}
+<section class="develop">
+  <h2>Still to work out</h2>
+  <ul>
+    {{- range . }}
+    <li>{{ $.RenderString . }}</li>
+    {{- end }}
+  </ul>
+</section>
+{{- end -}}

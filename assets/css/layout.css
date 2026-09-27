@@ -1,0 +1,221 @@
+/* The sheet: one centred column that everything sits on. It is also the container that the
+   narrower layouts further down measure themselves against. */
+.sheet {
+  inline-size: min(100% - 2 * var(--page-pad), var(--sheet-max));
+  margin-inline: auto;
+  container: sheet / inline-size;
+}
+
+.site-main { flex: 1; }
+
+
+/* Navigation: plain words, always in view, closed by a strong rule ----------- */
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background: var(--color-paper);
+  view-transition-name: site-header;
+}
+
+/* Everything in the header shares one wrapping row, so another section simply takes the next place. */
+.site-header__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) clamp(var(--space-4), 3cqi, var(--space-8));
+  padding-block: 1.125rem 1rem;
+  border-block-end: var(--rule-strong) solid var(--color-ink);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) clamp(var(--space-4), 0.4rem + 2cqi, 2.5rem);
+  font-size: var(--text-nav);
+  font-weight: 500;
+
+  & a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    text-decoration: none;
+
+    &:hover { color: var(--color-accent); }
+  }
+
+  & [aria-current] {
+    font-weight: 600;
+
+    &::before {
+      content: "";
+      inline-size: 6px;
+      block-size: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      align-self: center;
+    }
+  }
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 400;
+  color: var(--color-ink-3);
+}
+
+/* Links to elsewhere and the theme switch: small, in mono, at the far end */
+.site-header__aside {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-6);
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+
+  & ul { display: flex; gap: var(--space-6); padding: 0; list-style: none; }
+  & a { text-decoration: none; }
+  & a:hover { color: var(--color-accent); }
+}
+
+.theme {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+
+  &:hover { color: var(--color-accent); }
+}
+
+
+/* Footer: the last section of every page ---------------------------------------- */
+.site-footer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--space-4);
+  row-gap: var(--space-4);
+  align-items: baseline;
+  padding-block: var(--space-8) var(--space-12);
+  border-block-start: var(--rule-strong) solid var(--color-ink);
+}
+
+.site-footer__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1cqi, 2rem);
+  font-weight: 600;
+  letter-spacing: var(--display-tracking);
+  line-height: 1;
+}
+
+.elsewhere {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) clamp(var(--space-4), 0.4rem + 2cqi, 2.5rem);
+  font-size: var(--text-nav);
+  font-weight: 500;
+
+  & a { text-decoration: none; }
+}
+
+.site-footer__note {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+}
+
+
+/* A page: four columns, the same four the figures of the home page stand on ---
+   The first holds what a page is filed under and its facts, the two in the middle hold the title
+   and the text, and the fourth is the margin for the page's drawing. */
+.page {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+  column-gap: var(--space-4);
+  align-items: start;
+  padding-block: var(--band-pad) var(--space-12);
+  counter-reset: fig;
+}
+
+.page > * { min-inline-size: 0; }
+.page__head  { grid-column: 1 / span 3; grid-row: 1; }
+.page__facts { grid-column: 1; grid-row: 2; display: grid; gap: var(--space-6); padding-inline-end: var(--space-4); }
+.page__body  { grid-column: 2 / span 2; grid-row: 2; }
+.page__aside { grid-column: 4; grid-row: 1 / span 2; display: grid; gap: var(--space-6); }
+.page__wide  { grid-column: 1 / -1; }
+.page__foot  { grid-column: 1 / -1; }
+
+/* A page that is mostly a list or a grid: the margin only runs beside the heading. */
+.page--list .page__aside { grid-row: 1; padding-block-end: var(--band-pad); }
+
+/* The facts and the drawing stay in view while the text scrolls, on screens tall enough to hold them. */
+@media (min-height: 50rem) {
+  @container sheet (inline-size >= 62rem) {
+    .page:not(.page--list) > :is(.page__aside, .page__facts) {
+      position: sticky;
+      inset-block-start: calc(var(--header-height) + var(--space-8));
+    }
+  }
+}
+
+/* The heading of a page: what it is filed under in the first column, then the title and one sentence. */
+.head {
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: start;
+  row-gap: var(--space-4);
+  padding-block-end: var(--band-pad);
+
+  & > * { grid-column: 2 / -1; min-inline-size: 0; }
+  & > .head__label { grid-column: 1; grid-row: 1; }
+}
+
+.head__label a { text-decoration: none; }
+.head__label a:hover { color: var(--color-accent); }
+.head__title { text-box: trim-both cap alphabetic; }
+.head__lede {
+  max-inline-size: var(--measure);
+  font-size: var(--text-lead);
+  line-height: 1.4;
+  color: var(--color-ink-2);
+}
+
+
+/* Narrower sheets ------------------------------------------------------------ */
+@container sheet (inline-size < 62rem) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  .page__head, .page__body, .page__facts, .page__aside, .page__wide, .page__foot,
+  .page--list .page__aside { grid-column: 1; grid-row: auto; }
+  .page__aside, .page__facts { padding-block-end: var(--space-8); padding-inline-end: 0; }
+  .page__aside .plate { max-inline-size: 24rem; }
+  .page__facts { max-inline-size: 32rem; }
+
+  .head { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-3); padding-block-end: var(--space-8); }
+  .head > *, .head > .head__label { grid-column: 1; grid-row: auto; }
+
+  .site-footer { grid-template-columns: minmax(0, 1fr); }
+  .elsewhere, .site-footer__note { grid-column: 1; }
+}
+
+@container sheet (inline-size < 40rem) {
+  /* Links to elsewhere and the theme switch are in the footer as well; here there is no room for them. */
+  .site-header__aside { display: none; }
+}
+
+/* On a phone the navigation scrolls away with the page: two rows of it are too much to keep. */
+@media (max-width: 40rem) {
+  .site-header { position: static; }
+  html { scroll-padding-block-start: var(--grid); }
+}

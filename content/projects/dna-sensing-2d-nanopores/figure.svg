@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A strand of DNA passing through a nanopore, beside the measured current, which dips while the strand is in the pore.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+
+  <!-- the wall in section, with a pore -->
+  <path class="sk-ink" d="M10 89H41M63 89H94"/>
+  <!-- dna: two strands of a helix -->
+  <path class="sk-ink" d="M52 17C46 22.5 45 27 49 32M55 38C59 43 58 47.5 52 53M52 53C46 58.5 45 63 49 68M55 74C59 79 58 83.5 52 89M52 89C46 94.5 45 99 49 104M55 110C59 115 58 119.5 52 125M52 125C46 130.5 45 135 49 140M55 146C59 151 58 155.5 52 161"/>
+  <path class="sk-ink" d="M52 17C59.5 23.5 59.5 28.5 52 35M52 35C46 40.5 45 45 49 50M55 56C59 61 58 65.5 52 71M52 71C46 76.5 45 81 49 86M55 92C59 97 58 101.5 52 107M52 107C46 112.5 45 117 49 122M55 128C59 133 58 137.5 52 143M52 143C44.5 149.5 44.5 154.5 52 161"/>
+  <!-- axes of the current trace -->
+  <path class="sk-line" d="M134 38V150H230"/>
+  <!-- current before and after -->
+  <path class="sk-ink" d="M142 62L148 61L154 63L160 61.5L166 62.5L169 62M196 62L202 63L208 61L214 62.5L220 61.5L224 62"/>
+  <!-- the dip: a translocation -->
+  <path class="sk-accent" d="M169 62L171 106L177 105L183 107L189 105.5L194 106L196 62"/>
+  <!-- leaders and labels -->
+  <path class="sk-line" d="M61 35H76"/>
+  <text x="80" y="38">dna</text>
+  <text x="66" y="106">membrane</text>
+  <text x="134" y="30">current</text>
+  <text x="230" y="164" text-anchor="end">time</text>
+  <text x="183" y="129" text-anchor="middle">translocation</text>
+</svg>

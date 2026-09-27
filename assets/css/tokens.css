@@ -1,0 +1,73 @@
+:root {
+  color-scheme: light dark;
+
+  /* Colour: paper, three inks, rules, dots, one accent */
+  --color-paper:  light-dark(oklch(0.985 0.004 95), oklch(0.195 0.012 265));
+  --color-ink:    light-dark(oklch(0.24 0.02 265),  oklch(0.925 0.006 95));
+  --color-ink-2:  light-dark(oklch(0.43 0.018 265), oklch(0.75 0.01 265));
+  --color-ink-3:  light-dark(oklch(0.57 0.014 265), oklch(0.61 0.012 265));
+  --color-rule:   light-dark(oklch(0.24 0.02 265 / 0.14), oklch(0.925 0.006 95 / 0.14));
+  --color-rule-strong: light-dark(oklch(0.24 0.02 265), oklch(0.925 0.006 95 / 0.6));
+  --color-dot:    light-dark(oklch(0.24 0.02 265 / 0.14), oklch(0.925 0.006 95 / 0.11));
+  --color-accent: light-dark(#b71c1c, oklch(0.725 0.145 27));
+  /* Behind pictures: plots and diagrams are drawn on white, whatever the theme */
+  --color-plain:  oklch(0.995 0.002 95);
+  /* The photo viewer is dark in both themes */
+  --color-night:  oklch(0.16 0.012 265);
+  --color-night-ink: oklch(0.9 0.006 95);
+
+  /* Type */
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "Special Gothic Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;   /* headings */
+  --display-tracking: -0.015em;
+
+  --text-label: 0.75rem;     /* mono labels, "FIG. n" */
+  --text-small: 0.875rem;
+  --text-body:  1.0625rem;
+  --text-lead:  1.25rem;
+  --text-h3:    1.0625rem;
+  --text-h2:    1.375rem;
+  --text-nav:   clamp(1rem, 0.94rem + 0.3cqi, 1.1875rem);   /* the words of the navigation */
+  --text-title: clamp(2.25rem, 1.75rem + 2cqi, 3.25rem);    /* the title of a section */
+  --text-h1:    clamp(2.5rem, 1.9rem + 2.4cqi, 3.5rem);     /* the title of a page */
+  --text-intro: clamp(1.3125rem, 1rem + 1.5cqi, 1.75rem);  /* the sentence that opens the home page */
+  --tracking-label: 0.08em;
+
+  --name-size: 2.5rem;       /* the name is a signature, not a banner */
+
+  /* Space and grid */
+  --grid: 24px;
+  --space-1: calc(var(--grid) / 4);
+  --space-2: calc(var(--grid) / 2);
+  --space-3: calc(var(--grid) * 0.75);
+  --space-4: var(--grid);
+  --space-6: calc(var(--grid) * 1.5);
+  --space-8: calc(var(--grid) * 2);
+  --space-12: calc(var(--grid) * 3);
+  --space-16: calc(var(--grid) * 4);
+  --sheet-max: calc(var(--grid) * 49);
+  --page-pad: clamp(16px, 5vw, 48px);
+  --gutter: calc(var(--grid) * 5);   /* the column that holds §, dates and kinds */
+  --measure: 40rem;                  /* the widest a line of running text gets */
+  --header-height: calc(var(--grid) * 2.5);
+
+  --band-pad: clamp(2.25rem, 1.5rem + 3cqi, 4rem);   /* the air above and below a section */
+
+  /* Rules, the red mark that opens a section, and dots */
+  --rule: 1px;
+  --rule-strong: 2px;
+  --mark-width: 2.5rem;
+  --mark-height: 6px;
+  --dot-size: 1px;
+  --paper-dots: radial-gradient(circle at center, var(--color-dot) 0 var(--dot-size), transparent calc(var(--dot-size) + 0.5px));
+
+  /* Drawings: lengths are in the drawing's own units (240 across) */
+  --sketch-text: 9px;
+  --sketch-line: 1px;
+  --sketch-stroke: 1.25px;
+  --sketch-atom: 4.5px;
+  --sketch-pitch: 9px;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }

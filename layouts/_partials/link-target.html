@@ -1,0 +1,20 @@
+{{- /* Works out where a link in a page leads. A link to a file in the page's own folder, such as
+       [the paper](paper.pdf), publishes that file. Pass (dict "hook" . "absolute" true|false).
+       Returns a dict with href and external. */ -}}
+{{- $hook := .hook -}}
+{{- $absolute := .absolute | default false -}}
+{{- $href := $hook.Destination -}}
+{{- $url := urls.Parse $hook.Destination -}}
+{{- $external := and $url.IsAbs (ne $url.Host (urls.Parse site.BaseURL).Host) (in (slice "http" "https") $url.Scheme) -}}
+{{- if and (not $url.IsAbs) (not (hasPrefix $hook.Destination "#")) -}}
+  {{- $path := strings.TrimPrefix "./" $url.Path -}}
+  {{- $file := false -}}
+  {{- if not (hasPrefix $path "/") }}{{ with $hook.PageInner.Resources.Get $path }}{{ $file = . }}{{ end }}{{ end -}}
+  {{- if $file -}}
+    {{- $href = cond $absolute $file.Permalink $file.RelPermalink -}}
+  {{- else if $absolute -}}
+    {{- $href = $hook.Destination | absURL -}}
+    {{- if not (hasPrefix $path "/") }}{{ $href = printf "%s%s" $hook.PageInner.Permalink $hook.Destination }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "href" $href "external" $external) -}}

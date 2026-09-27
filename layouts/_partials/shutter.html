@@ -1,0 +1,16 @@
+{{- /* Writes a shutter speed: 1/250, 1/30, 2, 0.5 → 1/2 */ -}}
+{{- $s := printf "%v" . -}}
+{{- $out := $s -}}
+{{- if in $s "/" -}}
+  {{- $p := split $s "/" -}}
+  {{- $a := float (index $p 0) -}}
+  {{- $b := float (index $p 1) -}}
+  {{- if and (gt $a 0.0) (gt $b 0.0) -}}
+    {{- if ge $a $b -}}
+      {{- $out = strings.TrimSuffix ".0" (printf "%.1f" (div $a $b)) -}}
+    {{- else -}}
+      {{- $out = printf "1/%d" (int (math.Round (div $b $a))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

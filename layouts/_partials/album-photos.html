@@ -1,0 +1,47 @@
+{{- /*
+  Returns the pictures of an album (a folder of pictures with an index.md), in order, as a list of
+    img, caption, alt, date, camera (the camera-settings line), hidden
+  Order: `order: name` in the album's front matter sorts by file name; the default is by the time
+  the picture was taken, oldest first (falling back to the file name).
+  Captions come from the `photos` list in the front matter, matched by file name.
+*/ -}}
+{{- $page := . -}}
+{{- $notes := dict -}}
+{{- range $page.Params.photos -}}
+  {{- $entry := . -}}
+  {{- with .file }}{{ $notes = merge $notes (dict (lower .) $entry) }}{{ end -}}
+{{- end -}}
+{{- $items := slice -}}
+{{- range $page.Resources.ByType "image" -}}
+  {{- $img := . -}}
+  {{- $note := index $notes (lower (path.Base $img.Name)) | default dict -}}
+  {{- /* A drawing is not a photograph: SVG files are left out. */ -}}
+  {{- if and (not $note.hide) (ne $img.MediaType.SubType "svg") -}}
+    {{- $date := time.AsTime "0001-01-01" -}}
+    {{- $camera := slice -}}
+    {{- if reflect.IsImageResourceWithMeta $img -}}
+      {{- with $img.Meta -}}
+        {{- if not .Date.IsZero }}{{ $date = .Date }}{{ end -}}
+        {{- with .Exif -}}
+          {{- with .Model }}{{ $camera = $camera | append (string .) }}{{ end -}}
+          {{- with .FocalLength }}{{ $camera = $camera | append (printf "%s mm" (partial "number.html" .)) }}{{ end -}}
+          {{- with .FNumber }}{{ $camera = $camera | append (printf "f/%s" (partial "number.html" .)) }}{{ end -}}
+          {{- with .ExposureTime }}{{ $camera = $camera | append (printf "%s s" (partial "shutter.html" .)) }}{{ end -}}
+          {{- with (or .ISO .ISOSpeedRatings .PhotographicSensitivity) }}{{ $camera = $camera | append (printf "ISO %v" .) }}{{ end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $sortKey := printf "%s %s" ($date.Format "2006-01-02T15:04:05") $img.Name -}}
+    {{- if eq $page.Params.order "name" }}{{ $sortKey = $img.Name }}{{ end -}}
+    {{- $items = $items | append (dict
+        "img" $img
+        "name" (path.Base $img.Name)
+        "caption" ($note.caption | default "")
+        "alt" ($note.alt | default $note.caption | default "")
+        "date" $date
+        "camera" (delimit $camera " · ")
+        "sort" $sortKey
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- return (sort $items "sort") -}}

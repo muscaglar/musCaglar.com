@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A noisy current trace against time. One rectangular dip in the current is marked in red.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-atoms { stroke: currentColor; stroke-width: 4.5; stroke-dasharray: 0 9; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <path class="sk-line" d="M24 18V158H234"/>
+  <path class="sk-ink" d="M24 52.02L26 59.27L28 56.43L30 57.68L32 55.1L34 57.3L36 54.54L38 56.43L40 58.58L42 59L44 61.81L46 61.23L48 60.43L50 60.11L52 57.47L54 61.45L56 64.06L58 57.85L60 53.18L62 56.75L64 54.16L66 60.77L68 61.52L70 59.58L72 59.61L74 58.89L76 58.85L78 58.51L80 58.17L82 59.97L84 51.06L86 58.3L88 60.06L90 56.29L92 57.4L94 56.74L96 58.43L98 57.12L100 58.09L102 59.15"/>
+  <path class="sk-accent" d="M102 59.15L104 109.94L106 109.94L108 113.94L110 112.48L112 110.39L114 111.57L116 115.87L118 112.04L120 111.88L122 111.99L124 113.32L126 114.64L128 112.47L130 110.71L132 113.21L134 111.79L136 113.34L138 112.29L140 110.37L142 117.41L144 113.65L146 114.2L148 112.09L150 110.93L152 110.45L154 109.81L156 111.41L158 112.12L160 58.33L162 58.33"/>
+  <path class="sk-ink" d="M162 58.33L164 57.94L166 57.59L168 53.92L170 55.91L172 60.02L174 59.92L176 61.97L178 59.37L180 59.02L182 58.83L184 57.6L186 58.77L188 56.38L190 58.95L192 59.79L194 56.7L196 56.97L198 55.48L200 56.65L202 55.83L204 60.94L206 62.31L208 49.88L210 56.54L212 56.23L214 61.88L216 59.32L218 57.63L220 59.31L222 60.78L224 58.03L226 59.9L228 58.96L230 58.37L232 54.02"/>
+  <path class="sk-line" d="M118 66v34m-2.5-29.5l2.5-4.5 2.5 4.5M115.5 95.5l2.5 4.5 2.5-4.5"/>
+  <path class="sk-line" d="M105 128h54m-49.5-2.5l-4.5 2.5 4.5 2.5M154.5 125.5l4.5 2.5-4.5 2.5"/>
+  <text x="124" y="86">depth</text>
+  <text x="132" y="143" text-anchor="middle">dwell</text>
+  <text x="31" y="27">current</text>
+  <text x="234" y="171" text-anchor="end">time</text>
+</svg>

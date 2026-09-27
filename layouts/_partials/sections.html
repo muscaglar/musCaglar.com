@@ -1,0 +1,32 @@
+{{- /*
+  Returns the sections of the site that have something to show, in the order of the navigation:
+  a list of (dict "key" "name" "url" "page" "count" "figure" "caption" "fig" "current").
+  A section with nothing published in it is left out. Pass the page being built.
+*/ -}}
+{{- $current := . -}}
+{{- $sections := slice -}}
+{{- $fig := 0 -}}
+{{- range site.Menus.main -}}
+  {{- $page := .Page -}}
+  {{- $show := true -}}
+  {{- $count := 0 -}}
+  {{- $key := "" -}}
+  {{- with $page -}}
+    {{- $key = .Section | default .File.ContentBaseName -}}
+    {{- if .IsSection -}}
+      {{- $count = len .RegularPagesRecursive -}}
+      {{- if eq $count 0 }}{{ $show = false }}{{ end -}}
+      {{- if eq .Section "updates" }}{{ $count = len (partial "stream.html" .) }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $show -}}
+    {{- $state := "" -}}
+    {{- if $current.IsMenuCurrent "main" . }}{{ $state = "page" -}}
+    {{- else if or ($current.HasMenuCurrent "main" .) (and $page (ne $current.Section "") (eq $current.Section $page.Section)) }}{{ $state = "true" -}}
+    {{- end -}}
+    {{- $figure := "" }}{{ $caption := "" }}{{ $number := 0 -}}
+    {{- with $page }}{{ with .Params.figure }}{{ $figure = . }}{{ $fig = add $fig 1 }}{{ $number = $fig }}{{ end }}{{ $caption = .Params.figure_caption | default .Description }}{{ end -}}
+    {{- $sections = $sections | append (dict "key" $key "name" .Name "url" .URL "page" $page "count" $count "figure" $figure "caption" $caption "fig" $number "current" $state) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $sections -}}

@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{- $pages := .RegularPages.ByDate.Reverse }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len $pages) "one" "project" "many" "projects")) "lede" .Description) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__wide">
+    {{- with .Content }}
+    <section class="band">
+      <div class="band__body prose">{{ . }}</div>
+    </section>
+    {{- end }}
+    {{- /* Projects are grouped by kind, in this order; any other kind follows, in alphabetical order. */}}
+    {{- $order := slice "software" "hardware" "research" "tinkering" }}
+    {{- $present := slice }}
+    {{- range $pages }}{{ $present = $present | append (.Params.kind | default "other" | lower) }}{{ end }}
+    {{- $present = $present | uniq }}
+    {{- $kinds := slice }}
+    {{- range $order }}{{ if in $present . }}{{ $kinds = $kinds | append . }}{{ end }}{{ end }}
+    {{- range sort $present }}{{ if not (in $kinds .) }}{{ $kinds = $kinds | append . }}{{ end }}{{ end }}
+    {{- range $i, $kind := $kinds }}
+      {{- $list := slice }}
+      {{- range $pages }}{{ if eq (.Params.kind | default "other" | lower) $kind }}{{ $list = $list | append . }}{{ end }}{{ end }}
+    <section class="band" id="{{ $kind | anchorize }}">
+      {{- if gt (len $kinds) 1 }}
+      {{ partial "band-head.html" (dict "no" (add $i 1) "title" ($kind | humanize) "count" (partial "count.html" (dict "n" (len $list) "one" "project" "many" "projects"))) }}
+      {{- end }}
+      <ol class="band__body atlas">
+        {{- range $list }}
+        {{ partial "entry-plate.html" . }}
+        {{- end }}
+      </ol>
+    </section>
+    {{- else }}
+    <p class="empty">Nothing here yet.</p>
+    {{- end }}
+  </div>
+</div>
+{{ end }}

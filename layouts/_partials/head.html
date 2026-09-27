@@ -1,0 +1,24 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+{{- /* Apply a saved light/dark choice before anything is painted. */}}
+{{- with resources.Get "js/theme-init.js" | js.Build (dict "minify" true "format" "iife" "target" "es2017") | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
+{{- $title := site.Title -}}
+{{- if not .IsHome }}{{ $title = printf "%s · %s" .Title site.Title }}{{ end }}
+<title>{{ $title }}</title>
+{{- $description := partial "description.html" . }}
+<meta name="description" content="{{ $description }}">
+<meta name="author" content="{{ site.Title }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{- with site.Home.OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .RelPermalink }}">
+{{- end }}
+{{ partial "social-meta.html" (dict "page" . "title" $title "description" $description) }}
+{{ partial "icons.html" . }}
+{{- partial "fonts.html" . }}
+{{ partial "css.html" . }}
+{{- if .IsHome }}
+{{ partial "person-schema.html" . }}
+{{- end }}

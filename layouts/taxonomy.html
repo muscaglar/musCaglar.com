@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len .Data.Terms) "one" "tag" "many" "tags"))) }}
+  <div class="page__wide">
+    <section class="band">
+      <ul class="band__body tags tags--all">
+        {{- range .Data.Terms.Alphabetical }}
+        <li><a href="{{ .Page.RelPermalink }}" rel="tag">{{ .Page.LinkTitle }}</a> <span class="count">{{ .Count }}</span></li>
+        {{- end }}
+      </ul>
+    </section>
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,4 @@
+{{- $same := slice -}}
+{{- range site.Params.links }}{{ $same = $same | append .url }}{{ end -}}
+{{- $person := dict "@context" "https://schema.org" "@type" "Person" "name" site.Title "alternateName" site.Params.shortName "url" site.BaseURL "sameAs" $same -}}
+<script type="application/ld+json">{{ $person | jsonify | safeJS }}</script>

@@ -1,0 +1,17 @@
+{{- /* Returns the large version of a picture, for opening it on its own: a dict with url, width, height.
+       Asking for the address of an original would publish the original, so that only happens for
+       the kinds that are passed through untouched (animated GIFs, SVGs). Pass (dict "img" … "absolute" true)
+       for a full address. */ -}}
+{{- $img := .img -}}
+{{- $absolute := .absolute | default false -}}
+{{- $sub := $img.MediaType.SubType -}}
+{{- $out := dict -}}
+{{- if and (eq $img.ResourceType "image") (ne $sub "gif") (ne $sub "svg") -}}
+  {{- $hint := cond (eq $sub "png") "drawing" "photo" -}}
+  {{- $base := partial "image-base.html" $img -}}
+  {{- $large := $base.Process (printf "webp %s" $hint) -}}
+  {{- $out = dict "url" (cond $absolute $large.Permalink $large.RelPermalink) "width" $large.Width "height" $large.Height -}}
+{{- else -}}
+  {{- $out = dict "url" (cond $absolute $img.Permalink $img.RelPermalink) "width" ($img.Width | default 0) "height" ($img.Height | default 0) -}}
+{{- end -}}
+{{- return $out -}}

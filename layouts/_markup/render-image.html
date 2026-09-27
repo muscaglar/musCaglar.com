@@ -1,0 +1,14 @@
+{{- /* Turns ![description](file.jpg "caption") into a responsive picture. */ -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $img := false -}}
+{{- if not $url.IsAbs -}}
+  {{- $img = partial "find-picture.html" (dict "page" .PageInner "path" $url.Path) -}}
+  {{- if not $img }}{{ warnf "Picture %q was not found (used in %s)" .Destination .Page.Path }}{{ end -}}
+{{- end -}}
+{{- if and $img .IsBlock -}}
+  {{- partial "figure.html" (dict "img" $img "alt" .PlainText "caption" .Title) -}}
+{{- else if $img -}}
+  {{- partial "picture.html" (dict "img" $img "alt" .PlainText "sizes" "(min-width: 50rem) 46rem, 100vw") -}}
+{{- else -}}
+  <img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- end -}}

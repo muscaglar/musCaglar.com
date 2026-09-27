@@ -1,0 +1,31 @@
+{{- /*
+  The typefaces: IBM Plex Sans and IBM Plex Mono for the text, Special Gothic (condensed, semi-bold)
+  for the headings. They are kept in assets/fonts and served from this site.
+  Each file carries a fingerprint in its name, so browsers may keep it for a year.
+  The files that every page needs straight away are fetched early.
+*/ -}}
+{{- $latin := "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD" -}}
+{{- $latinExt := "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C0, U+2113" -}}
+{{- $all := "U+0000-FFFF" -}}
+{{- $faces := slice
+  (dict "family" "Special Gothic Condensed" "weight" "600" "file" "special-gothic-condensed-600.woff2" "range" $all "early" true)
+  (dict "family" "IBM Plex Sans" "weight" "100 700" "file" "ibm-plex-sans-latin.woff2"         "range" $latin    "early" true)
+  (dict "family" "IBM Plex Sans" "weight" "100 700" "file" "ibm-plex-sans-latin-ext.woff2"     "range" $latinExt "early" false)
+  (dict "family" "IBM Plex Mono" "weight" "400"     "file" "ibm-plex-mono-400-latin.woff2"     "range" $latin    "early" true)
+  (dict "family" "IBM Plex Mono" "weight" "400"     "file" "ibm-plex-mono-400-latin-ext.woff2" "range" $latinExt "early" false)
+  (dict "family" "IBM Plex Mono" "weight" "500"     "file" "ibm-plex-mono-500-latin.woff2"     "range" $latin    "early" false)
+  (dict "family" "IBM Plex Mono" "weight" "500"     "file" "ibm-plex-mono-500-latin-ext.woff2" "range" $latinExt "early" false)
+-}}
+{{- $css := "" -}}
+{{- range $face := $faces -}}
+  {{- with resources.Get (printf "fonts/%s" $face.file) -}}
+    {{- $font := . | fingerprint -}}
+    {{- if $face.early }}
+<link rel="preload" href="{{ $font.RelPermalink }}" as="font" type="font/woff2" crossorigin>
+    {{- end -}}
+    {{- $css = printf "%s@font-face{font-family:%q;font-weight:%s;font-display:swap;src:url(%s) format(\"woff2\");unicode-range:%s}" $css $face.family $face.weight $font.RelPermalink $face.range -}}
+  {{- else -}}
+    {{- errorf "The font file assets/fonts/%s is missing." $face.file -}}
+  {{- end -}}
+{{- end }}
+<style>{{ $css | safeCSS }}</style>

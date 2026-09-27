@@ -1,0 +1,8 @@
+{{- /* The icon shown in browser tabs. Browsers also ask for /favicon.ico, so the same drawing is published there. */ -}}
+{{- with resources.Get "images/icon.svg" }}
+<link rel="icon" type="image/svg+xml" href="{{ (. | fingerprint).RelPermalink }}">
+{{- end }}
+{{- with resources.Get "images/icon.png" }}
+<link rel="icon" type="image/png" sizes="96x96" href="{{ (.Resize "96x96 png").RelPermalink }}">
+<link rel="apple-touch-icon" href="{{ (.Resize "180x180 png").RelPermalink }}">
+{{- end }}

@@ -1,0 +1,6 @@
+{{- /* Finds a picture named in a page: first in the page's own folder, then in assets/.
+       Pass (dict "page" … "path" …). Returns the picture, or nothing. */ -}}
+{{- $path := strings.TrimPrefix "./" .path -}}
+{{- $found := false -}}
+{{- with .page.Resources.Get $path }}{{ $found = . }}{{ else }}{{ with resources.Get $path }}{{ $found = . }}{{ end }}{{ end -}}
+{{- return $found -}}

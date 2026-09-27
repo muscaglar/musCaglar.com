@@ -1,0 +1,21 @@
+# Hugo build output and caches
+/public/
+/resources/
+.hugo_build.lock
+hugo_stats.json
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local tooling
+node_modules/
+.env
+.env.*
+.wrangler/
+
+# Build cache used on Cloudflare
+.cache/

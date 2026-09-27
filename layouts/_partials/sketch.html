@@ -1,0 +1,39 @@
+{{- /*
+  Returns a drawing as inline SVG, or nothing. Pass (dict "page" . "name" "figure.svg" "class" "…").
+  The file is looked for beside the page first, then in assets/figures.
+
+  A drawing may hold shapes and text only. A file with a script, a link, an embedded picture or a
+  reference to anything outside itself stops the build.
+*/ -}}
+{{- $page := .page -}}
+{{- $name := .name -}}
+{{- $class := .class | default "" -}}
+{{- $svg := "" -}}
+{{- with $name -}}
+  {{- $file := false -}}
+  {{- with $page }}{{ with .Resources.Get $name }}{{ $file = . }}{{ end }}{{ end -}}
+  {{- if not $file }}{{ with resources.Get (printf "figures/%s" $name) }}{{ $file = . }}{{ end }}{{ end -}}
+  {{- if $file -}}
+    {{- $svg = $file.Content -}}
+    {{- $svg = replaceRE `(?s)<\?xml.*?\?>` "" $svg -}}
+    {{- $svg = replaceRE `(?s)<!DOCTYPE.*?>` "" $svg -}}
+    {{- $svg = replaceRE `(?s)<!--.*?-->` "" $svg -}}
+    {{- $svg = replaceRE `(?s)<style[^>]*>.*?</style>` "" $svg -}}
+    {{- $svg = trim $svg " \n\r\t" -}}
+    {{- $bad := findRE `(?i)<\s*(script|foreignObject|image|use|iframe|a|animate\w*|set|style|link)\b|<[^>]*\s(on[a-z]+|href|xlink:href)\s*=|<[^>]*url\s*\(|javascript:|<!ENTITY` $svg 1 -}}
+    {{- if $bad -}}
+      {{- errorf "The drawing %q (used by %s) holds %q. Drawings may contain shapes and text only." $name $page.Path (index $bad 0) -}}
+      {{- $svg = "" -}}
+    {{- else if not (hasPrefix $svg "<svg") -}}
+      {{- errorf "The drawing %q (used by %s) does not start with <svg>." $name $page.Path -}}
+      {{- $svg = "" -}}
+    {{- else -}}
+      {{- $svg = replaceRE `^<svg([^>]*?)\s+class="[^"]*"` "<svg$1" $svg 1 -}}
+      {{- $svg = replaceRE `^<svg([^>]*?)\s+xmlns="[^"]*"` "<svg$1" $svg 1 -}}
+      {{- $svg = replaceRE `^<svg` (printf "<svg class=%q" (trim (printf "sketch %s" $class) " ")) $svg 1 -}}
+    {{- end -}}
+  {{- else -}}
+    {{- warnf "The drawing %q was not found (used by %s)." $name $page.Path -}}
+  {{- end -}}
+{{- end -}}
+{{- return ($svg | safeHTML) -}}

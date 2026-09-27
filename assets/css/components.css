@@ -1,0 +1,529 @@
+/* Small mono labels: §, kinds, "FIG. n" --------------------------------------- */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.key {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+}
+
+.kind {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+}
+
+/* Marks a page that is still a draft. Drafts only show in a preview, never on the published site. */
+.sample {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  margin-inline-start: 0.5em;
+}
+
+.empty { color: var(--color-ink-2); }
+
+.more {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  text-decoration: none;
+  color: var(--color-ink-2);
+}
+
+.button {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--rule) solid var(--color-ink-3);
+
+  &:hover { color: var(--color-accent); border-color: currentColor; }
+}
+
+
+/* The name, drawn as outlines so that it needs no typeface of its own --------- */
+.signature {
+  display: inline-block;
+  inline-size: auto;
+  block-size: calc(var(--name-size) * var(--h));          /* --h: its height in ems */
+  vertical-align: calc(var(--name-size) * var(--d) * -1);  /* --d: how far it reaches below the baseline */
+  max-inline-size: none;
+  overflow: visible;
+}
+.signature__ink  { fill: currentColor; }
+.signature__mark { fill: var(--color-accent); }
+
+
+/* Sketch: a line drawing in the ink colour, with one element in red ---------- */
+.sketch {
+  inline-size: 100%;
+  overflow: visible;
+  color: var(--color-ink-2);
+  font-family: var(--font-mono);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  & text {
+    fill: var(--color-ink-3);
+    stroke: none;
+    font-size: var(--sketch-text);
+    letter-spacing: 0.04em;
+  }
+}
+.sk-ink    { stroke: currentColor; stroke-width: var(--sketch-stroke); }
+.sk-line   { stroke: var(--color-ink-3); stroke-width: var(--sketch-line); }
+.sk-dash   { stroke: var(--color-ink-3); stroke-width: var(--sketch-line); stroke-dasharray: 2 3; }
+.sk-accent { stroke: var(--color-accent); stroke-width: var(--sketch-stroke); }
+.sk-atoms  { stroke: currentColor; stroke-width: var(--sketch-atom); stroke-dasharray: 0 var(--sketch-pitch); }
+.sk-dot    { fill: currentColor; stroke: none; }
+.sk-accent-dot { fill: var(--color-accent); stroke: none; }
+.sk-hole   { fill: var(--color-paper); stroke: currentColor; stroke-width: var(--sketch-stroke); }
+
+
+/* Plate: a drawing under a rule, with a heading above it and a caption below -- */
+/* Plates stand in as many columns as fit at a width that keeps the labels of a drawing legible,
+   and in no more than --columns. */
+.plates, .atlas {
+  --columns: 4;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(max(13rem, (100% - (var(--columns) - 1) * var(--space-4)) / var(--columns)), 1fr));
+}
+
+.plates {
+  --columns: var(--plates, 4);   /* one column for each section, when there is room */
+  gap: var(--space-8) var(--space-4);
+}
+
+.plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  gap: var(--space-3);
+  block-size: 100%;
+  padding-block-start: var(--space-2);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+  text-decoration: none;
+
+  &:is(a):hover { color: inherit; }
+  &:is(a):hover .plate__name { color: var(--color-accent); }
+  &:is(a):hover .plate__go { translate: 4px 0; color: var(--color-accent); }
+}
+
+.plate__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+.plate__name {
+  min-inline-size: 0;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.plate__go {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  color: var(--color-ink-3);
+  transition: translate 120ms;
+}
+
+.plate__caption {
+  font-size: var(--text-small);
+  line-height: 1.45;
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+}
+
+.plate__picture img {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-plain);
+  border: var(--rule) solid var(--color-rule);
+}
+
+.figno {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  margin-inline-end: 0.5em;
+}
+
+/* A plate that is a figure in the margin of a page, not a way in */
+.plate--fig { grid-template-rows: none; block-size: auto; }
+
+/* A drawing inside the text; a diagram with many parts takes the full width */
+.plate--inline { max-inline-size: 24rem; }
+.plate--wide { max-inline-size: none; }
+
+/* Inside a page the figures number themselves, in the order they appear. */
+.page figure { counter-increment: fig; }
+.figno--auto::before { content: "Fig. " counter(fig); }
+
+
+/* Atlas: a grid of plates, one per entry. Headings, drawings and captions line up across a row. */
+.atlas {
+  gap: var(--space-12) var(--space-4);
+
+  & > li { display: contents; }
+
+  & .plate {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-3);
+    block-size: auto;
+  }
+  & .plate__name { font-size: var(--text-h3); line-height: 1.3; }
+  & .plate__caption .key { font-size: var(--text-label); margin-inline-end: 0.5em; color: var(--color-ink); font-weight: 500; }
+}
+
+
+/* Bands: the sections of a page ---------------------------------------------------
+   A rule with a small red mark opens each one. Its number and title stand in the first of the
+   four columns, what it holds in the other three. */
+.band {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-4);
+  align-items: start;
+  padding-block: var(--band-pad);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+  scroll-margin-block-start: var(--header-height);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(var(--rule) * -1);
+    inset-inline-start: 0;
+    inline-size: var(--mark-width);
+    block-size: var(--mark-height);
+    background: var(--color-accent);
+  }
+}
+
+.band__head {
+  grid-column: 1;
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+
+.band__body {
+  grid-column: 2 / -1;
+  min-inline-size: 0;
+  --key: calc(var(--grid) * 4);   /* inside a band the keys of a list need less room */
+
+  & > .more { display: inline-block; margin-block-start: var(--space-4); }
+  & > .prose { margin-block-end: var(--space-6); }
+}
+
+/* A band whose content needs the whole width: the title stands above it. */
+.band--wide > .band__head,
+.band--wide > .band__body { grid-column: 1 / -1; }
+
+.band__no {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+}
+
+.band__title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 600;
+  letter-spacing: var(--display-tracking);
+  line-height: 0.95;
+  text-box: trim-both cap alphabetic;
+}
+
+
+/* Rows: a mono key in the gutter, then the entry ------------------------------ */
+.rows > li {
+  display: grid;
+  grid-template-columns: var(--key, var(--gutter)) minmax(0, 1fr) auto;
+  align-items: baseline;
+  padding-block: var(--space-3);
+  border-block-end: var(--rule) solid var(--color-rule);
+}
+.rows > li:first-child { padding-block-start: 0; }
+
+.rows > li > * { min-inline-size: 0; }
+
+.rows > li > .meta {
+  padding-inline-start: var(--space-4);
+  text-align: end;
+}
+
+.entry__title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  line-height: 1.5;
+
+  & a { text-decoration: none; }
+  & a:hover { text-decoration: underline; }
+}
+
+.entry__text { max-inline-size: 44rem; color: var(--color-ink-2); }
+
+
+.rows--log > li { grid-template-columns: calc(var(--grid) * 5) calc(var(--grid) * 4) minmax(0, 1fr); }
+
+
+/* What I do: three short columns ---------------------------------------------- */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--space-4);
+
+  & > div { padding-inline-end: var(--space-4); }
+  & dt { font-weight: 600; }
+  & dd { color: var(--color-ink-2); }
+}
+
+
+/* Facts: the short list in the margin of a page ------------------------------- */
+.facts {
+  font-size: var(--text-small);
+  border-block-end: var(--rule) solid var(--color-rule);
+
+  & > div {
+    display: grid;
+    grid-template-columns: calc(var(--grid) * 3) minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-block-start: var(--rule) solid var(--color-rule);
+  }
+  & dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+  & dd { color: var(--color-ink-2); overflow-wrap: anywhere; }
+  & ul { padding: 0; list-style: none; }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+
+  & a { text-decoration: none; color: var(--color-ink-2); }
+  & a:hover { color: var(--color-accent); }
+  & a::before { content: "#"; color: var(--color-ink-3); }
+}
+
+a.external::after {
+  content: "\2009↗";
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--color-ink-3);
+}
+
+
+/* Running text ---------------------------------------------------------------- */
+.prose {
+  max-inline-size: var(--measure);
+
+  & > * + * { margin-block-start: var(--space-4); }
+  & > :is(h2, h3, h4) { margin-block-start: var(--space-8); }
+  & > :is(h2, h3, h4) + * { margin-block-start: var(--space-2); }
+  & > :first-child { margin-block-start: 0; }
+
+  & :is(ul, ol) { padding-inline-start: 1.25em; }
+  & li + li { margin-block-start: var(--space-1); }
+  & li::marker { color: var(--color-ink-3); }
+  & ol > li::marker { font-family: var(--font-mono); font-size: var(--text-small); }
+
+  & strong { font-weight: 600; }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  & pre {
+    overflow-x: auto;
+    padding: var(--space-3) var(--space-4);
+    border: var(--rule) solid var(--color-rule);
+    background: var(--color-paper);
+    font-size: var(--text-small);
+    line-height: 1.6;
+    tab-size: 2;
+  }
+  & pre code { font-size: inherit; }
+  & blockquote {
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--color-accent);
+    color: var(--color-ink-2);
+  }
+  & hr {
+    border: 0;
+    border-block-start: var(--rule) solid var(--color-rule);
+    margin-block: var(--space-8);
+  }
+  & table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: var(--text-small);
+    font-variant-numeric: tabular-nums;
+  }
+  & th, & td {
+    padding: var(--space-2) var(--space-4) var(--space-2) 0;
+    border-block-end: var(--rule) solid var(--color-rule);
+    text-align: start;
+    vertical-align: baseline;
+  }
+  & th {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 400;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    border-block-end-color: var(--color-rule-strong);
+  }
+}
+
+.heading-anchor {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--color-ink-3);
+  opacity: 0;
+}
+:is(h2, h3):hover .heading-anchor, .heading-anchor:focus-visible { opacity: 1; }
+
+/* Code: quiet, with the accent kept for text in quotes */
+.chroma :is(.c, .c1, .cm, .ch, .cs, .cp) { color: var(--color-ink-3); font-style: italic; }
+.chroma :is(.k, .kc, .kd, .kn, .kp, .kr, .kt, .nt) { font-weight: 500; }
+.chroma :is(.s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx) { color: var(--color-accent); }
+.chroma :is(.m, .mi, .mf, .mh, .mo, .il) { color: var(--color-ink-2); }
+
+
+/* Pictures inside the text ----------------------------------------------------- */
+.figure {
+  display: grid;
+  gap: var(--space-2);
+
+  & img {
+    inline-size: 100%;
+    background: var(--color-plain);
+    border: var(--rule) solid var(--color-rule);
+  }
+  & figcaption {
+    font-size: var(--text-small);
+    line-height: 1.45;
+    color: var(--color-ink-2);
+  }
+}
+.figure-link { display: block; }
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+
+/* Newer and older ---------------------------------------------------------------- */
+.pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--space-4);
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-3);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+}
+
+.pager-link {
+  display: grid;
+  gap: var(--space-1);
+  text-decoration: none;
+  font-weight: 600;
+
+  & span {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 400;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+}
+.pager-link--older { grid-column: 2; text-align: end; }
+
+
+/* Narrower sheets ------------------------------------------------------------ */
+@container sheet (inline-size < 62rem) {
+  .band { grid-template-columns: minmax(0, 1fr); }
+  .band__head, .band__body { grid-column: 1; }
+}
+
+@container sheet (inline-size < 40rem) {
+  .atlas { row-gap: var(--space-8); }
+
+  /* The figures of the home page become one row to swipe through. */
+  .plates {
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--page-pad));
+    padding-inline: var(--page-pad);
+    scroll-padding-inline: var(--page-pad);
+
+    & > li { flex: 0 0 min(78%, 20rem); scroll-snap-align: start; }
+  }
+
+  .rows > li { grid-template-columns: calc(var(--grid) * 3) minmax(0, 1fr); }
+  .rows > li > * { min-inline-size: 0; }
+
+.rows > li > .meta { grid-column: 2; text-align: start; padding-inline-start: 0; }
+
+  .rows--log > li { grid-template-columns: calc(var(--grid) * 5) minmax(0, 1fr); }
+  .rows--log > li > .entry__title { grid-column: 1 / -1; }
+
+  .skills {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-3);
+
+    & > div { padding-inline-end: 0; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate__go { transition: none; }
+}

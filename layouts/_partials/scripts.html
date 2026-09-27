@@ -1,0 +1,16 @@
+{{- with resources.Get "js/main.js" }}
+  {{- $options := dict "minify" (not hugo.IsDevelopment) "format" "esm" "target" "es2022" }}
+  {{- with . | js.Build $options }}
+    {{- if hugo.IsDevelopment }}
+<script type="module" src="{{ .RelPermalink }}"></script>
+    {{- else }}
+      {{- with . | fingerprint }}
+<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- /* Ask the browser to fetch a page in the background when a link to it is about to be followed. */}}
+<script type="speculationrules">
+{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/*.*"}}]},"eagerness":"moderate"}]}
+</script>

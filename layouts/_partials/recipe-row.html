@@ -1,0 +1,7 @@
+<li>
+  <span class="kind">{{ .Params.course | default "" | humanize }}</span>
+  <h3 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "status.html" . }}</h3>
+  {{- with .Params.makes }}
+  <span class="meta">{{ . | lower }}</span>
+  {{- end }}
+</li>

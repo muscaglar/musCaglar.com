@@ -1,0 +1,20 @@
+<footer class="sheet">
+  <div class="site-footer">
+    <h2 class="site-footer__title">Elsewhere</h2>
+    <ul class="elsewhere">
+      {{- range site.Params.links }}
+      <li><a href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
+      {{- end }}
+      {{- with site.Params.email }}
+      <li><a href="mailto:{{ . }}">{{ . }}</a></li>
+      {{- end }}
+      {{- with site.Home.OutputFormats.Get "rss" }}
+      <li><a href="{{ .RelPermalink }}">RSS</a></li>
+      {{- end }}
+    </ul>
+    <p class="site-footer__note">
+      <span>©{{ if site.Params.showYears }} {{ now.Year }}{{ end }} {{ site.Title }}</span>
+      {{ partial "theme-switch.html" . }}
+    </p>
+  </div>
+</footer>

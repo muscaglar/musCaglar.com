@@ -1,0 +1,50 @@
+{{ define "main" }}
+<article class="page page--recipe">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+    {{ partial "facts.html" (dict "page" . "whenLabel" "Written") }}
+  </aside>
+  <div class="page__facts">
+    {{- with .Params.ingredients }}
+    <section class="ingredients">
+      <h2>Ingredients</h2>
+      {{- $plain := slice }}
+      {{- range . }}{{ if not (reflect.IsMap .) }}{{ $plain = $plain | append . }}{{ end }}{{ end }}
+      {{- with $plain }}
+      <ul>
+        {{- range . }}
+        <li>{{ . | markdownify }}</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- range . }}
+        {{- if reflect.IsMap . }}
+      <h3>{{ .group }}</h3>
+      <ul>
+        {{- range .items }}
+        <li>{{ . | markdownify }}</li>
+        {{- end }}
+      </ul>
+        {{- end }}
+      {{- end }}
+    </section>
+    {{- end }}
+  </div>
+  <div class="page__body">
+    {{- with partial "cover.html" . }}
+    {{ partial "figure.html" (dict "img" . "alt" $.Title "class" "recipe-cover") }}
+    {{- end }}
+    <section class="method prose">
+      <h2 class="visually-hidden">Method</h2>
+      {{ .Content }}
+    </section>
+    {{ partial "develop.html" . }}
+  </div>
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
+</article>
+{{- /* Search engines are told about a recipe once there is one: ingredients, and a settled method. */}}
+{{- if and .Params.ingredients (not (in (slice "concept" "developing") (.Params.status | default "" | lower))) }}{{ partial "recipe-schema.html" . }}{{ end }}
+{{ end }}

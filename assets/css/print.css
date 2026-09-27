@@ -1,0 +1,38 @@
+/* On paper: white, no dots, no navigation. Made for the CV; every other page prints plainly too. */
+@media print {
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+
+  :root {
+    color-scheme: light;
+    --color-paper: #fff;
+    --color-ink: #000;
+    --color-ink-2: #222;
+    --color-ink-3: #555;
+    --color-rule: #bbb;
+    --color-rule-strong: #000;
+    --color-accent: #b71c1c;
+    --band-pad: 6mm;
+    --text-title: 15pt;
+    --text-h1: 22pt;
+    --name-size: 22pt;
+  }
+
+  html { font-size: 9.5pt; }
+  body { display: block; background: none; line-height: 1.4; }
+
+  .site-header, .site-footer, .page__aside, .page__foot, .pager, .cv-actions, .heading-anchor { display: none !important; }
+
+  /* On paper the four columns become two: a narrow one for titles and dates, a wide one for the rest. */
+  .sheet { inline-size: auto; margin: 0; container-type: normal; }
+  .page { display: block; padding: 0; }
+  .head, .band { grid-template-columns: 34mm minmax(0, 1fr); column-gap: 6mm; }
+  .head > *, .band__body, .cv-head .name { grid-column: 2; }
+  .head > .head__label, .band__head { grid-column: 1; }
+  .head { padding-block-end: 6mm; }
+  .band { row-gap: 2mm; }
+  .band__head { gap: 1mm; break-after: avoid; }
+  .cv-entries > li, .cv-list > li { grid-template-columns: 26mm minmax(0, 1fr); padding-block: 2mm; break-inside: avoid; }
+
+  a { text-decoration: none; }
+  a.external::after { content: none; }
+}

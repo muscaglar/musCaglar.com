@@ -1,0 +1,6 @@
+{{- /* The short text used in search results and link previews. */ -}}
+{{- $text := .Description -}}
+{{- if not $text }}{{ with .Params.summary }}{{ $text = . }}{{ end }}{{ end -}}
+{{- if and (not $text) .IsPage }}{{ $text = .Summary | plainify }}{{ end -}}
+{{- if not $text }}{{ $text = site.Params.description }}{{ end -}}
+{{- return ($text | plainify | htmlUnescape | chomp | truncate 200) -}}

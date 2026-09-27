@@ -1,0 +1,93 @@
+{{ define "main" }}
+{{- $cv := hugo.Data.cv }}
+<article class="page page--list page--cv">
+  <header class="page__head head cv-head">
+    <p class="label head__label">{{ .Title }}</p>
+    <h1 class="name">{{ partial "signature.html" . }}</h1>
+    {{- with $cv.headline }}
+    <p class="head__lede">{{ . }}</p>
+    {{- end }}
+    <ul class="cv-contact">
+      {{- with $cv.location }}<li>{{ . }}</li>{{ end }}
+      {{- with $cv.email }}<li><a href="mailto:{{ . }}">{{ . }}</a></li>{{ end }}
+      {{- with $cv.website }}<li><a href="{{ . }}">{{ replaceRE `^https?://` "" . | strings.TrimSuffix "/" }}</a></li>{{ end }}
+      {{- range $cv.links }}<li><a href="{{ .url }}">{{ .name }}</a></li>{{ end }}
+    </ul>
+    <p class="cv-actions"><button class="button" type="button" data-print hidden>Print or save as PDF</button></p>
+  </header>
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__wide">
+    {{- with $cv.summary }}
+    <section class="band cv-section cv-section--summary">
+      <div class="band__body prose"><p>{{ . | markdownify }}</p></div>
+    </section>
+    {{- end }}
+
+    {{- $n := 0 }}
+    {{- range $cv.sections }}
+      {{- $entries := slice }}
+      {{- range .entries }}{{ if not .hide }}{{ $entries = $entries | append . }}{{ end }}{{ end }}
+      {{- if and (not .hide) (or $entries .text) }}
+      {{- $n = add $n 1 }}
+    <section class="band cv-section cv-section--{{ .kind | default "timeline" }}"{{ with .id }} id="{{ . }}"{{ end }}>
+      {{ partial "band-head.html" (dict "no" $n "title" .title) }}
+      <div class="band__body">
+        {{- if eq .kind "prose" }}
+        <div class="prose"><p>{{ .text | markdownify }}</p></div>
+        {{- else if eq .kind "groups" }}
+        <ol class="cv-entries cv-entries--compact">
+          {{- range $entries }}
+          <li>
+            <p class="key">{{ .title }}</p>
+            <div class="cv-body"><p>{{ .text | markdownify }}</p></div>
+          </li>
+          {{- end }}
+        </ol>
+        {{- else if eq .kind "list" }}
+        <ol class="cv-list">
+          {{- range $entries }}
+          <li><p>{{ .text | markdownify }}{{ with .url }} <a class="cv-ref" href="{{ . }}">{{ replaceRE `^https?://(www\.)?` "" . }}</a>{{ end }}</p></li>
+          {{- end }}
+        </ol>
+        {{- else }}
+        <ol class="cv-entries{{ if eq .kind "compact" }} cv-entries--compact{{ end }}{{ if not site.Params.showYears }} cv-entries--undated{{ end }}">
+          {{- range $entries }}
+          <li>
+            {{- if site.Params.showYears }}
+            <p class="key">{{ .dates }}</p>
+            {{- end }}
+            <div class="cv-body">
+              <h3>{{ .title }}{{ with .note }} <span class="cv-note">{{ . }}</span>{{ end }}</h3>
+              {{- if or .organisation .location }}
+              <p class="cv-org">{{ .organisation }}{{ if and .organisation .location }}, {{ end }}{{ .location }}</p>
+              {{- end }}
+              {{- with .summary }}
+              <p>{{ . | markdownify }}</p>
+              {{- end }}
+              {{- with .points }}
+              <ul>
+                {{- range . }}
+                <li>{{ . | markdownify }}</li>
+                {{- end }}
+              </ul>
+              {{- end }}
+            </div>
+          </li>
+          {{- end }}
+        </ol>
+        {{- end }}
+      </div>
+    </section>
+      {{- end }}
+    {{- end }}
+
+    {{- with .Content }}
+    <section class="band">
+      <div class="band__body prose">{{ . }}</div>
+    </section>
+    {{- end }}
+  </div>
+</article>
+{{ end }}

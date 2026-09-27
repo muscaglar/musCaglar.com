@@ -1,0 +1,123 @@
+{{ define "main" }}
+{{- $sections := partial "sections.html" . }}
+{{- /* Which figure stands for which section, so that a heading can point at its figure. */}}
+{{- $figure := dict }}
+{{- range $sections }}{{ if .fig }}{{ $figure = merge $figure (dict .key .fig) }}{{ end }}{{ end }}
+{{- $n := 0 }}
+<section class="hero">
+  <div class="hero__top">
+    <h1 class="name">{{ partial "signature.html" . }}</h1>
+    {{- with .Params.intro }}
+    <p class="intro">{{ . | markdownify }}</p>
+    {{- end }}
+  </div>
+  {{- with $sections }}
+  <ul class="plates" style="--plates: {{ math.Max 4 (len .) }}">
+    {{- range . }}
+    <li>
+      <a class="plate" href="{{ .url }}">
+        <span class="plate__head"><span class="plate__name">{{ .name }}</span>{{ with .count }} <span class="count">{{ . }}</span>{{ end }} <span class="plate__go">→</span></span>
+        {{ partial "sketch.html" (dict "page" .page "name" .figure) }}
+        <span class="plate__caption">{{ with .fig }}<span class="figno">Fig. {{ . }}</span> {{ end }}{{ .caption }}</span>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+  {{- end }}
+</section>
+
+{{- with .Content }}
+<section class="band band--wide">
+  <div class="band__body prose">{{ . }}</div>
+</section>
+{{- end }}
+
+{{- with .Params.skills }}
+{{- $n = add $n 1 }}
+<section class="band" id="what">
+  {{ partial "band-head.html" (dict "no" $n "title" "What I do") }}
+  <dl class="band__body skills">
+    {{- range . }}
+    <div>
+      <dt>{{ .name }}</dt>
+      <dd>{{ .text | markdownify }}</dd>
+    </div>
+    {{- end }}
+  </dl>
+</section>
+{{- end }}
+
+{{- $projects := where (where site.RegularPages "Section" "projects") "Params.featured" true }}
+{{- if not $projects }}{{ $projects = where site.RegularPages "Section" "projects" }}{{ end }}
+{{- with first (site.Params.homeProjects | default 5) $projects.ByDate.Reverse }}
+{{- $n = add $n 1 }}
+<section class="band" id="projects">
+  {{ partial "band-head.html" (dict "no" $n "title" "Projects" "fig" (index $figure "projects")) }}
+  <div class="band__body">
+    <ol class="rows">
+      {{- range . }}
+      {{ partial "project-row.html" . }}
+      {{- end }}
+    </ol>
+    <a class="more" href="{{ (site.GetPage "/projects").RelPermalink }}">All projects →</a>
+  </div>
+</section>
+{{- end }}
+
+{{- with first (site.Params.homeRecipes | default 3) (partial "recipes.html" .) }}
+{{- $n = add $n 1 }}
+<section class="band" id="recipes">
+  {{ partial "band-head.html" (dict "no" $n "title" "Recipes" "fig" (index $figure "recipes")) }}
+  <div class="band__body">
+    <ol class="rows">
+      {{- range . }}
+      {{ partial "recipe-row.html" . }}
+      {{- end }}
+    </ol>
+    <a class="more" href="{{ (site.GetPage "/recipes").RelPermalink }}">All recipes →</a>
+  </div>
+</section>
+{{- end }}
+
+{{- with first (site.Params.homeUpdates | default 5) (partial "stream.html" .) }}
+{{- $n = add $n 1 }}
+<section class="band" id="updates">
+  {{ partial "band-head.html" (dict "no" $n "title" "Updates" "fig" (index $figure "updates")) }}
+  <div class="band__body">
+    <ol class="rows rows--log">
+      {{- range . }}
+      {{ partial "update-row.html" . }}
+      {{- end }}
+    </ol>
+    <a class="more" href="{{ (site.GetPage "/updates").RelPermalink }}">All updates →</a>
+  </div>
+</section>
+{{- end }}
+
+{{- $albums := (where site.RegularPages "Section" "photos").ByDate.Reverse }}
+{{- $photos := slice }}
+{{- range $albums }}
+  {{- $album := . }}
+  {{- range partial "album-photos.html" . }}
+    {{- $photos = $photos | append (merge . (dict "album" $album)) }}
+  {{- end }}
+{{- end }}
+{{- with first (site.Params.homePhotos | default 6) $photos }}
+{{- $n = add $n 1 }}
+<section class="band" id="photos">
+  {{ partial "band-head.html" (dict "no" $n "title" "Photos" "fig" (index $figure "photos")) }}
+  <div class="band__body">
+    <ul class="strip">
+      {{- range . }}
+      <li>
+        <a href="{{ .album.RelPermalink }}#{{ .name | anchorize }}">
+          {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 62rem) 9rem, 30vw" "widths" (slice 320 480 800) "crop" "4x5") -}}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+    <a class="more" href="{{ (site.GetPage "/photos").RelPermalink }}">All photos →</a>
+  </div>
+</section>
+{{- end }}
+{{ end }}

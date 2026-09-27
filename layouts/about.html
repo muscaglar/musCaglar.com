@@ -1,0 +1,27 @@
+{{ define "main" }}
+<article class="page">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__facts">
+    <dl class="facts">
+      <div><dt>Elsewhere</dt><dd>
+        <ul>
+          {{- range site.Params.links }}
+          <li><a class="external" href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
+          {{- end }}
+          {{- with site.Params.email }}
+          <li><a href="mailto:{{ . }}">{{ . }}</a></li>
+          {{- end }}
+        </ul>
+      </dd></div>
+    </dl>
+  </div>
+  <div class="page__body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+{{ end }}

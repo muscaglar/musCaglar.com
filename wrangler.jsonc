@@ -1,0 +1,13 @@
+{
+  // How Cloudflare serves the site. GitHub builds the site into ./public and hands it over;
+  // see "Publishing" in README.md.
+  "name": "muscaglar",
+  "compatibility_date": "2026-09-27",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  // Every pull request gets a preview with its own address. Previews need no settings of their own.
+  "previews": {}
+}

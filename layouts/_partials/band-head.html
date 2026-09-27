@@ -1,0 +1,14 @@
+{{- /*
+  The heading of a section: its number, its title and, where it has one, the figure that stands for it.
+  Pass (dict "no" 2 "title" "Projects" "fig" 1 "count" 12). Only the title is required.
+*/ -}}
+<header class="band__head">
+  <p class="band__no">
+    {{- with .no }}{{ printf "%02d" . }}{{ end }}
+    {{- if and .no .fig }} · {{ end }}
+    {{- with .fig }}Fig. {{ . }}{{ end }}
+    {{- if and (or .no .fig) .count }} · {{ end }}
+    {{- with .count }}{{ . }}{{ end -}}
+  </p>
+  <h2 class="band__title">{{ .title }}</h2>
+</header>

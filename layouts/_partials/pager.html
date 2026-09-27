@@ -1,0 +1,16 @@
+{{- /* Links to the neighbouring pages in the same section (newer on the left). Notes are in order of
+       time, and say so; the other sections are simply in a row. */ -}}
+{{- $timed := or site.Params.showYears (eq .Section "updates") }}
+{{- $pages := .CurrentSection.RegularPages.ByDate.Reverse }}
+{{- $newer := $pages.Prev . }}
+{{- $older := $pages.Next . }}
+{{- if or $newer $older }}
+<nav class="pager" aria-label="More in {{ .CurrentSection.Title }}">
+  {{- with $newer }}
+  <a class="pager-link pager-link--newer" href="{{ .RelPermalink }}" rel="prev"><span>← {{ cond $timed "Newer" "Previous" }}</span> {{ .Title }}</a>
+  {{- end }}
+  {{- with $older }}
+  <a class="pager-link pager-link--older" href="{{ .RelPermalink }}" rel="next"><span>{{ cond $timed "Older" "Next" }} →</span> {{ .Title }}</a>
+  {{- end }}
+</nav>
+{{- end }}

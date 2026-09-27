@@ -1,0 +1,20 @@
+{{ define "main" }}
+<article class="page">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__facts">
+    {{ partial "facts.html" (dict "page" .) }}
+  </div>
+  <div class="page__body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
+    {{ partial "develop.html" . }}
+  </div>
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
+</article>
+{{ end }}

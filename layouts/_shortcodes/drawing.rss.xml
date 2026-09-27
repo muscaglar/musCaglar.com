@@ -1,0 +1,2 @@
+{{- /* In the feed a drawing is left out; its caption stays, so that the text around it still reads. */ -}}
+{{- with .Get "caption" }}<p><em>{{ . | markdownify }}</em></p>{{ end -}}

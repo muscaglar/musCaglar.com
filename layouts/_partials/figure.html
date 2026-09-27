@@ -1,0 +1,8 @@
+{{- /* A picture with its number and an optional caption. Pass (dict "img" … "alt" … "caption" … "sizes" … "class" … "absolute" …). */ -}}
+{{- $absolute := .absolute | default false -}}
+<figure class="figure{{ with .class }} {{ . }}{{ end }}">
+  <a class="figure-link" href="{{ (partial "full-size.html" (dict "img" .img "absolute" $absolute)).url }}">
+    {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" (.sizes | default "(min-width: 50rem) 40rem, 100vw") "widths" (slice 480 800 1200 1600) "absolute" $absolute) -}}
+  </a>
+  <figcaption><span class="figno figno--auto"></span> {{ with .caption }}{{ . | markdownify }}{{ end }}</figcaption>
+</figure>
