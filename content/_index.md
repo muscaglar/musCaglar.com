@@ -1,10 +1,12 @@
 ---
 title: "Mustafa Çağlar"
-description: "Mustafa (Mus) Çağlar — physicist and engineer. Projects, recipes, photographs and notes."
-# The sentence that opens the home page. Words between ** and ** are set in bold.
-intro: >-
-  **I'm Mus** — a physicist and engineer. I write software, build the odd gadget, and cook.
-  These are my notes.
+description: "Mustafa (Mus) Çağlar — ex-physicist, now engineer. Projects, recipes, photographs and notes."
+# The words that open the home page. Words between ** and ** are set in bold, and a backslash
+# at the end of a line starts a new line.
+intro: |-
+  **I'm Mus**\
+  An ex-physicist, now engineer.\
+  I write software, build the odd gadget, and cook. These are my notes.
 # The short "what I do" list on the home page. Add, remove or reword lines freely.
 skills:
   - name: Software

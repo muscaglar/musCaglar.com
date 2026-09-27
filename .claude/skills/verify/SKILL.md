@@ -15,8 +15,8 @@ hugo build --gc --minify --panicOnWarning --buildDrafts --destination /tmp/site-
 python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:8788
 ```
 
-- `--buildDrafts` matters: the sample album and the projects carried over from the old site are
-  drafts, so without it there is almost nothing to look at.
+- `--buildDrafts` adds the drafts: the sample album, the sample recipe, About and the proof sheet
+  of drawings (`/figures/`). The projects and recipes are published, so they are there either way.
 - `scripts/preview-built.py` applies `_headers` (including the content security policy) and
   `_redirects`, and serves the not-found page. `hugo server -D` is quicker for looks, but applies
   none of those.

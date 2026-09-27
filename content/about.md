@@ -5,4 +5,4 @@ layout: about
 draft: true    # the home page says enough for now; delete this line to publish an About page
 ---
 
-I'm Mus. I'm a physicist and engineer; I write software, build things and cook.
+I'm Mus, an ex-physicist, now engineer. I write software, build things and cook.

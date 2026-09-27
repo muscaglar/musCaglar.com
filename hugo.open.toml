@@ -15,7 +15,7 @@ disableKinds = ["section", "taxonomy", "term", "rss"]
 
 [params]
   open = true
-  description = "Mustafa (Mus) Çağlar — physicist and engineer."
+  description = "Mustafa (Mus) Çağlar — ex-physicist, now engineer."
   # Old addresses that lead to one of the sections on the whole site. Here they lead home.
   leadHome = ["/tinker", "/tinker.html", "/projects.html", "/misc", "/misc.html"]
 

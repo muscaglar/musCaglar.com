@@ -21,7 +21,7 @@ titleCaseStyle = "none"
   # asks for the password (README.md, "The gate"). Set it to false to open the whole site.
   gate = true
   # Shown in search results and link previews when a page has no description of its own.
-  description = "Mustafa (Mus) Çağlar — physicist and engineer. Projects, recipes, photographs and notes."
+  description = "Mustafa (Mus) Çağlar — ex-physicist, now engineer. Projects, recipes, photographs and notes."
   shortName = "Mus"
   # Leave the e-mail address empty to keep it off the site.
   email = ""
