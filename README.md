@@ -35,6 +35,8 @@ no database, no JavaScript framework and nothing to install besides Hugo itself.
 | Keep something unpublished | Leave `draft: true` in its front matter. Delete the line to publish. |
 | Publish | Commit and push to `master`. The live site updates a minute or two later. |
 | Try a change before it goes live | Push it to another branch and open a pull request. A preview with its own address is posted on the pull request. |
+| Read the private pages on the live site | Follow **Sign in** at the foot of any page and give the password. See [The gate](#the-gate). |
+| Open the whole site to everyone | Set `gate = false` in `hugo.toml` and publish. |
 
 New files made with `hugo new content` start as drafts.
 
@@ -63,8 +65,11 @@ assets/js/          Small scripts: theme switch, photo viewer
 static/             Files published exactly as they are (_headers sets Cloudflare's headers)
 archetypes/         The starting text of new files made with `hugo new content`
 scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally,
+                    preview-gate.mjs serves it locally with the gate in front of it,
                     preview-address.py reads the address of a preview for the pull request,
                     signature/ redraws the name and cuts the typeface of the titles
+worker/             gate.js, the gate: what runs on Cloudflare in front of the site
+hugo.open.toml      What the open build leaves out, while the gate is on
 wrangler.jsonc      How Cloudflare serves the site
 .github/workflows/  What GitHub does on every push: build, check, publish
 ```
@@ -421,6 +426,54 @@ new one appears at step 2, so do them together.
 > the website alone), and do not add `includeSubDomains` to the `Strict-Transport-Security` header
 > in `static/_headers`.
 
+### The gate
+
+While `gate = true` in `hugo.toml`, a visitor sees the landing page and the CV. Projects, recipes,
+notes, tags and the feed ask for a password.
+
+| Who | Sees |
+|---|---|
+| Anyone | The landing page (name, introduction, links), the CV, the sign-in page |
+| Someone who gave the password | The whole site, for 30 days on that browser, or until **Sign out** |
+
+**How it works.** The site is built twice. What everyone may see goes to `public/`, and the whole
+site goes to `public/_full/`. Every request comes to `worker/gate.js` first. It answers from the
+whole site when the browser carries a valid pass, and from the open one otherwise. The whole site
+is never given out under `/_full`.
+
+**The password** is not in this repository. It is the secret `SITE_PASSWORD`:
+
+1. In the repository on GitHub, open **Settings → Secrets and variables → Actions → Secrets** and
+   add `SITE_PASSWORD`. At least 8 characters.
+2. Publish (push to `master`, or **Actions → Site → Run workflow**). The workflow hands the
+   password to Cloudflare together with the site.
+
+To change the password, change the secret and publish again. Everyone who was signed in is signed
+out by that. Without the secret the site is published all the same, and the private pages stay
+closed to everyone.
+
+**To open the whole site,** set `gate = false` in `hugo.toml` and publish. The site is then built
+once, and everything is public. To open part of it only, the pages to keep back stay drafts.
+
+**What the gate does not do.**
+
+- It does not hide the source. While this repository is public, the text of every page can be
+  read on GitHub. To keep pages from being read at all, make the repository private
+  (**Settings → General → Danger Zone → Change visibility**). Publishing works the same.
+- It is one password for everyone who has it. There are no accounts and there is no record of who
+  came in.
+- A wrong password costs the sender half a second. Nothing counts the tries.
+- Every request now runs the gate, and Cloudflare's free plan allows 100,000 of those a day.
+  Beyond that, visitors get an error until midnight UTC. A page with its styles and fonts is about
+  ten requests.
+
+**On this computer:**
+
+```sh
+scripts/build.sh
+node scripts/preview-gate.mjs          # http://127.0.0.1:8789, the password is printed
+```
+
 ### Undoing a release
 
 Open **Workers & Pages → muscaglar → Deployments** in the Cloudflare dashboard and choose
@@ -432,6 +485,11 @@ does not publish it again.
 - `static/_headers` sets the security and caching headers.
 - Old addresses are kept alive with `aliases` in a page's front matter. Hugo gathers them into one
   list (`_redirects`) that Cloudflare follows.
+- Cloudflare applies those two files only to what it serves without a script in between. Every
+  request now goes through `worker/gate.js`, so the gate sends the same headers itself and follows
+  the same old addresses (from `redirects.json`, which the build writes beside `_redirects`). A
+  header changed in `static/_headers` must be changed in `worker/gate.js` too;
+  `scripts/check-site.py` stops the build when the two differ.
 - The headers include a content security policy that allows pictures, styles and scripts from this
   site only. To embed something from elsewhere, such as a video, add its address to the policy in
   `static/_headers`.

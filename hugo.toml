@@ -17,6 +17,9 @@ capitalizeListTitles = false
 titleCaseStyle = "none"
 
 [params]
+  # The gate. While it is true, a visitor sees the landing page and the CV, and everything else
+  # asks for the password (README.md, "The gate"). Set it to false to open the whole site.
+  gate = true
   # Shown in search results and link previews when a page has no description of its own.
   description = "Mustafa (Mus) Çağlar — physicist and engineer. Projects, recipes, photographs and notes."
   shortName = "Mus"
@@ -96,8 +99,15 @@ titleCaseStyle = "none"
   isPlainText = true
   notAlternative = true
 
+# The same list for the gate (worker/gate.js), which has to follow old addresses by itself.
+[outputFormats.oldaddresses]
+  baseName = "redirects"
+  mediaType = "application/json"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
-  home = ["html", "rss", "redirects"]
+  home = ["html", "rss", "redirects", "oldaddresses"]
   section = ["html"]
   taxonomy = ["html"]
   term = ["html"]

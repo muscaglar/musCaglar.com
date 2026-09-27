@@ -1,0 +1,23 @@
+# What a visitor sees who has not given the password: the landing page and the CV.
+#
+# scripts/build.sh builds the site twice while the gate is on (gate = true in hugo.toml): once
+# with this file laid over hugo.toml, and once without it. Nothing here needs changing when pages
+# are added: every page of the four sections below is left out, whatever it is called.
+
+# Pages of these sections are not read at all, so nothing of them can end up in the open build.
+ignoreFiles = [
+  '/content/(projects|recipes|updates|photos)/[^_]',
+  '/content/about\.md$',
+  '/content/figures\.md$',
+]
+# Nor are the pages that open the sections, the pages of tags, or the feed.
+disableKinds = ["section", "taxonomy", "term", "rss"]
+
+[params]
+  open = true
+  description = "Mustafa (Mus) Çağlar — physicist and engineer."
+  # Old addresses that lead to one of the sections on the whole site. Here they lead home.
+  leadHome = ["/tinker", "/tinker.html", "/projects.html", "/misc", "/misc.html"]
+
+[outputs]
+  home = ["html", "redirects", "oldaddresses"]

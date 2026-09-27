@@ -1,0 +1,15 @@
+{{- /* The old addresses of the site for the gate (worker/gate.js): the same list as _redirects. */ -}}
+{{- $exact := dict -}}
+{{- range site.Pages -}}
+  {{- $to := .RelPermalink -}}
+  {{- if or (not $to) (and .IsSection (eq (len .RegularPagesRecursive) 0)) }}{{ $to = site.Home.RelPermalink }}{{ end -}}
+  {{- range .Aliases -}}
+    {{- $exact = merge $exact (dict . (dict "to" $to "status" 301)) -}}
+  {{- end -}}
+{{- end -}}
+{{- range site.Params.leadHome -}}
+  {{- $exact = merge $exact (dict . (dict "to" site.Home.RelPermalink "status" 301)) -}}
+{{- end -}}
+{{- $fallback := site.Home.RelPermalink -}}
+{{- with site.GetPage "/projects" }}{{ if and .RelPermalink (gt (len .RegularPagesRecursive) 0) }}{{ $fallback = .RelPermalink }}{{ end }}{{ end -}}
+{{- dict "exact" $exact "beginning" (slice (dict "from" "/posts_" "to" $fallback "status" 302)) | jsonify -}}

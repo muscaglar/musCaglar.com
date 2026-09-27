@@ -9,7 +9,9 @@ links:
     url: https://github.com/muscaglar/musCaglar.com
 figure: figure.svg
 figure_caption: "The same page in two browser windows: as designed, and in an old browser. The break shown is an example, not a record."
-draft: true
+aliases:
+  - /posts_webSite
+  - /posts_webSite.html
 ---
 
 Notes on building an earlier version of this website, and on what Internet Explorer and browsers with JavaScript switched off did to it.

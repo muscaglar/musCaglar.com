@@ -7,7 +7,6 @@ tags: [Python, Data analysis, Machine learning]
 status: finished
 figure: figure.svg
 figure_caption: "Ten features for each person go to a forest of decision trees, which vote on one answer. Three trees stand in for the hundred in the notebook."
-draft: true
 ---
 
 A single Jupyter notebook that works through a survey about people's media habits. It asks one question: whether you can tell that someone uses an ad blocker from what they watch and read, and from a few demographics.

@@ -4,6 +4,11 @@
 #
 #   scripts/build.sh                     the site as it is published, into ./public
 #   scripts/build.sh --buildDrafts       extra arguments are handed to `hugo build`
+#   scripts/build.sh --destination DIR   into another folder
+#
+# While the gate is on (gate = true in hugo.toml) the site is built twice: what everyone may see
+# into the folder itself, and the whole site into _full inside it. worker/gate.js answers from one
+# or the other. See "The gate" in README.md.
 #
 # GitHub runs this on every push. On your own machine `hugo server -D` is the everyday preview;
 # run this script when you want exactly what will be published.
@@ -59,9 +64,38 @@ export HUGO_CACHEDIR="${HUGO_CACHEDIR:-${root}/.cache/hugo}"
 log="$(mktemp)"
 trap 'rm -f "${log}"' EXIT
 
+# Where the site goes, and what else was asked for.
+destination="${root}/public"
+asked=()
+while (($#)); do
+  case "$1" in
+    --destination) destination="$2"; shift 2 ;;
+    --destination=*) destination="${1#*=}"; shift ;;
+    *) asked+=("$1"); shift ;;
+  esac
+done
+
 # Warnings stop the build. Notices that something in the templates will stop working in a later
 # Hugo are printed at a quieter level, so they are looked for separately.
-hugo build --gc --minify --cleanDestinationDir --panicOnWarning --logLevel info "$@" 2>&1 | tee "${log}"
+build() {
+  local into="$1"
+  shift
+  hugo build --gc --minify --cleanDestinationDir --panicOnWarning --logLevel info \
+    --destination "${into}" ${asked[@]+"${asked[@]}"} "$@" 2>&1 | tee -a "${log}"
+}
+
+if grep -Eq '^[[:space:]]*gate[[:space:]]*=[[:space:]]*true' hugo.toml; then
+  say "The gate is on. First what everyone may see, then the whole site behind it."
+  build "${destination}" --config hugo.toml,hugo.open.toml
+  build "${destination}/_full"
+  # Cloudflare reads these two files at the top of the site only, and the gate has its own copy of both.
+  rm -f "${destination}/_full/_headers" "${destination}/_full/_redirects"
+  # worker/gate.js looks for this file to learn that the site was built with a gate.
+  printf 'The whole site. worker/gate.js gives it to those who have the password.\n' > "${destination}/_full/gate.txt"
+else
+  build "${destination}"
+fi
+
 if grep -qi "deprecated" "${log}"; then
   say "Hugo says something used here is deprecated (see above). Fix it before publishing."
   exit 1

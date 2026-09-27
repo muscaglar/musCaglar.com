@@ -2,9 +2,14 @@
   // How Cloudflare serves the site. GitHub builds the site into ./public and hands it over;
   // see "Publishing" in README.md.
   "name": "muscaglar",
+  // The gate: every request comes to this script first, and it decides what to answer from
+  // (README.md, "The gate"). Its password is the secret SITE_PASSWORD, which is not written here.
+  "main": "worker/gate.js",
   "compatibility_date": "2026-09-27",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },

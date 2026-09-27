@@ -6,7 +6,9 @@ kind: tinkering
 tags: [3D printing, CAD]
 figure: figure.svg
 figure_caption: "A section through a part on a printer bed, built up in layers, with the nozzle laying down the top one. This is the filament kind of printer; a resin printer builds its layers differently."
-draft: true
+aliases:
+  - /posts_3DPrinting
+  - /posts_3DPrinting.html
 ---
 
 Models I designed myself, then printed and tested.

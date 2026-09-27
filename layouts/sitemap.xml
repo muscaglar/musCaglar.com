@@ -3,7 +3,8 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {{- range where .Pages "Sitemap.Disable" "ne" true }}
-  {{- if .Permalink }}
+  {{- /* A section with nothing in it is not an address worth listing. */}}
+  {{- if and .Permalink (not (and .IsSection (eq (len .RegularPagesRecursive) 0))) }}
   <url>
     <loc>{{ .Permalink }}</loc>
     {{- if and (not .Lastmod.IsZero) (or site.Params.showYears (eq .Section "updates")) .IsPage }}
