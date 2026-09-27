@@ -1,0 +1,9 @@
+{{- /* Returns the cover picture of a page: the file named in `cover`, else the first picture in its folder. */ -}}
+{{- $cover := false -}}
+{{- if .IsPage -}}
+  {{- with .Params.cover }}{{ $cover = $.Resources.Get . }}{{ end -}}
+  {{- if not $cover -}}
+    {{- range first 1 (partial "album-photos.html" $) }}{{ $cover = .img }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $cover -}}

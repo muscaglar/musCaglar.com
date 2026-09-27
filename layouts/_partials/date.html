@@ -1,0 +1,10 @@
+{{- /* Shows a page's date. Pass (dict "page" . "format" "short|month|year|long"). `period` in the front matter wins. */ -}}
+{{- $page := .page -}}
+{{- $format := .format | default "month" -}}
+{{- $layout := "January 2006" -}}
+{{- if eq $format "year" }}{{ $layout = "2006" }}{{ else if eq $format "long" }}{{ $layout = "2 January 2006" }}{{ else if eq $format "short" }}{{ $layout = "2 Jan 2006" }}{{ end -}}
+{{- if not $page.Date.IsZero -}}
+<time datetime="{{ $page.Date.Format "2006-01-02" }}">
+  {{- if and $page.Params.period (ne $format "year") }}{{ $page.Params.period }}{{ else }}{{ $page.Date | time.Format $layout }}{{ end -}}
+</time>
+{{- end -}}

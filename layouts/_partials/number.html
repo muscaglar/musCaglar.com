@@ -1,0 +1,12 @@
+{{- /* Writes a number from a picture's camera data without trailing zeros: 23, 5.6, 2.8.
+       Camera data stores numbers as fractions, e.g. 28/5 for 5.6. */ -}}
+{{- $s := printf "%v" . -}}
+{{- $n := 0.0 -}}
+{{- if in $s "/" -}}
+  {{- $p := split $s "/" -}}
+  {{- $d := float (index $p 1) -}}
+  {{- if ne $d 0.0 }}{{ $n = div (float (index $p 0)) $d }}{{ end -}}
+{{- else -}}
+  {{- $n = float $s -}}
+{{- end -}}
+{{- return (strings.TrimSuffix ".0" (printf "%.1f" $n)) -}}

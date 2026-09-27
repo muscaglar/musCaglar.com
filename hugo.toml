@@ -1,0 +1,138 @@
+# Site configuration. Built with Hugo (https://gohugo.io) — see README.md for how to edit the site.
+
+baseURL = "https://muscaglar.com/"
+locale = "en-GB"
+title = "Mustafa Çağlar"
+timeZone = "Europe/London"
+enableRobotsTXT = true
+disablePathToLower = false
+summaryLength = 40
+# Old addresses (the `aliases` of a page) are published as one list of redirects for Cloudflare
+# (the file _redirects), rather than as a stub page per address.
+disableAliases = true
+# Keep titles and tags exactly as they are written.
+capitalizeListTitles = false
+titleCaseStyle = "none"
+
+[params]
+  # Shown in search results and link previews when a page has no description of its own.
+  description = "Mustafa (Mus) Çağlar — projects, photographs, updates and CV."
+  shortName = "Mus"
+  # Leave the e-mail address empty to keep it off the site.
+  email = ""
+  # How many items the home page shows.
+  homeProjects = 6
+  homeUpdates = 3
+  homePhotos = 6
+  # Picture formats to publish, best first. Browsers take the first one they understand.
+  imageFormats = ["avif", "webp"]
+
+  [[params.links]]
+    name = "GitHub"
+    url = "https://github.com/muscaglar"
+  [[params.links]]
+    name = "LinkedIn"
+    url = "https://www.linkedin.com/in/mustafacaglar/"
+  [[params.links]]
+    name = "Google Scholar"
+    url = "https://scholar.google.com/citations?user=MPi8qAYAAAAJ"
+
+# The navigation bar. A section with nothing published in it is left out automatically.
+[[menus.main]]
+  name = "Projects"
+  pageRef = "/projects"
+  weight = 10
+[[menus.main]]
+  name = "Photos"
+  pageRef = "/photos"
+  weight = 20
+[[menus.main]]
+  name = "Updates"
+  pageRef = "/updates"
+  weight = 30
+[[menus.main]]
+  name = "CV"
+  pageRef = "/cv"
+  weight = 40
+[[menus.main]]
+  name = "About"
+  pageRef = "/about"
+  weight = 50
+
+[taxonomies]
+  tag = "tags"
+
+# A file called 2026-09-27-new-site.md gets its date and its address (/updates/new-site/) from its
+# name. Files without a date in their name use the `date` in their front matter.
+[frontmatter]
+  date = [":filename", "date", "publishDate", ":fileModTime"]
+  lastmod = ["lastmod", ":filename", "date"]
+
+[mediaTypes."text/redirects"]
+  delimiter = ""
+
+[outputFormats.redirects]
+  baseName = "_redirects"
+  mediaType = "text/redirects"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["html", "rss", "redirects"]
+  section = ["html"]
+  taxonomy = ["html"]
+  term = ["html"]
+
+[services.rss]
+  limit = 40
+
+[sitemap]
+  changeFreq = ""
+  filename = "sitemap.xml"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+    [markup.goldmark.parser.attribute]
+      block = true
+      title = true
+  [markup.goldmark.extensions]
+    [markup.goldmark.extensions.typographer]
+      disable = false
+  [markup.highlight]
+    noClasses = false
+    tabWidth = 2
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[imaging]
+  resampleFilter = "lanczos"
+  bgColor = "#ffffff"
+  [imaging.avif]
+    quality = 60
+    encoderSpeed = 8
+  [imaging.webp]
+    quality = 80
+    method = 4
+  [imaging.jpeg]
+    quality = 82
+  [imaging.meta]
+    sources = ["exif"]
+    # Only camera settings are read from photographs. Location data is never read or published.
+    fields = ["Make", "Model", "LensModel", "FocalLength", "FocalLengthIn35mmFormat", "FNumber", "ExposureTime", "ISO*", "PhotographicSensitivity", "DateTimeOriginal", "Orientation"]
+
+[minify]
+  minifyOutput = true
+
+[privacy]
+  [privacy.youTube]
+    privacyEnhanced = true
+  [privacy.vimeo]
+    enableDNT = true
+
+# Processed pictures are kept in Hugo's cache folder so that builds on Cloudflare can reuse them.
+[caches.images]
+  dir = ":cacheDir/images"

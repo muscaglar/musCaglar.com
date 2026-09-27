@@ -1,0 +1,29 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <p class="lede">{{ . }}</p>
+  {{- end }}
+</header>
+{{- with .Content }}
+<div class="prose">{{ . }}</div>
+{{- end }}
+{{- with .RegularPages.ByDate.Reverse }}
+<ul class="albums">
+  {{- range . }}
+  {{- $photos := partial "album-photos.html" . }}
+  <li class="album-card">
+    <a href="{{ .RelPermalink }}">
+      {{- with partial "cover.html" . }}
+      {{ partial "picture.html" (dict "img" . "alt" "" "sizes" "(min-width: 60rem) 30vw, (min-width: 36rem) 46vw, 100vw" "widths" (slice 480 800 1200) "crop" "3x2") }}
+      {{- end }}
+      <span class="album-title">{{ .Title }}</span>
+      <span class="album-meta">{{ partial "date.html" (dict "page" . "format" "year") }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- else }}
+<p class="empty">Nothing here yet.</p>
+{{- end }}
+{{ end }}

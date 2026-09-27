@@ -1,0 +1,10 @@
+<li class="entry entry--project">
+  <span class="entry-date">{{ partial "date.html" (dict "page" . "format" "year") }}</span>
+  <a class="entry-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+  {{- with .Params.summary }}
+  <span class="entry-summary">{{ . }}</span>
+  {{- end }}
+  {{- with .Params.status }}
+  <span class="entry-status">{{ . }}</span>
+  {{- end }}
+</li>

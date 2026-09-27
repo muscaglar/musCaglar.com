@@ -1,0 +1,14 @@
+{{- /* Returns the address of the large version of a picture, for opening it on its own.
+       Asking for the address of the original would publish the original file, so that only
+       happens for the kinds that are passed through untouched (animated GIFs, SVGs). */ -}}
+{{- $img := . -}}
+{{- $sub := $img.MediaType.SubType -}}
+{{- $url := "" -}}
+{{- if and (eq $img.ResourceType "image") (ne $sub "gif") (ne $sub "svg") -}}
+  {{- $hint := cond (eq $sub "png") "drawing" "photo" -}}
+  {{- $width := cond (gt $img.Width 2400) 2400 $img.Width -}}
+  {{- $url = ($img.Resize (printf "%dx webp %s" $width $hint)).RelPermalink -}}
+{{- else -}}
+  {{- $url = $img.RelPermalink -}}
+{{- end -}}
+{{- return $url -}}

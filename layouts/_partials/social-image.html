@@ -1,0 +1,11 @@
+{{- /* Picks the picture for link previews: the page's cover, else the first picture in its folder,
+       else the site-wide default in assets/images/social.png (if there is one). Returns a 1200x630 JPEG or nothing. */ -}}
+{{- $source := partial "cover.html" . -}}
+{{- if not $source }}{{ $source = resources.Get "images/social.png" }}{{ end -}}
+{{- $out := false -}}
+{{- with $source -}}
+  {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") (ne .MediaType.SubType "gif") -}}
+    {{- $out = .Fill "1200x630 jpeg q82 center" -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

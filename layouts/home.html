@@ -1,0 +1,67 @@
+{{ define "main" }}
+<section class="intro">
+  <h1 class="intro-title">{{ .Title }}</h1>
+  {{- with .Params.intro }}
+  <p class="intro-text">{{ . | markdownify }}</p>
+  {{- end }}
+  {{- with .Content }}
+  <div class="prose">{{ . }}</div>
+  {{- end }}
+</section>
+
+{{- $projects := where (where site.RegularPages "Section" "projects") "Params.featured" true }}
+{{- if not $projects }}{{ $projects = where site.RegularPages "Section" "projects" }}{{ end }}
+{{- with first (site.Params.homeProjects | default 6) $projects.ByDate.Reverse }}
+<section class="home-section home-projects">
+  <header class="section-head">
+    <h2>Projects</h2>
+    <a class="more" href="{{ (site.GetPage "/projects").RelPermalink }}">All projects</a>
+  </header>
+  <ul class="entry-list">
+    {{- range . }}
+    {{ partial "project-row.html" . }}
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- with first (site.Params.homeUpdates | default 3) (where site.RegularPages "Section" "updates").ByDate.Reverse }}
+<section class="home-section home-updates">
+  <header class="section-head">
+    <h2>Updates</h2>
+    <a class="more" href="{{ (site.GetPage "/updates").RelPermalink }}">All updates</a>
+  </header>
+  <ul class="entry-list">
+    {{- range . }}
+    {{ partial "update-row.html" . }}
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- $albums := (where site.RegularPages "Section" "photos").ByDate.Reverse }}
+{{- $photos := slice }}
+{{- range $albums }}
+  {{- $album := . }}
+  {{- range partial "album-photos.html" . }}
+    {{- $photos = $photos | append (merge . (dict "album" $album)) }}
+  {{- end }}
+{{- end }}
+{{- with first (site.Params.homePhotos | default 6) $photos }}
+<section class="home-section home-photos">
+  <header class="section-head">
+    <h2>Photos</h2>
+    <a class="more" href="{{ (site.GetPage "/photos").RelPermalink }}">All photos</a>
+  </header>
+  <ul class="photo-strip">
+    {{- range . }}
+    <li>
+      <a href="{{ .album.RelPermalink }}#{{ .name | anchorize }}">
+        {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 50rem) 16rem, 45vw" "widths" (slice 320 480 800) "crop" "4x5") -}}
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+{{ end }}

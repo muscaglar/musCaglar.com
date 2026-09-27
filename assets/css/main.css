@@ -1,0 +1,8 @@
+/* A plain working stylesheet. It is replaced by the chosen design. */
+@layer reset, tokens, base, layout, components;
+
+@import "./reset.css" layer(reset);
+@import "./tokens.css" layer(tokens);
+@import "./base.css" layer(base);
+@import "./layout.css" layer(layout);
+@import "./components.css" layer(components);

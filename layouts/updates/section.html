@@ -1,0 +1,37 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <p class="lede">{{ . }}</p>
+  {{- end }}
+</header>
+{{- $paginator := .Paginate .RegularPages.ByDate.Reverse 20 }}
+{{- with $paginator.Pages }}
+<div class="stream">
+  {{- range . }}
+  <article class="note" id="{{ .File.ContentBaseName }}">
+    <header class="note-head">
+      <p class="note-date">{{ partial "date.html" (dict "page" . "format" "long") }}</p>
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    </header>
+    <div class="prose">
+      {{ .Content }}
+    </div>
+    {{ partial "tags.html" . }}
+  </article>
+  {{- end }}
+</div>
+{{- else }}
+<p class="empty">Nothing here yet.</p>
+{{- end }}
+{{- if gt $paginator.TotalPages 1 }}
+<nav class="pager" aria-label="Pages">
+  {{- with $paginator.Prev }}
+  <a class="pager-link pager-link--newer" href="{{ .URL }}" rel="prev"><span>Newer</span></a>
+  {{- end }}
+  {{- with $paginator.Next }}
+  <a class="pager-link pager-link--older" href="{{ .URL }}" rel="next"><span>Older</span></a>
+  {{- end }}
+</nav>
+{{- end }}
+{{ end }}

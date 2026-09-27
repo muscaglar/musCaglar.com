@@ -1,0 +1,4 @@
+{{- $classes := slice (printf "kind-%s" .Kind) -}}
+{{- with .Section }}{{ $classes = $classes | append (printf "section-%s" .) }}{{ end -}}
+{{- with .Layout }}{{ $classes = $classes | append (printf "layout-%s" .) }}{{ end -}}
+{{- delimit $classes " " -}}

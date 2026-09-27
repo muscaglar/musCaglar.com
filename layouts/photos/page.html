@@ -1,0 +1,38 @@
+{{ define "main" }}
+{{- $photos := partial "album-photos.html" . }}
+<article class="page page--album">
+  <header class="page-head">
+    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
+    <h1>{{ .Title }}</h1>
+    {{- with .Params.summary }}
+    <p class="lede">{{ . }}</p>
+    {{- end }}
+    <p class="album-meta">
+      {{- with .Params.location }}{{ . }} · {{ end -}}
+      {{ partial "date.html" (dict "page" . "format" "month") }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}
+    </p>
+  </header>
+  {{- with .Content }}
+  <div class="prose">{{ . }}</div>
+  {{- end }}
+  <ul class="photos" data-lightbox>
+    {{- range $i, $photo := $photos }}
+    {{- $full := partial "full-size.html" .img }}
+    <li class="photo" id="{{ .name | anchorize }}" style="--ratio: {{ div (float .img.Width) (float .img.Height) | printf "%.4f" }}">
+      <figure>
+        <a class="photo-link" href="{{ $full }}" data-lightbox-item data-width="{{ .img.Width }}" data-height="{{ .img.Height }}">
+          {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw" "widths" (slice 480 800 1200 1600) "eager" (lt $i 3)) -}}
+        </a>
+        {{- if or .caption .camera }}
+        <figcaption>
+          {{- with .caption }}<span class="photo-caption">{{ . | markdownify }}</span>{{ end }}
+          {{- with .camera }}<span class="photo-camera">{{ . }}</span>{{ end }}
+        </figcaption>
+        {{- end }}
+      </figure>
+    </li>
+    {{- end }}
+  </ul>
+  {{ partial "pager.html" . }}
+</article>
+{{ end }}

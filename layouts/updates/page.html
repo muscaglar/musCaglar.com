@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article class="page page--update note">
+  <header class="page-head">
+    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
+    <p class="note-date">{{ partial "date.html" (dict "page" . "format" "long") }}</p>
+    <h1>{{ .Title }}</h1>
+  </header>
+  <div class="prose">
+    {{ .Content }}
+  </div>
+  {{ partial "tags.html" . }}
+  {{ partial "pager.html" . }}
+</article>
+{{ end }}

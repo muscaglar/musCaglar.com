@@ -1,0 +1,20 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <p class="lede">{{ . }}</p>
+  {{- end }}
+</header>
+{{- with .Content }}
+<div class="prose">{{ . }}</div>
+{{- end }}
+{{- with .RegularPages.ByDate.Reverse }}
+<ul class="entry-list entry-list--projects">
+  {{- range . }}
+  {{ partial "project-row.html" . }}
+  {{- end }}
+</ul>
+{{- else }}
+<p class="empty">Nothing here yet.</p>
+{{- end }}
+{{ end }}

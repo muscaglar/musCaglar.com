@@ -1,0 +1,14 @@
+<footer class="site-footer">
+  <ul class="site-links">
+    {{- with site.Params.email }}
+    <li><a href="mailto:{{ . }}">{{ . }}</a></li>
+    {{- end }}
+    {{- range site.Params.links }}
+    <li><a href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
+    {{- end }}
+    {{- with site.Home.OutputFormats.Get "rss" }}
+    <li><a href="{{ .RelPermalink }}">RSS</a></li>
+    {{- end }}
+  </ul>
+  <p class="site-colophon">© {{ now.Year }} {{ site.Title }}</p>
+</footer>
