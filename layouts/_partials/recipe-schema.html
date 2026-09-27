@@ -1,0 +1,11 @@
+{{- /* Tells search engines that the page is a recipe. */ -}}
+{{- $ingredients := slice -}}
+{{- range .Params.ingredients -}}
+  {{- if reflect.IsMap . }}{{ range .items }}{{ $ingredients = $ingredients | append (. | plainify) }}{{ end }}{{ else }}{{ $ingredients = $ingredients | append (. | plainify) }}{{ end -}}
+{{- end -}}
+{{- $recipe := dict "@context" "https://schema.org" "@type" "Recipe" "name" .Title "url" .Permalink "author" (dict "@type" "Person" "name" site.Title) "datePublished" (.Date.Format "2006-01-02") -}}
+{{- with .Params.summary }}{{ $recipe = merge $recipe (dict "description" .) }}{{ end -}}
+{{- with .Params.makes }}{{ $recipe = merge $recipe (dict "recipeYield" .) }}{{ end -}}
+{{- with $ingredients }}{{ $recipe = merge $recipe (dict "recipeIngredient" .) }}{{ end -}}
+{{- with partial "social-image.html" . }}{{ $recipe = merge $recipe (dict "image" .Permalink) }}{{ end -}}
+<script type="application/ld+json">{{ $recipe | jsonify | safeJS }}</script>

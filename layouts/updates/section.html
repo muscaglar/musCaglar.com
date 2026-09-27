@@ -5,18 +5,25 @@
   <p class="lede">{{ . }}</p>
   {{- end }}
 </header>
-{{- $paginator := .Paginate .RegularPages.ByDate.Reverse 20 }}
+{{- /* Notes are shown in full; a new project, recipe or album is shown as a line that leads to it. */}}
+{{- $paginator := .Paginate (partial "stream.html" .) 20 }}
 {{- with $paginator.Pages }}
 <div class="stream">
   {{- range . }}
-  <article class="note" id="{{ .File.ContentBaseName }}">
+  <article class="note" data-kind="{{ .Section }}" id="{{ .File.ContentBaseName }}">
     <header class="note-head">
-      <p class="note-date">{{ partial "date.html" (dict "page" . "format" "long") }}</p>
+      <p class="note-date">{{ partial "date.html" (dict "page" . "format" "long") }} <span class="entry-kind">{{ partial "kind.html" . }}</span></p>
       <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
     </header>
+    {{- if eq .Section "updates" }}
     <div class="prose">
       {{ .Content }}
     </div>
+    {{- else }}
+      {{- with .Params.summary }}
+    <p class="note-summary">{{ . }}</p>
+      {{- end }}
+    {{- end }}
     {{ partial "tags.html" . }}
   </article>
   {{- end }}

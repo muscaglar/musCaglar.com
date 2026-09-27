@@ -1,4 +1,4 @@
-.eyebrow, .entry-date, .note-date, .album-meta, .photo-camera, .cv-dates, .facts dt, .count, .entry-status {
+.eyebrow, .entry-date, .entry-kind, .entry-meta, .note-date, .album-meta, .photo-camera, .cv-dates, .facts dt, .skills dt, .count, .entry-status {
   font-size: 0.8125rem; color: var(--ink-soft);
 }
 .eyebrow a { text-decoration: none; }
@@ -103,4 +103,28 @@ a.external::after { content: " ↗"; font-size: 0.8em; color: var(--ink-soft); }
   .cv-entry, .cv-section h2 { break-inside: avoid; break-after: avoid-page; }
   .cv-entry { break-after: auto; }
   a { text-decoration: none; }
+}
+
+.entry--update { grid-template-columns: 6.5rem 5rem minmax(0, 1fr); }
+.entry--update .entry-title { grid-column: 3; }
+.entry-kind { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
+.entry--recipe { grid-template-columns: minmax(0, 1fr) auto; }
+.entry--recipe .entry-title { grid-column: 1; }
+.entry--recipe .entry-meta { grid-column: 2; text-align: end; }
+.entry--recipe .entry-summary { grid-column: 1 / -1; }
+.skills { display: grid; gap: 0.5rem; max-inline-size: var(--measure); }
+.skills > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1rem; }
+.note-summary { color: var(--ink-soft); }
+.recipe-body { display: grid; gap: 2rem 3rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.recipe-ingredients { display: grid; gap: 0.6rem; }
+.recipe-ingredients ul { padding: 0; list-style: none; display: grid; gap: 0.35rem; }
+.recipe-ingredients li { border-block-end: 1px solid var(--line); padding-block-end: 0.35rem; }
+.recipe-ingredients h3 { margin-block-start: 0.8rem; color: var(--ink-soft); }
+@media (min-width: 56rem) {
+  .page--recipe { max-inline-size: none; }
+  .recipe-body { grid-template-columns: 18rem minmax(0, var(--measure)); }
+}
+@media (max-width: 36rem) {
+  .entry--update, .entry--recipe, .skills > div { grid-template-columns: minmax(0, 1fr); }
+  .entry--update .entry-title, .entry--recipe .entry-meta { grid-column: 1; text-align: start; }
 }

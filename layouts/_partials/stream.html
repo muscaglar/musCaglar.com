@@ -1,0 +1,5 @@
+{{- /* Returns everything that counts as an update, newest first: notes, and new projects, recipes and
+       albums. Which sections count is set by params.kinds in hugo.toml. */ -}}
+{{- $sections := slice -}}
+{{- range $section, $label := site.Params.kinds }}{{ $sections = $sections | append $section }}{{ end -}}
+{{- return (where site.RegularPages "Section" "in" $sections).ByDate.Reverse -}}

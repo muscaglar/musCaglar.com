@@ -1,0 +1,60 @@
+{{ define "main" }}
+<article class="page page--recipe recipe">
+  <header class="page-head">
+    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
+    <h1>{{ .Title }}</h1>
+    {{- with .Params.summary }}
+    <p class="lede">{{ . }}</p>
+    {{- end }}
+    <dl class="facts">
+      {{- with .Params.time }}
+      <div><dt>Time</dt><dd>{{ . }}</dd></div>
+      {{- end }}
+      {{- with .Params.makes }}
+      <div><dt>Makes</dt><dd>{{ . }}</dd></div>
+      {{- end }}
+      <div><dt>Written</dt><dd>{{ partial "date.html" (dict "page" . "format" "long") }}</dd></div>
+      {{- if .GetTerms "tags" }}
+      <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
+      {{- end }}
+    </dl>
+  </header>
+
+  {{- with partial "cover.html" . }}
+  {{ partial "figure.html" (dict "img" . "alt" $.Title "class" "recipe-cover") }}
+  {{- end }}
+
+  <div class="recipe-body">
+    {{- with .Params.ingredients }}
+    <section class="recipe-ingredients">
+      <h2>Ingredients</h2>
+      {{- $plain := slice }}
+      {{- range . }}{{ if not (reflect.IsMap .) }}{{ $plain = $plain | append . }}{{ end }}{{ end }}
+      {{- with $plain }}
+      <ul>
+        {{- range . }}
+        <li>{{ . | markdownify }}</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- range . }}
+        {{- if reflect.IsMap . }}
+      <h3>{{ .group }}</h3>
+      <ul>
+        {{- range .items }}
+        <li>{{ . | markdownify }}</li>
+        {{- end }}
+      </ul>
+        {{- end }}
+      {{- end }}
+    </section>
+    {{- end }}
+    <section class="recipe-method prose">
+      <h2>Method</h2>
+      {{ .Content }}
+    </section>
+  </div>
+  {{ partial "pager.html" . }}
+</article>
+{{- partial "recipe-schema.html" . }}
+{{ end }}

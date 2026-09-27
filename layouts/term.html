@@ -12,6 +12,8 @@
     {{- range .Pages.ByDate.Reverse }}
       {{- if eq .Section "projects" }}
     {{ partial "project-row.html" . }}
+      {{- else if eq .Section "recipes" }}
+    {{ partial "recipe-row.html" . }}
       {{- else }}
     {{ partial "update-row.html" . }}
       {{- end }}

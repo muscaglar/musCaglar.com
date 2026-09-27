@@ -18,14 +18,22 @@ titleCaseStyle = "none"
 
 [params]
   # Shown in search results and link previews when a page has no description of its own.
-  description = "Mustafa (Mus) Çağlar — projects, photographs, updates and CV."
+  description = "Mustafa (Mus) Çağlar — physicist and engineer. Projects, recipes, photographs and notes."
   shortName = "Mus"
   # Leave the e-mail address empty to keep it off the site.
   email = ""
   # How many items the home page shows.
-  homeProjects = 6
-  homeUpdates = 3
+  homeProjects = 5
+  homeRecipes = 3
+  homeUpdates = 5
   homePhotos = 6
+  # The sections whose new pages appear in the stream of updates and in the feed,
+  # and the word each kind is labelled with.
+  [params.kinds]
+    updates = "Note"
+    projects = "Project"
+    recipes = "Recipe"
+    photos = "Photos"
   # Picture formats to publish, best first. Browsers take the first one they understand.
   imageFormats = ["avif", "webp"]
 
@@ -45,20 +53,20 @@ titleCaseStyle = "none"
   pageRef = "/projects"
   weight = 10
 [[menus.main]]
+  name = "Recipes"
+  pageRef = "/recipes"
+  weight = 20
+[[menus.main]]
   name = "Photos"
   pageRef = "/photos"
-  weight = 20
+  weight = 30
 [[menus.main]]
   name = "Updates"
   pageRef = "/updates"
-  weight = 30
+  weight = 40
 [[menus.main]]
   name = "CV"
   pageRef = "/cv"
-  weight = 40
-[[menus.main]]
-  name = "About"
-  pageRef = "/about"
   weight = 50
 
 [taxonomies]

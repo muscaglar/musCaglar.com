@@ -1,4 +1,5 @@
-<li class="entry entry--update">
+<li class="entry entry--update" data-kind="{{ .Section }}">
   <span class="entry-date">{{ partial "date.html" (dict "page" . "format" "short") }}</span>
+  <span class="entry-kind">{{ partial "kind.html" . }}</span>
   <a class="entry-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
 </li>

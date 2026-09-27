@@ -1,6 +1,6 @@
 # muscaglar.com
 
-My personal website: projects, photographs, short updates and a CV.
+My personal website: projects, recipes, photographs, short notes and a CV.
 
 The site is a folder of plain text files. [Hugo](https://gohugo.io) turns them into web pages.
 Whenever a change reaches GitHub, the site is built, checked and published to Cloudflare. There is
@@ -20,18 +20,22 @@ no database, no JavaScript framework and nothing to install besides Hugo itself.
 | I want to… | Do this |
 |---|---|
 | See the site while I work | `hugo server -D` and open <http://localhost:1313>. The page reloads as files are saved. `-D` also shows drafts. |
-| Post an update | `hugo new content updates/2026-10-01-a-title.md`, write below the dashes, save. |
-| Add a project | `hugo new content projects/a-title`. This makes a folder with an `index.md`; pictures go in the same folder. |
+| Post a note | `hugo new content updates/2026-10-01-a-title.md`, write below the dashes, save. |
+| Add a recipe | `hugo new content recipes/a-title`. This makes a folder with an `index.md`; pictures go in the same folder. |
+| Add a project | `hugo new content projects/a-title`. Same: a folder with an `index.md`. |
 | Add photographs | `hugo new content photos/an-album`, then drop the pictures into the new folder. |
 | Change the CV | Edit `data/cv.yaml`. The top of the file explains the layout. |
-| Change the text on the home page | Edit `intro` in `content/_index.md`. |
-| Change the About page | Edit `content/about.md`. |
+| Change the words on the home page | Edit `intro` and `skills` in `content/_index.md`. |
+| Have an About page | Delete `draft: true` in `content/about.md`, and add it to the menu in `hugo.toml`. |
 | Change the links in the footer, or the menu | Edit `hugo.toml`. |
 | Keep something unpublished | Leave `draft: true` in its front matter. Delete the line to publish. |
 | Publish | Commit and push to `master`. The live site updates a minute or two later. |
 | Try a change before it goes live | Push it to another branch and open a pull request. A preview with its own address is posted on the pull request. |
 
 New files made with `hugo new content` start as drafts.
+
+Everything new shows up in **Updates** and in the feed, labelled with its kind: a note, a project,
+a recipe, photos. A section with nothing published in it is left out of the menu.
 
 ## Where things are
 
@@ -41,8 +45,9 @@ content/            Everything that is written: one file or folder per page
   about.md            the About page
   cv.md               the CV page (its content comes from data/cv.yaml)
   projects/           one folder per project
+  recipes/            one folder per recipe
   photos/             one folder per album
-  updates/            one file per update
+  updates/            one file per note
 data/cv.yaml        The CV
 hugo.toml           Settings: site title, menu, links, picture quality
 layouts/            The HTML templates
@@ -60,7 +65,7 @@ wrangler.jsonc      How Cloudflare serves the site
 Pages are written in Markdown. The block between the `---` lines at the top of a file is its front
 matter: the title, the date and other details.
 
-### An update
+### A note
 
 ```markdown
 ---
@@ -95,6 +100,45 @@ aliases:                       # optional: old addresses that should lead here
 
 The write-up.
 ```
+
+### A recipe
+
+```markdown
+---
+title: "Flatbreads in a pan"
+date: 2026-10-01
+summary: "One line about the dish."
+time: "40 min"
+makes: "Makes 6"
+tags: [Bread]
+cover: picture.jpg             # optional
+ingredients:
+  - 250 g plain flour
+  - 200 g natural yoghurt
+---
+
+1. The method, as a numbered list.
+2. …
+
+## Notes
+
+What to change next time.
+```
+
+Ingredients can be grouped:
+
+```yaml
+ingredients:
+  - group: For the dough
+    items:
+      - 250 g plain flour
+  - group: To finish
+    items:
+      - Olive oil
+```
+
+`content/recipes/sample-flatbreads/` is a draft that shows the layout; delete it when it is no
+longer useful.
 
 ### Pictures in a page
 

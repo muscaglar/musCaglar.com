@@ -9,9 +9,22 @@
   {{- end }}
 </section>
 
+{{- with .Params.skills }}
+<section class="home-section home-skills">
+  <header class="section-head">
+    <h2>What I do</h2>
+  </header>
+  <dl class="skills">
+    {{- range . }}
+    <div><dt>{{ .name }}</dt><dd>{{ .text | markdownify }}</dd></div>
+    {{- end }}
+  </dl>
+</section>
+{{- end }}
+
 {{- $projects := where (where site.RegularPages "Section" "projects") "Params.featured" true }}
 {{- if not $projects }}{{ $projects = where site.RegularPages "Section" "projects" }}{{ end }}
-{{- with first (site.Params.homeProjects | default 6) $projects.ByDate.Reverse }}
+{{- with first (site.Params.homeProjects | default 5) $projects.ByDate.Reverse }}
 <section class="home-section home-projects">
   <header class="section-head">
     <h2>Projects</h2>
@@ -25,7 +38,21 @@
 </section>
 {{- end }}
 
-{{- with first (site.Params.homeUpdates | default 3) (where site.RegularPages "Section" "updates").ByDate.Reverse }}
+{{- with first (site.Params.homeRecipes | default 3) (where site.RegularPages "Section" "recipes").ByDate.Reverse }}
+<section class="home-section home-recipes">
+  <header class="section-head">
+    <h2>Recipes</h2>
+    <a class="more" href="{{ (site.GetPage "/recipes").RelPermalink }}">All recipes</a>
+  </header>
+  <ul class="entry-list">
+    {{- range . }}
+    {{ partial "recipe-row.html" . }}
+    {{- end }}
+  </ul>
+</section>
+{{- end }}
+
+{{- with first (site.Params.homeUpdates | default 5) (partial "stream.html" .) }}
 <section class="home-section home-updates">
   <header class="section-head">
     <h2>Updates</h2>

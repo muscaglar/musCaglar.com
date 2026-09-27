@@ -1,0 +1,2 @@
+{{- /* Returns the word for a page's kind ("Recipe", "Project", "Note" …), from params.kinds. */ -}}
+{{- return (index site.Params.kinds .Section | default (.Section | humanize)) -}}

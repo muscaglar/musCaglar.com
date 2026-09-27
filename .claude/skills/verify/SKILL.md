@@ -34,6 +34,8 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | Figures | `/projects/great-crested-newts/` | 5 figures with captions, 1 table, no broken pictures |
 | Feed | `/index.xml` | parses as XML; every `src` and `href` in it is a full address |
 | Sideways photo | an album with a picture whose Exif orientation is 6 | published upright (taller than wide) |
+| Recipe | `/recipes/sample-flatbreads/` | time, quantity, ingredients beside the method, notes below |
+| Updates | `/updates/` | notes in full; projects, recipes and albums as a line each, all labelled with their kind |
 | CV | `/cv/` | sections come from `data/cv.yaml`; entries marked `hide: true` are absent; print view has no header or footer |
 | Old addresses | `curl -I /me`, `/posts_tem_recon`, `/posts_anything` | 301 to the new page; unknown `/posts_*` get a 302 |
 | Not found | any unknown address | status 404 with the site's own page |
