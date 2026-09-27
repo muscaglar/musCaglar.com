@@ -25,6 +25,22 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 - `scripts/build.sh` is what GitHub runs. It needs the pinned Hugo version and stops on warnings
   and deprecation notices.
 
+### With the gate
+
+While `gate = true` in `hugo.toml`, `scripts/build.sh` builds two sites: the open one into the
+folder, the whole one into `_full` inside it. Serve them as Cloudflare does, with the gate in front:
+
+```sh
+scripts/build.sh --destination /tmp/site-check
+node scripts/preview-gate.mjs /tmp/site-check 8789      # http://127.0.0.1:8789, prints its password
+```
+
+- This runs `worker/gate.js` itself. Only the store of files behind it is a stand-in.
+- `python3 scripts/preview-built.py /tmp/site-check/_full` still serves the whole site without a gate.
+- Send crooked addresses with `curl --path-as-is`, or curl tidies them before they leave.
+- The real thing is the preview of a pull request. It has the password only if the repository
+  has the secret `SITE_PASSWORD`.
+
 ## Flows worth driving
 
 | Flow | Where | Expect |
@@ -45,6 +61,10 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | Years | every page, with `showYears = false` (the default) | no year in any visible text; notes show day and month; projects, recipes, albums and the CV show no date; "©" has no year |
 | Proof sheet | `/figures/` (drafts only) | every drawing at three sizes, on light and on dark paper |
 | Phone | `/` at 390 wide | the drawings are one row that swipes sideways; the page itself never scrolls sideways |
+| Gate, closed | `/`, `/cv/`, then `/projects/` without signing in | landing page with the menu Home and CV only; `/projects/` leads to `/enter/`; no title of a private page anywhere in the HTML |
+| Gate, signing in | **Sign in** in the footer, wrong password, then the right one | wrong: back on the form with "That is not the password."; right: the page first asked for opens, and the menu has every section |
+| Gate, signing out | **Sign out** in the footer | back on the landing page; `/projects/` asks for the password again |
+| Gate, the store | `curl --path-as-is` for `/_full/`, `/%5Ffull/`, `/css/..%2f_full/` | 404 or 400, never a page of the whole site |
 
 Watch the browser console while driving: a blocked script or style shows up there as a content
 security policy error.

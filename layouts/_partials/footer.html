@@ -14,7 +14,19 @@
     </ul>
     <p class="site-footer__note">
       <span>©{{ if site.Params.showYears }} {{ now.Year }}{{ end }} {{ site.Title }}</span>
+      {{- /* The gate: a way in on the open pages, a way out on the others. */}}
+      {{- if site.Params.gate }}
+        {{- if site.Params.open }}
+      <a class="gate" href="{{ "enter/" | relURL }}">Sign in</a>
+        {{- else }}
+      <button class="gate" type="submit" form="leave">Sign out</button>
+        {{- end }}
+      {{- end }}
       {{ partial "theme-switch.html" . }}
     </p>
+    {{- /* A form cannot stand inside a paragraph, so the button above belongs to this one by its name. */}}
+    {{- if and site.Params.gate (not site.Params.open) }}
+    <form id="leave" method="post" action="{{ "leave/" | relURL }}" hidden></form>
+    {{- end }}
   </div>
 </footer>

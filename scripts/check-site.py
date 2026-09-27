@@ -10,11 +10,17 @@ It fails when
   - an original photograph or a file carrying camera or location data has been published;
   - a page is missing its title or description.
 
+While the gate is on, the folder holds two sites: what everyone may see, and the whole site in
+_full (see "The gate" in README.md). Each is checked by itself, and then the gate:
+  - nothing of the private pages may be in what everyone may see;
+  - the headers that worker/gate.js sends must be the ones in static/_headers.
+
 Only the Python standard library is used, so it runs anywhere:  python3 scripts/check-site.py
 """
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from html.parser import HTMLParser
@@ -22,6 +28,12 @@ from pathlib import Path
 from urllib.parse import unquote, urldefrag, urlparse
 
 SITE_HOSTS = {"muscaglar.com", "www.muscaglar.com"}
+# Where the whole site lies while the gate is on, inside the folder of what everyone may see.
+FULL = "_full"
+# What the open build may hold besides stylesheets, scripts, fonts and icons.
+OPEN_FILES = {"index.html", "cv/index.html", "enter/index.html", "404.html", "favicon.ico", "robots.txt",
+              "sitemap.xml", "redirects.json", "_headers", "_redirects"}
+OPEN_FOLDERS = ("css/", "js/", "fonts/", "images/")
 
 
 class Page(HTMLParser):
@@ -91,14 +103,18 @@ def target_file(root: Path, page: Path, url: str) -> tuple[Path | None, str]:
     return candidate, anchor
 
 
-def main() -> int:
-    root = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
-    if not root.is_dir():
-        print(f"{root} does not exist — build the site first (hugo build).")
-        return 2
+def files_of(root: Path, pattern: str, inner: bool) -> list[Path]:
+    """The files of one site. The whole site inside _full is not part of the open one around it."""
+    found = sorted(root.rglob(pattern))
+    if inner:
+        return found
+    return [f for f in found if FULL not in f.relative_to(root).parts[:1]]
 
+
+def check(root: Path, inner: bool) -> tuple[list[str], int, int]:
+    """Checks one site. Returns its problems, and how many pages and redirects it has."""
     pages: dict[Path, Page] = {}
-    for file in sorted(root.rglob("*.html")):
+    for file in files_of(root, "*.html", inner):
         parser = Page()
         parser.feed(file.read_text(encoding="utf-8", errors="replace"))
         pages[file.resolve()] = parser
@@ -147,6 +163,22 @@ def main() -> int:
             if target is not None and not target.exists():
                 problems.append(f"/_redirects line {number}: {parts[0]} leads to {parts[1]}, which does not exist")
 
+    # The same list as the gate reads it (worker/gate.js).
+    listed = root / "redirects.json"
+    if listed.exists():
+        try:
+            read = json.loads(listed.read_text(encoding="utf-8"))
+            rules = list(read["exact"].items()) + [(rule["from"] + "*", rule) for rule in read["beginning"]]
+        except (ValueError, KeyError, TypeError):
+            problems.append("/redirects.json: cannot be read")
+            rules = []
+        if not redirects.exists():
+            count += len(rules)
+        for old, rule in rules:
+            target, _ = target_file(root, root / "index.html", str(rule.get("to", "")))
+            if target is None or not target.exists():
+                problems.append(f"/redirects.json: {old} leads to {rule.get('to')}, which does not exist")
+
     # Redirect pages must lead somewhere that exists.
     for file, page in pages.items():
         if not page.is_redirect:
@@ -160,7 +192,7 @@ def main() -> int:
             problems.append(f"/{file.relative_to(root)}: redirects to a page that does not exist ({match.group(1)})")
 
     # Feeds are read away from the site, so every address in them must be a full one.
-    for feed in sorted(root.rglob("*.xml")):
+    for feed in files_of(root, "*.xml", inner):
         text = feed.read_text(encoding="utf-8", errors="replace")
         if "<rss" not in text[:600]:
             continue
@@ -171,14 +203,14 @@ def main() -> int:
                 problems.append(f"{shown}: {address} is not a full address")
 
     # A development build leaves notes with folder names from the machine that made it.
-    for file in sorted(list(root.rglob("*.css")) + list(root.rglob("*.js"))):
+    for file in files_of(root, "*.css", inner) + files_of(root, "*.js", inner):
         text = file.read_text(encoding="utf-8", errors="replace")
         if "ns-hugo-imp:" in text or "sourceMappingURL" in text:
             problems.append(f"/{file.relative_to(root)}: made by a development build; build with scripts/build.sh")
 
     # Photographs: only resized copies may be published, and they must carry no camera or location data.
     markers = (b"Exif\x00\x00", b"GPSLatitude", b"http://ns.adobe.com/xap/1.0/")
-    for file in sorted(root.rglob("*")):
+    for file in files_of(root, "*", inner):
         if file.suffix.lower() not in (".jpg", ".jpeg", ".webp", ".avif", ".png", ".heic", ".tif", ".tiff"):
             continue
         shown = "/" + str(file.relative_to(root))
@@ -189,14 +221,102 @@ def main() -> int:
         if any(m in head for m in markers):
             problems.append(f"{shown}: the file carries camera or location data")
 
+    real = sum(1 for p in pages.values() if not p.is_redirect)
+    return problems, real, count + len(pages) - real
+
+
+def text_of(file: Path) -> str:
+    """What can be read on a page, without its tags."""
+    text = file.read_text(encoding="utf-8", errors="replace")
+    text = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S | re.I)
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", text))
+
+
+def check_gate(root: Path) -> list[str]:
+    """What everyone may see must hold nothing of what is behind the gate."""
+    problems: list[str] = []
+    full = root / FULL
+
+    for file in files_of(root, "*", inner=False):
+        if not file.is_file():
+            continue
+        name = file.relative_to(root).as_posix()
+        if name not in OPEN_FILES and not name.startswith(OPEN_FOLDERS):
+            problems.append(f"/{name}: is in what everyone may see, and is not one of the files that belong there")
+
+    # The titles of the private pages must not be readable on an open page, nor their addresses.
+    private: dict[str, str] = {}
+    for section in ("projects", "recipes", "updates", "photos"):
+        for page in sorted((full / section).glob("*/index.html")):
+            parser = Page()
+            parser.feed(page.read_text(encoding="utf-8", errors="replace"))
+            title = parser.title.split("·")[0].strip()
+            if len(title) >= 8:
+                private[f"/{section}/{page.parent.name}/"] = title
+    if not private:
+        problems.append(f"/{FULL}: holds no pages, so there is nothing behind the gate")
+    for file in files_of(root, "*", inner=False):
+        if not file.is_file() or file.suffix.lower() not in (".html", ".xml", ".json", ".txt", ".js", ".css", ""):
+            continue
+        name = file.relative_to(root).as_posix()
+        raw = file.read_text(encoding="utf-8", errors="replace")
+        seen = text_of(file) if file.suffix.lower() == ".html" else raw
+        for address, title in private.items():
+            if title in seen:
+                problems.append(f"/{name}: names a private page, \"{title}\"")
+            if address in raw:
+                problems.append(f"/{name}: holds the address of a private page, {address}")
+
+    # The gate sends the headers itself. They must be the ones written down in static/_headers.
+    here = Path(__file__).resolve().parent.parent
+    gate, written = here / "worker" / "gate.js", here / "static" / "_headers"
+    if gate.exists() and written.exists():
+        wanted: dict[str, str] = {}
+        everywhere = False
+        for line in written.read_text(encoding="utf-8").splitlines():
+            if line.strip().startswith("#"):
+                continue
+            if line.strip() == "/*":
+                everywhere = True
+            elif line and not line.startswith((" ", "\t", "#")):
+                everywhere = False
+            elif everywhere and ":" in line:
+                key, value = line.strip().split(":", 1)
+                wanted[key.strip()] = value.strip()
+        script = gate.read_text(encoding="utf-8")
+        block = re.search(r"const HEADERS = \{(.*?)\n\};", script, flags=re.S)
+        sent = dict(re.findall(r'"([A-Za-z-]+)":\s*"((?:[^"\\\\]|\\\\.)*)"', block.group(1))) if block else {}
+        for key, value in wanted.items():
+            if sent.get(key) != value:
+                problems.append(f"worker/gate.js: the header {key} differs from static/_headers")
+        for key in sent:
+            if key not in wanted:
+                problems.append(f"worker/gate.js: sends the header {key}, which static/_headers does not have")
+    return problems
+
+
+def main() -> int:
+    root = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
+    if not root.is_dir():
+        print(f"{root} does not exist — build the site first (scripts/build.sh).")
+        return 2
+
+    gated = (root / FULL).is_dir()
+    problems, pages, redirects = check(root, inner=not gated)
+    said = f"{pages} pages and {redirects} redirects"
+    if gated:
+        behind, pages_behind, redirects_behind = check(root / FULL, inner=True)
+        problems += [f"/{FULL}{p}" if p.startswith("/") else p for p in behind]
+        problems += check_gate(root)
+        said = f"{pages} open pages, {pages_behind} pages behind the gate and {redirects + redirects_behind} redirects"
+
     if problems:
         print(f"{len(problems)} problem(s) found in {root}:")
         for p in problems:
             print("  - " + p)
         return 1
 
-    real = sum(1 for p in pages.values() if not p.is_redirect)
-    print(f"Checked {real} pages and {count + len(pages) - real} redirects in {root}: all good.")
+    print(f"Checked {said} in {root}: all good.")
     return 0
 
 

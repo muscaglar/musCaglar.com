@@ -3,12 +3,15 @@
        A section with nothing published in it sends its visitors to the home page instead. */ -}}
 {{- range site.Pages }}
   {{- $to := .RelPermalink }}
-  {{- if and .IsSection (eq (len .RegularPagesRecursive) 0) }}{{ $to = site.Home.RelPermalink }}{{ end }}
+  {{- if or (not $to) (and .IsSection (eq (len .RegularPagesRecursive) 0)) }}{{ $to = site.Home.RelPermalink }}{{ end }}
   {{- range .Aliases }}
 {{ . }} {{ $to }} 301
   {{- end }}
 {{- end }}
+{{- range site.Params.leadHome }}
+{{ . }} {{ site.Home.RelPermalink }} 301
+{{- end }}
 {{- /* Addresses of the old site's write-ups that have no page of their own (yet). */}}
 {{- $fallback := site.Home.RelPermalink }}
-{{- with site.GetPage "/projects" }}{{ if gt (len .RegularPagesRecursive) 0 }}{{ $fallback = .RelPermalink }}{{ end }}{{ end }}
+{{- with site.GetPage "/projects" }}{{ if and .RelPermalink (gt (len .RegularPagesRecursive) 0) }}{{ $fallback = .RelPermalink }}{{ end }}{{ end }}
 /posts_* {{ $fallback }} 302

@@ -7,6 +7,9 @@
 # Publishing needs two settings in the repository (README.md, "Publishing"):
 #   variable CLOUDFLARE_ACCOUNT_ID and secret CLOUDFLARE_API_TOKEN.
 # Without them the site is still built and checked; nothing is published.
+#
+# The gate needs a third: the secret SITE_PASSWORD (README.md, "The gate"). Without it the site is
+# published all the same, and the pages behind the gate stay closed to everyone.
 
 name: Site
 
@@ -97,11 +100,23 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      # The password of the gate goes to Cloudflare together with the site, from a file that is
+      # outside the checkout and is removed again. Its value is never printed.
       - name: Publish to Cloudflare
-        run: npx --yes "wrangler@${WRANGLER_VERSION}" deploy
+        run: |
+          if [ -n "${SITE_PASSWORD}" ]; then
+            umask 077
+            python3 -c 'import json, os; print(json.dumps({"SITE_PASSWORD": os.environ["SITE_PASSWORD"]}))' > "${RUNNER_TEMP}/secrets.json"
+            trap 'rm -f "${RUNNER_TEMP}/secrets.json"' EXIT
+            npx --yes "wrangler@${WRANGLER_VERSION}" deploy --secrets-file "${RUNNER_TEMP}/secrets.json"
+          else
+            echo "No password is set for the gate (the secret SITE_PASSWORD). The pages behind it stay closed to everyone."
+            npx --yes "wrangler@${WRANGLER_VERSION}" deploy
+          fi
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
 
   preview:
     name: Preview
@@ -136,6 +151,24 @@ jobs:
       # Wrangler writes its progress first and its answer after it. The answer also names the account
       # and the e-mail address of whoever published, and this log is public: so the answer goes to a
       # file, and only the address of the preview is read from it and shown.
+      # A preview takes nothing over from the published site, so the password of the gate is made
+      # part of what every new preview starts with. What Wrangler answers is kept out of the log.
+      - name: Give previews the password of the gate
+        run: |
+          if [ -n "${SITE_PASSWORD}" ]; then
+            umask 077
+            python3 -c 'import json, os; print(json.dumps({"SITE_PASSWORD": os.environ["SITE_PASSWORD"]}))' > "${RUNNER_TEMP}/secrets.json"
+            trap 'rm -f "${RUNNER_TEMP}/secrets.json"' EXIT
+            npx --yes "wrangler@${WRANGLER_VERSION}" preview base-config secret bulk "${RUNNER_TEMP}/secrets.json" > "${RUNNER_TEMP}/secret.txt"
+            echo "Previews have the password."
+          else
+            echo "No password is set for the gate (the secret SITE_PASSWORD). The pages behind it stay closed on the preview."
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+
       - name: Publish the preview
         id: preview
         run: |

@@ -341,6 +341,17 @@
 /* Nothing at this address ------------------------------------------------------ */
 .lost p { max-inline-size: var(--measure); }
 
+/* The page with the password */
+.enter__form {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  max-inline-size: 22rem;
+
+  & .button { margin-block-start: var(--space-3); }
+}
+.enter__wrong { color: var(--color-accent); }
+
 
 /* Narrower sheets ------------------------------------------------------------ */
 @container sheet (inline-size < 62rem) {

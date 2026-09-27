@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="page enter">
+  <header class="page__head head">
+    <p class="label head__label">Private</p>
+    <h1 class="head__title">{{ .Title }}</h1>
+    <p class="head__lede">{{ .Description }}</p>
+  </header>
+  <div class="page__body">
+    {{- /* worker/gate.js takes what this form sends. */}}
+    <form class="enter__form" method="post" action="{{ .RelPermalink }}">
+      <input type="hidden" name="next" value="/" data-enter-next>
+      <p class="enter__wrong" data-enter-wrong hidden>That is not the password.</p>
+      <label class="label" for="password">Password</label>
+      <input class="field" id="password" name="password" type="password" autocomplete="current-password" maxlength="200" required autofocus>
+      <button class="button" type="submit">Come in</button>
+    </form>
+  </div>
+</div>
+{{ end }}

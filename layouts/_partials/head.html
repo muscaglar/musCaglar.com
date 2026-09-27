@@ -12,6 +12,9 @@
 <meta name="description" content="{{ $description }}">
 <meta name="author" content="{{ site.Title }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- if eq .Layout "enter" }}
+<meta name="robots" content="noindex">
+{{- end }}
 {{- with site.Home.OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .RelPermalink }}">
 {{- end }}

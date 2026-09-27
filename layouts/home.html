@@ -26,6 +26,8 @@
   {{- end }}
 </section>
 
+{{- /* What follows is for the whole site. The landing page of the open build ends here. */}}
+{{- if not site.Params.open }}
 {{- with .Content }}
 <section class="band band--wide">
   <div class="band__body prose">{{ . }}</div>
@@ -119,5 +121,6 @@
     <a class="more" href="{{ (site.GetPage "/photos").RelPermalink }}">All photos →</a>
   </div>
 </section>
+{{- end }}
 {{- end }}
 {{ end }}
