@@ -413,8 +413,8 @@ new one appears at step 2, so do them together.
      301, keeping the query string.
 
 > [!IMPORTANT]
-> Change the records for `muscaglar.com` and `www` only. Every other address on the domain, such as
-> `home.muscaglar.com`, must be left exactly as it is. For the same reason, avoid settings that
+> Change the records for `muscaglar.com` and `www` only. Every other address on the domain must be
+> left exactly as it is. For the same reason, avoid settings that
 > apply to the whole domain (such as "Always Use HTTPS"; the redirect rule above does that job for
 > the website alone), and do not add `includeSubDomains` to the `Strict-Transport-Security` header
 > in `static/_headers`.
