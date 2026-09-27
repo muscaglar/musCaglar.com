@@ -324,7 +324,9 @@
   .method > ol > li { padding-inline-start: var(--space-8); }
   .method > ol > li::before { inset-inline-start: 0; }
 
+  .cv-head .name { grid-column: 1; }
   .cv-section { margin-inline-start: 0; }
+  .cv-section > .section__head { grid-template-columns: minmax(0, 1fr); }
   .cv-section > p { padding-inline-start: 0; }
   .cv-entries > li, .cv-list > li { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-1); }
 }

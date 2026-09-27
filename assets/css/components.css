@@ -99,9 +99,16 @@
 
 
 /* Plate: a drawing under a rule, with a heading above it and a caption below -- */
-.plates {
+/* Plates stand in as many columns as fit at a width that keeps the labels of a drawing legible,
+   and in no more than --columns. */
+.plates, .atlas {
+  --columns: 4;
   display: grid;
-  grid-template-columns: repeat(var(--plates, 4), minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(max(13rem, (100% - (var(--columns) - 1) * var(--space-4)) / var(--columns)), 1fr));
+}
+
+.plates {
+  --columns: var(--plates, 4);   /* one column for each section, when there is room */
   gap: var(--space-8) var(--space-4);
 }
 
@@ -177,8 +184,6 @@
 
 /* Atlas: a grid of plates, one per entry. Headings, drawings and captions line up across a row. */
 .atlas {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-12) var(--space-4);
 
   & > li { display: contents; }
@@ -441,13 +446,11 @@ a.external::after {
 
 /* Narrower sheets ------------------------------------------------------------ */
 @container sheet (inline-size < 62rem) {
-  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .atlas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pair { grid-template-columns: minmax(0, 1fr); }
 }
 
 @container sheet (inline-size < 40rem) {
-  .atlas { grid-template-columns: minmax(0, 1fr); gap: var(--space-8) 0; }
+  .atlas { row-gap: var(--space-8); }
 
   /* The figures of the home page become one row to swipe through. */
   .plates {
