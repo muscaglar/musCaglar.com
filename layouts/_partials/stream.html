@@ -1,5 +1,15 @@
-{{- /* Returns everything that counts as an update, newest first: notes, and new projects, recipes and
-       albums. Which sections count is set by params.kinds in hugo.toml. */ -}}
+{{- /*
+  Returns everything that counts as an update, newest first: every note, and the projects, recipes
+  and albums that are new. Which sections count is set by params.kinds in hugo.toml, and what counts
+  as new by params.streamSince: anything dated before that day stays in its own section only.
+*/ -}}
 {{- $sections := slice -}}
 {{- range $section, $label := site.Params.kinds }}{{ $sections = $sections | append $section }}{{ end -}}
-{{- return (where site.RegularPages "Section" "in" $sections).ByDate.Reverse -}}
+{{- $pages := where site.RegularPages "Section" "in" $sections -}}
+{{- with site.Params.streamSince -}}
+  {{- $since := time.AsTime . -}}
+  {{- $notes := where $pages "Section" "updates" -}}
+  {{- $new := where (where $pages "Section" "ne" "updates") "Date" "ge" $since -}}
+  {{- $pages = $notes | union $new -}}
+{{- end -}}
+{{- return $pages.ByDate.Reverse -}}

@@ -3,7 +3,7 @@
   {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
   <aside class="page__aside">
     {{ partial "plate.html" . }}
-    {{ partial "facts.html" (dict "page" . "when" "long" "whenLabel" "Written") }}
+    {{ partial "facts.html" (dict "page" . "whenLabel" "Written") }}
   </aside>
   <div class="page__facts">
     {{- with .Params.ingredients }}

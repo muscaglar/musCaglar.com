@@ -12,6 +12,6 @@
       {{- end }}
     </span>
     {{- end }}
-    <span class="plate__caption">{{ partial "date.html" (dict "page" . "format" "year" "class" "key") }} {{ with .Params.summary }}{{ . }}{{ end }}</span>
+    <span class="plate__caption">{{ with partial "date.html" (dict "page" . "format" "year" "class" "key") }}{{ . }} {{ end }}{{ with .Params.summary }}{{ . }}{{ end }}</span>
   </a>
 </li>

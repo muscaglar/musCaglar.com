@@ -234,6 +234,7 @@
 }
 .cv-entries > li:first-child { padding-block-start: 0; }
 .cv-entries--compact > li { padding-block: var(--space-2); }
+.cv-entries--undated > li { grid-template-columns: minmax(0, 1fr); }
 
 .cv-body {
   display: grid;

@@ -1,5 +1,10 @@
 <li>
-  {{ partial "date.html" (dict "page" . "format" "year" "class" "key") }}
+  {{- /* The key of the row: the year, or the kind of project while years are left off. */}}
+  {{- with partial "date.html" (dict "page" . "format" "year" "class" "key") }}
+  {{ . }}
+  {{- else }}
+  <span class="kind">{{ .Params.kind | default "" | humanize }}</span>
+  {{- end }}
   <div>
     <h3 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h3>
     {{- with .Params.summary }}

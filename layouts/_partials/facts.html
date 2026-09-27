@@ -10,8 +10,9 @@
   {{- with $page.Params.makes }}
   <div><dt>Makes</dt><dd>{{ . | replaceRE `^(?i)(makes|serves)\s+` "" }}</dd></div>
   {{- end }}
-  {{- if not $page.Date.IsZero }}
-  <div><dt>{{ .whenLabel | default "When" }}</dt><dd>{{ partial "date.html" (dict "page" $page "format" (.when | default "month")) }}</dd></div>
+  {{- $label := .whenLabel | default "When" }}
+  {{- with partial "date.html" (dict "page" $page "format" (.when | default "month")) }}
+  <div><dt>{{ $label }}</dt><dd>{{ . }}</dd></div>
   {{- end }}
   {{- with $page.Params.location }}
   <div><dt>Where</dt><dd>{{ . }}</dd></div>

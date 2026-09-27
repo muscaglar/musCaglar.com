@@ -1,7 +1,7 @@
 ---
 title: "{{ replace .File.ContentBaseName "-" " " | humanize }}"
 date: {{ .Date }}
-# period: "March – June 2026"   # optional: shown instead of the date
+# period: "March – June 2026"   # optional: shown instead of the date, while years are shown
 summary: "One or two sentences. Shown in lists and in link previews."
 kind: tinkering                  # software | hardware | research | tinkering
 tags: []

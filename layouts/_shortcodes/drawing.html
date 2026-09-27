@@ -1,0 +1,16 @@
+{{- /*
+  A drawing inside the text, numbered like every other figure of the page:
+
+      {{< drawing file="first-version.svg" caption="What it shows." >}}
+
+  The file is looked for beside the page first, then in assets/figures. The same rules hold as for
+  the drawing of a page: shapes and text only.
+*/ -}}
+{{- $caption := .Get "caption" -}}
+{{- if not (.Get "file") }}{{ errorf "A drawing in the text needs the name of its file: {{< drawing file=\"name.svg\" >}} (%s)" .Position }}{{ end -}}
+{{- with partial "sketch.html" (dict "page" .Page "name" (.Get "file")) }}
+<figure class="plate plate--fig plate--inline">
+  {{ . }}
+  <figcaption class="plate__caption"><span class="figno figno--auto"></span> {{ with $caption }}{{ . | markdownify }}{{ end }}</figcaption>
+</figure>
+{{- end -}}

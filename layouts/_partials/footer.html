@@ -13,7 +13,7 @@
       {{- end }}
     </ul>
     <p class="site-footer__note">
-      <span>© {{ now.Year }} {{ site.Title }}</span>
+      <span>©{{ if site.Params.showYears }} {{ now.Year }}{{ end }} {{ site.Title }}</span>
       {{ partial "theme-switch.html" . }}
     </p>
   </div>

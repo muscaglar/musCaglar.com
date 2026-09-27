@@ -33,4 +33,4 @@ The CTF is obtained iteratively and requires a focal series of images, since the
 
 ## Reference
 
-Caglar, M., Pandya, R., Xiao, J., Foster, S., Divitini, G., Chen, R., Greenham, N., Franze, K., Rao, A. and Keyser, U. (2019). All-Optical Detection of Neuronal Membrane Depolarization in Live Cells Using Colloidal Quantum Dots. *Nano Letters*. [doi:10.1021/acs.nanolett.9b03026](https://doi.org/10.1021/acs.nanolett.9b03026)
+Caglar, M., Pandya, R., Xiao, J., Foster, S., Divitini, G., Chen, R., Greenham, N., Franze, K., Rao, A. and Keyser, U. All-Optical Detection of Neuronal Membrane Depolarization in Live Cells Using Colloidal Quantum Dots. *Nano Letters*. [doi:10.1021/acs.nanolett.9b03026](https://doi.org/10.1021/acs.nanolett.9b03026)

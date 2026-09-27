@@ -39,7 +39,7 @@ no database, no JavaScript framework and nothing to install besides Hugo itself.
 New files made with `hugo new content` start as drafts.
 
 Everything new shows up in **Updates** and in the feed, labelled with its kind: a note, a project,
-a recipe, photos. A section with nothing published in it is left out of the menu.
+a recipe, photos. "New" means dated on or after `streamSince` in `hugo.toml`. A section with nothing published in it is left out of the menu.
 
 ## Where things are
 
@@ -93,7 +93,7 @@ and appears at `/updates/a-title/`.
 ---
 title: "A title"
 date: 2026-10-01
-period: "March – June 2026"    # optional: shown instead of the date
+period: "March – June 2026"    # optional: shown instead of the date, while years are shown
 summary: "One or two sentences, shown in lists and link previews."
 kind: software                 # software, hardware, research or tinkering: the heading it is listed under
 tags: [Python]
@@ -151,6 +151,29 @@ ingredients:
 `content/recipes/sample-flatbreads/` is a draft that shows the layout; delete it when it is no
 longer useful.
 
+### Dates and years
+
+Years are left off the pages.
+
+| Kind of page | What a visitor sees |
+|---|---|
+| A project, a recipe, an album | No date at all. Lists are still in order of date, newest first. |
+| A note | The day and the month: "27 September" |
+| The CV | No dates |
+
+The `date` of a page is still needed: it puts the page in its place in a list.
+
+Projects, recipes and albums dated before `streamSince` in `hugo.toml` stay out of **Updates** and
+of the feed. Set that day to when the log began; work from before it is listed in its own section
+only.
+
+To show years again, set `showYears = true` in `hugo.toml`. Lists then show the year, notes their
+full date, and the CV its dates.
+
+One thing to keep in mind when writing: a sentence such as "I built this in 2019" puts the year
+back. So do the names of folders, which become part of the address: `smart-home`, not
+`smart-home-2017`.
+
 ### Pictures in a page
 
 Put the picture in the same folder as the page, then:
@@ -169,6 +192,12 @@ Two to four pictures side by side:
 ```
 
 Pictures are resized and converted to modern formats automatically, so add them at full size.
+
+A drawing inside the text (see [Drawings](#drawings)):
+
+```markdown
+{{< drawing file="first-version.svg" caption="What it shows." >}}
+```
 
 ## Photographs
 
@@ -260,7 +289,7 @@ stops the build.
 `hugo server -D` and <http://localhost:1313/figures/> show every drawing at three sizes, on light
 and on dark paper. That page is a draft, so it is never published.
 
-Pictures inside a page are numbered after the drawing: figure 2, figure 3 and so on.
+Pictures and further drawings inside a page are numbered after it: figure 2, figure 3 and so on.
 
 ## The look
 

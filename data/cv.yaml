@@ -4,6 +4,7 @@
 #   - Sections appear on the page in the order they are listed under `sections`.
 #   - Entries appear in the order they are written here, so put the newest first.
 #   - `dates` is free text ("2016 – 2020", "Summer 2015", "2018"): write it the way you want it shown.
+#     Dates only appear on the page while `showYears = true` in hugo.toml. They are kept here either way.
 #   - Any field can be left out. Add `hide: true` to an entry or a section to keep it in this file
 #     but off the page.
 #   - Text accepts Markdown (links, *emphasis*).
@@ -62,7 +63,7 @@ sections:
     kind: list
     entries:
       - text: >-
-          Caglar, M. *et al.* (2019). All-optical detection of neuronal membrane depolarization in
+          Caglar, M. *et al.* All-optical detection of neuronal membrane depolarization in
           live cells using colloidal quantum dots. *Nano Letters*.
         url: https://doi.org/10.1021/acs.nanolett.9b03026
 

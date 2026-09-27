@@ -177,6 +177,9 @@
 /* A plate that is a figure in the margin of a page, not a way in */
 .plate--fig { grid-template-rows: none; block-size: auto; }
 
+/* A drawing inside the text */
+.plate--inline { max-inline-size: 24rem; }
+
 /* Inside a page the figures number themselves, in the order they appear. */
 .page figure { counter-increment: fig; }
 .figno--auto::before { content: "Fig. " counter(fig); }
@@ -233,7 +236,7 @@
 .band__body {
   grid-column: 2 / -1;
   min-inline-size: 0;
-  --key: calc(var(--grid) * 3);   /* inside a band the keys of a list need less room */
+  --key: calc(var(--grid) * 4);   /* inside a band the keys of a list need less room */
 
   & > .more { display: inline-block; margin-block-start: var(--space-4); }
   & > .prose { margin-block-end: var(--space-6); }

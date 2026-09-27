@@ -21,7 +21,7 @@
               {{ partial "picture.html" (dict "img" . "alt" "" "sizes" "(min-width: 62rem) 24rem, (min-width: 40rem) 46vw, 100vw" "widths" (slice 480 800 1200) "crop" "3x2") }}
               {{- end }}
               <span class="album__title">{{ .Title }}{{ partial "draft.html" . }}</span>
-              <span class="meta">{{ partial "date.html" (dict "page" . "format" "year") }} · {{ partial "count.html" (dict "n" (len $photos) "one" "photo" "many" "photos") }}</span>
+              <span class="meta">{{ with partial "date.html" (dict "page" . "format" "year") }}{{ . }} · {{ end }}{{ partial "count.html" (dict "n" (len $photos) "one" "photo" "many" "photos") }}</span>
             </a>
           </li>
           {{- end }}

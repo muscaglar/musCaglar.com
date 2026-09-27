@@ -1,11 +1,23 @@
-{{- /* Shows a page's date. Pass (dict "page" . "format" "short|month|year|long" "class" "…").
-       A `period` in the front matter ("March – June 2026") replaces the date where a month is asked for. */ -}}
+{{- /*
+  Shows a page's date. Pass (dict "page" . "format" "short|long|month|year" "class" "…").
+
+  While years are left off (showYears = false in hugo.toml), "short" and "long" give the day and the
+  month, and "month" and "year" give nothing at all.
+  With years shown, a `period` in the front matter ("March – June 2026") replaces the date where a
+  month is asked for.
+*/ -}}
 {{- $page := .page -}}
 {{- $format := .format | default "month" -}}
-{{- $layout := "January 2006" -}}
-{{- if eq $format "year" }}{{ $layout = "2006" }}{{ else if eq $format "long" }}{{ $layout = "2 January 2006" }}{{ else if eq $format "short" }}{{ $layout = "2 Jan 2006" }}{{ end -}}
-{{- if not $page.Date.IsZero -}}
-<time{{ with .class }} class="{{ . }}"{{ end }} datetime="{{ $page.Date.Format "2006-01-02" }}">
-  {{- if and $page.Params.period (eq $format "month") }}{{ $page.Params.period }}{{ else }}{{ $page.Date | time.Format $layout }}{{ end -}}
+{{- $years := site.Params.showYears | default false -}}
+{{- $layout := "" -}}
+{{- if $years -}}
+  {{- $layout = "January 2006" -}}
+  {{- if eq $format "year" }}{{ $layout = "2006" }}{{ else if eq $format "long" }}{{ $layout = "2 January 2006" }}{{ else if eq $format "short" }}{{ $layout = "2 Jan 2006" }}{{ end -}}
+{{- else -}}
+  {{- if eq $format "long" }}{{ $layout = "2 January" }}{{ else if eq $format "short" }}{{ $layout = "2 Jan" }}{{ end -}}
+{{- end -}}
+{{- if and $layout (not $page.Date.IsZero) -}}
+<time{{ with .class }} class="{{ . }}"{{ end }}{{ if or $years (eq $page.Section "updates") }} datetime="{{ $page.Date.Format "2006-01-02" }}"{{ end }}>
+  {{- if and $years $page.Params.period (eq $format "month") }}{{ $page.Params.period }}{{ else }}{{ $page.Date | time.Format $layout }}{{ end -}}
 </time>
 {{- end -}}

@@ -42,6 +42,7 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | Without JavaScript | album page | text readable, theme switches absent, a photo link opens the picture itself |
 | Sections | `/`, `/projects/`, `/cv/` | a rule with a red mark opens each; number and title in the first column, content in the other three; one column below 62rem |
 | Drawings | `/`, `/projects/`, a project with `figure:` | inline SVG in the page, coloured by the theme; one red element; "Fig. n" counts up through a page |
+| Years | every page, with `showYears = false` (the default) | no year in any visible text; notes show day and month; projects, recipes, albums and the CV show no date; "©" has no year |
 | Proof sheet | `/figures/` (drafts only) | every drawing at three sizes, on light and on dark paper |
 | Phone | `/` at 390 wide | the drawings are one row that swipes sideways; the page itself never scrolls sideways |
 

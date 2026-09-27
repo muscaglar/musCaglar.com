@@ -22,6 +22,13 @@ titleCaseStyle = "none"
   shortName = "Mus"
   # Leave the e-mail address empty to keep it off the site.
   email = ""
+  # Years are left off the pages: a project carries no date at all, a note its day and month.
+  # Set this to true to show them again: years in lists, full dates on notes, dates on the CV.
+  showYears = false
+  # Projects, recipes and albums dated before this day are left out of Updates and of the feed.
+  # They are older than this log, and a day and a month without a year would mislead.
+  # Leave it empty ("") to list everything.
+  streamSince = "2026-09-01"
   # How many items the home page shows.
   homeProjects = 5
   homeRecipes = 3

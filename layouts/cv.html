@@ -52,10 +52,12 @@
           {{- end }}
         </ol>
         {{- else }}
-        <ol class="cv-entries{{ if eq .kind "compact" }} cv-entries--compact{{ end }}">
+        <ol class="cv-entries{{ if eq .kind "compact" }} cv-entries--compact{{ end }}{{ if not site.Params.showYears }} cv-entries--undated{{ end }}">
           {{- range $entries }}
           <li>
+            {{- if site.Params.showYears }}
             <p class="key">{{ .dates }}</p>
+            {{- end }}
             <div class="cv-body">
               <h3>{{ .title }}{{ with .note }} <span class="cv-note">{{ . }}</span>{{ end }}</h3>
               {{- if or .organisation .location }}
