@@ -1,9 +1,11 @@
 {{- /* Links to the neighbouring pages in the same section (newer on the left). Notes are in order of
        time, and say so; the other sections are simply in a row. */ -}}
 {{- $timed := or site.Params.showYears (eq .Section "updates") }}
+{{- /* The list runs from the newest page to the oldest. In Hugo, Next is the page nearer the start
+       of a list and Prev the one nearer its end. */}}
 {{- $pages := .CurrentSection.RegularPages.ByDate.Reverse }}
-{{- $newer := $pages.Prev . }}
-{{- $older := $pages.Next . }}
+{{- $newer := $pages.Next . }}
+{{- $older := $pages.Prev . }}
 {{- if or $newer $older }}
 <nav class="pager" aria-label="More in {{ .CurrentSection.Title }}">
   {{- with $newer }}
