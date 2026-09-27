@@ -6,31 +6,33 @@
     {{ partial "plate.html" . }}
   </aside>
   <div class="page__wide">
-    {{- with .Content }}
-    <div class="prose">{{ . }}</div>
-    {{- end }}
-    {{- with $pages }}
-    <section class="section">
-      <ol class="rows">
-        {{- range . }}
-        <li>
-          <span class="key">{{ .Params.time }}</span>
-          <div>
-            <h2 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
-            {{- with .Params.summary }}
-            <p class="entry__text">{{ . }}</p>
-            {{- end }}
-          </div>
-          {{- with .Params.makes }}
-          <span class="meta">{{ . | lower }}</span>
-          {{- end }}
-        </li>
+    <section class="band">
+      <div class="band__body">
+        {{- with .Content }}
+        <div class="prose">{{ . }}</div>
         {{- end }}
-      </ol>
+        {{- with $pages }}
+        <ol class="rows">
+          {{- range . }}
+          <li>
+            <span class="key">{{ .Params.time }}</span>
+            <div>
+              <h2 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
+              {{- with .Params.summary }}
+              <p class="entry__text">{{ . }}</p>
+              {{- end }}
+            </div>
+            {{- with .Params.makes }}
+            <span class="meta">{{ . | lower }}</span>
+            {{- end }}
+          </li>
+          {{- end }}
+        </ol>
+        {{- else }}
+        <p class="empty">Nothing here yet.</p>
+        {{- end }}
+      </div>
     </section>
-    {{- else }}
-    <p class="empty">Nothing here yet.</p>
-    {{- end }}
   </div>
 </div>
 {{ end }}

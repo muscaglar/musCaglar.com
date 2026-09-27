@@ -3,18 +3,9 @@
   {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
   <aside class="page__aside">
     {{ partial "plate.html" . }}
-    <dl class="facts">
-      {{- with .Params.time }}
-      <div><dt>Time</dt><dd>{{ . }}</dd></div>
-      {{- end }}
-      {{- with .Params.makes }}
-      <div><dt>Makes</dt><dd>{{ . | replaceRE `^(?i)(makes|serves)\s+` "" }}</dd></div>
-      {{- end }}
-      <div><dt>Written</dt><dd>{{ partial "date.html" (dict "page" . "format" "long") }}</dd></div>
-      {{- if .GetTerms "tags" }}
-      <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
-      {{- end }}
-    </dl>
+    {{ partial "facts.html" (dict "page" . "when" "long" "whenLabel" "Written") }}
+  </aside>
+  <div class="page__facts">
     {{- with .Params.ingredients }}
     <section class="ingredients">
       <h2>Ingredients</h2>
@@ -39,7 +30,7 @@
       {{- end }}
     </section>
     {{- end }}
-  </aside>
+  </div>
   <div class="page__body">
     {{- with partial "cover.html" . }}
     {{ partial "figure.html" (dict "img" . "alt" $.Title "class" "recipe-cover") }}

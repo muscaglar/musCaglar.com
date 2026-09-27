@@ -27,19 +27,16 @@
 </section>
 
 {{- with .Content }}
-<section class="section">
-  <div class="prose">{{ . }}</div>
+<section class="band band--wide">
+  <div class="band__body prose">{{ . }}</div>
 </section>
 {{- end }}
 
 {{- with .Params.skills }}
 {{- $n = add $n 1 }}
-<section class="section" id="what">
-  <header class="section__head">
-    <span class="label">§{{ $n }}</span>
-    <h2>What I do</h2>
-  </header>
-  <dl class="skills">
+<section class="band" id="what">
+  {{ partial "band-head.html" (dict "no" $n "title" "What I do") }}
+  <dl class="band__body skills">
     {{- range . }}
     <div>
       <dt>{{ .name }}</dt>
@@ -54,60 +51,47 @@
 {{- if not $projects }}{{ $projects = where site.RegularPages "Section" "projects" }}{{ end }}
 {{- with first (site.Params.homeProjects | default 5) $projects.ByDate.Reverse }}
 {{- $n = add $n 1 }}
-<section class="section" id="projects">
-  <header class="section__head">
-    <span class="label">§{{ $n }}{{ with index $figure "projects" }} · Fig. {{ . }}{{ end }}</span>
-    <h2>Selected projects</h2>
+<section class="band" id="projects">
+  {{ partial "band-head.html" (dict "no" $n "title" "Projects" "fig" (index $figure "projects")) }}
+  <div class="band__body">
+    <ol class="rows">
+      {{- range . }}
+      {{ partial "project-row.html" . }}
+      {{- end }}
+    </ol>
     <a class="more" href="{{ (site.GetPage "/projects").RelPermalink }}">All projects →</a>
-  </header>
-  <ol class="rows">
-    {{- range . }}
-    {{ partial "project-row.html" . }}
-    {{- end }}
-  </ol>
+  </div>
 </section>
 {{- end }}
 
-{{- $recipes := first (site.Params.homeRecipes | default 3) (where site.RegularPages "Section" "recipes").ByDate.Reverse }}
-{{- $updates := first (site.Params.homeUpdates | default 5) (partial "stream.html" .) }}
-{{- if and $recipes $updates }}
-<div class="pair">
-{{- end }}
-
-{{- with $recipes }}
+{{- with first (site.Params.homeRecipes | default 3) (where site.RegularPages "Section" "recipes").ByDate.Reverse }}
 {{- $n = add $n 1 }}
-<section class="section" id="recipes">
-  <header class="section__head">
-    <span class="label">§{{ $n }}{{ with index $figure "recipes" }} · Fig. {{ . }}{{ end }}</span>
-    <h2>Recipes</h2>
+<section class="band" id="recipes">
+  {{ partial "band-head.html" (dict "no" $n "title" "Recipes" "fig" (index $figure "recipes")) }}
+  <div class="band__body">
+    <ol class="rows">
+      {{- range . }}
+      {{ partial "recipe-row.html" . }}
+      {{- end }}
+    </ol>
     <a class="more" href="{{ (site.GetPage "/recipes").RelPermalink }}">All recipes →</a>
-  </header>
-  <ol class="rows">
-    {{- range . }}
-    {{ partial "recipe-row.html" . }}
-    {{- end }}
-  </ol>
+  </div>
 </section>
 {{- end }}
 
-{{- with $updates }}
+{{- with first (site.Params.homeUpdates | default 5) (partial "stream.html" .) }}
 {{- $n = add $n 1 }}
-<section class="section" id="updates">
-  <header class="section__head">
-    <span class="label">§{{ $n }}{{ with index $figure "updates" }} · Fig. {{ . }}{{ end }}</span>
-    <h2>Latest updates</h2>
+<section class="band" id="updates">
+  {{ partial "band-head.html" (dict "no" $n "title" "Updates" "fig" (index $figure "updates")) }}
+  <div class="band__body">
+    <ol class="rows rows--log">
+      {{- range . }}
+      {{ partial "update-row.html" . }}
+      {{- end }}
+    </ol>
     <a class="more" href="{{ (site.GetPage "/updates").RelPermalink }}">All updates →</a>
-  </header>
-  <ol class="rows rows--log">
-    {{- range . }}
-    {{ partial "update-row.html" . }}
-    {{- end }}
-  </ol>
+  </div>
 </section>
-{{- end }}
-
-{{- if and $recipes $updates }}
-</div>
 {{- end }}
 
 {{- $albums := (where site.RegularPages "Section" "photos").ByDate.Reverse }}
@@ -120,21 +104,20 @@
 {{- end }}
 {{- with first (site.Params.homePhotos | default 6) $photos }}
 {{- $n = add $n 1 }}
-<section class="section" id="photos">
-  <header class="section__head">
-    <span class="label">§{{ $n }}{{ with index $figure "photos" }} · Fig. {{ . }}{{ end }}</span>
-    <h2>Photos</h2>
+<section class="band" id="photos">
+  {{ partial "band-head.html" (dict "no" $n "title" "Photos" "fig" (index $figure "photos")) }}
+  <div class="band__body">
+    <ul class="strip">
+      {{- range . }}
+      <li>
+        <a href="{{ .album.RelPermalink }}#{{ .name | anchorize }}">
+          {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 62rem) 9rem, 30vw" "widths" (slice 320 480 800) "crop" "4x5") -}}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
     <a class="more" href="{{ (site.GetPage "/photos").RelPermalink }}">All photos →</a>
-  </header>
-  <ul class="strip">
-    {{- range . }}
-    <li>
-      <a href="{{ .album.RelPermalink }}#{{ .name | anchorize }}">
-        {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 62rem) 12rem, 30vw" "widths" (slice 320 480 800) "crop" "4x5") -}}
-      </a>
-    </li>
-    {{- end }}
-  </ul>
+  </div>
 </section>
 {{- end }}
 {{ end }}

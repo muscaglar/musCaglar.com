@@ -1,7 +1,7 @@
 /* Home: a small signature and one sentence, then the figures ------------------
    The top row stands on the same four columns as the figures: the name over the first, the
    introduction over the other three. */
-.hero { padding-block: var(--space-8); }
+.hero { padding-block: var(--band-pad); }
 
 .hero__top {
   display: grid;
@@ -39,13 +39,13 @@
 /* Updates: notes in full, everything else as a line that leads to it ---------- */
 .log > li {
   display: grid;
-  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  grid-template-columns: calc(var(--grid) * 5) minmax(0, 1fr);
   align-items: baseline;
   row-gap: var(--space-2);
   padding-block: var(--space-6);
-  border-block-start: var(--rule) solid var(--color-rule);
+  border-block-end: var(--rule) solid var(--color-rule);
 
-  &:first-child { border-block-start-color: var(--color-rule-strong); }
+  &:first-child { padding-block-start: 0; }
   & > * { grid-column: 2; min-inline-size: 0; }
   & > .log__when { grid-column: 1; grid-row: 1 / span 3; display: grid; gap: var(--space-1); }
   & h2 { font-size: var(--text-h2); }
@@ -59,7 +59,6 @@
 .tags--all {
   gap: var(--space-2) var(--space-6);
   font-size: var(--text-body);
-  padding-inline-start: var(--gutter);
 }
 
 
@@ -101,13 +100,15 @@
     position: relative;
     counter-increment: step;
     padding-block: var(--space-3);
-    border-block-start: var(--rule) solid var(--color-rule);
+    padding-inline-start: var(--space-8);
+    border-block-end: var(--rule) solid var(--color-rule);
     margin: 0;
   }
+  & > li:first-child { padding-block-start: 0; }
   & > li::before {
     content: counter(step);
     position: absolute;
-    inset-inline-start: calc(-1 * var(--gutter));
+    inset-inline-start: 0;
     font-family: var(--font-mono);
     font-size: var(--text-small);
     line-height: calc(var(--text-body) * 1.5);
@@ -118,8 +119,6 @@
 
 /* Photos: albums, then the photographs of one album ---------------------------- */
 .albums {
-  padding-block-start: var(--space-6);
-  border-block-start: var(--rule) solid var(--color-rule-strong);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
   gap: var(--space-8) var(--space-4);
@@ -214,7 +213,7 @@
 
 
 /* CV ------------------------------------------------------------------------------ */
-.cv-head .name { grid-column: 2; }
+.cv-head .name { grid-column: 2 / -1; }
 
 .cv-contact {
   display: flex;
@@ -224,23 +223,16 @@
   color: var(--color-ink-2);
 }
 
-.cv-section {
-  padding-block: var(--space-4) var(--space-8);
-  border-block-start: var(--rule) solid var(--color-rule-strong);
-  margin-inline-start: calc(-1 * var(--gutter));
-
-  & > .section__head { grid-template-columns: var(--gutter) minmax(0, 1fr); margin-block-end: var(--space-2); }
-  & > p { padding-inline-start: var(--gutter); max-inline-size: calc(var(--gutter) + var(--measure)); }
-}
-
 .cv-entries > li {
   display: grid;
-  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  grid-template-columns: calc(var(--grid) * 5) minmax(0, 1fr);
+  column-gap: var(--space-4);
   align-items: baseline;
   padding-block: var(--space-3);
-  border-block-start: var(--rule) solid var(--color-rule);
+  border-block-end: var(--rule) solid var(--color-rule);
   break-inside: avoid;
 }
+.cv-entries > li:first-child { padding-block-start: 0; }
 .cv-entries--compact > li { padding-block: var(--space-2); }
 
 .cv-body {
@@ -267,12 +259,14 @@
 
   & > li {
     display: grid;
-    grid-template-columns: var(--gutter) minmax(0, var(--measure));
+    grid-template-columns: calc(var(--grid) * 5) minmax(0, var(--measure));
+    column-gap: var(--space-4);
     align-items: baseline;
     counter-increment: item;
     padding-block: var(--space-3);
-    border-block-start: var(--rule) solid var(--color-rule);
+    border-block-end: var(--rule) solid var(--color-rule);
   }
+  & > li:first-child { padding-block-start: 0; }
   & > li::before {
     content: "[" counter(item) "]";
     font-family: var(--font-mono);
@@ -305,6 +299,7 @@
 
 /* Narrower sheets ------------------------------------------------------------ */
 @container sheet (inline-size < 62rem) {
+  .cv-head .name { grid-column: 1; }
   .hero__top { grid-template-columns: minmax(0, 1fr); }
   .name, .intro { grid-column: 1; }
   .intro { max-inline-size: 36rem; }
@@ -320,13 +315,5 @@
   .log > li > *, .log > li > .log__when { grid-column: 1; grid-row: auto; }
   .log > li > .log__when { display: flex; gap: var(--space-4); align-items: baseline; }
 
-  .tags--all { padding-inline-start: 0; }
-  .method > ol > li { padding-inline-start: var(--space-8); }
-  .method > ol > li::before { inset-inline-start: 0; }
-
-  .cv-head .name { grid-column: 1; }
-  .cv-section { margin-inline-start: 0; }
-  .cv-section > .section__head { grid-template-columns: minmax(0, 1fr); }
-  .cv-section > p { padding-inline-start: 0; }
   .cv-entries > li, .cv-list > li { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-1); }
 }

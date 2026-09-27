@@ -6,43 +6,47 @@
     {{ partial "plate.html" . }}
   </aside>
   <div class="page__wide">
-    {{- /* Notes are shown in full; a new project, recipe or album is shown as a line that leads to it. */}}
-    {{- $paginator := .Paginate $stream 20 }}
-    {{- with $paginator.Pages }}
-    <ol class="log">
-      {{- range . }}
-      <li data-kind="{{ .Section }}" id="{{ .File.ContentBaseName }}">
-        <p class="log__when">
-          {{ partial "date.html" (dict "page" . "format" "short" "class" "key") }}
-          <span class="kind">{{ partial "kind.html" . }}</span>
-        </p>
-        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
-        {{- if eq .Section "updates" }}
-        <div class="prose">
-          {{ .Content }}
-        </div>
-        {{- else }}
-          {{- with .Params.summary }}
-        <p class="log__summary">{{ . }}</p>
+    <section class="band">
+      <div class="band__body">
+        {{- /* Notes are shown in full; a new project, recipe or album is shown as a line that leads to it. */}}
+        {{- $paginator := .Paginate $stream 20 }}
+        {{- with $paginator.Pages }}
+        <ol class="log">
+          {{- range . }}
+          <li data-kind="{{ .Section }}" id="{{ .File.ContentBaseName }}">
+            <p class="log__when">
+              {{ partial "date.html" (dict "page" . "format" "short" "class" "key") }}
+              <span class="kind">{{ partial "kind.html" . }}</span>
+            </p>
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
+            {{- if eq .Section "updates" }}
+            <div class="prose">
+              {{ .Content }}
+            </div>
+            {{- else }}
+              {{- with .Params.summary }}
+            <p class="log__summary">{{ . }}</p>
+              {{- end }}
+            {{- end }}
+            {{ partial "tags.html" . }}
+          </li>
           {{- end }}
+        </ol>
+        {{- else }}
+        <p class="empty">Nothing here yet.</p>
         {{- end }}
-        {{ partial "tags.html" . }}
-      </li>
-      {{- end }}
-    </ol>
-    {{- else }}
-    <p class="empty">Nothing here yet.</p>
-    {{- end }}
-    {{- if gt $paginator.TotalPages 1 }}
-    <nav class="pager" aria-label="Pages">
-      {{- with $paginator.Prev }}
-      <a class="pager-link pager-link--newer" href="{{ .URL }}" rel="prev"><span>← Newer</span></a>
-      {{- end }}
-      {{- with $paginator.Next }}
-      <a class="pager-link pager-link--older" href="{{ .URL }}" rel="next"><span>Older →</span></a>
-      {{- end }}
-    </nav>
-    {{- end }}
+        {{- if gt $paginator.TotalPages 1 }}
+        <nav class="pager" aria-label="Pages">
+          {{- with $paginator.Prev }}
+          <a class="pager-link pager-link--newer" href="{{ .URL }}" rel="prev"><span>← Newer</span></a>
+          {{- end }}
+          {{- with $paginator.Next }}
+          <a class="pager-link pager-link--older" href="{{ .URL }}" rel="next"><span>Older →</span></a>
+          {{- end }}
+        </nav>
+        {{- end }}
+      </div>
+    </section>
   </div>
 </div>
 {{ end }}

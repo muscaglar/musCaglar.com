@@ -199,35 +199,75 @@
 }
 
 
-/* Sections -------------------------------------------------------------------- */
-.section {
-  padding-block: var(--space-6) var(--space-12);
+/* Bands: the sections of a page ---------------------------------------------------
+   A rule with a small red mark opens each one. Its number and title stand in the first of the
+   four columns, what it holds in the other three. */
+.band {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-4);
+  align-items: start;
+  padding-block: var(--band-pad);
   border-block-start: var(--rule) solid var(--color-rule-strong);
-  scroll-margin-block-start: calc(var(--grid) * 3);
+  scroll-margin-block-start: var(--header-height);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(var(--rule) * -1);
+    inset-inline-start: 0;
+    inline-size: var(--mark-width);
+    block-size: var(--mark-height);
+    background: var(--color-accent);
+  }
 }
 
-.section__head {
+.band__head {
+  grid-column: 1;
   display: grid;
-  grid-template-columns: var(--gutter) minmax(0, 1fr) auto;
-  align-items: baseline;
-  margin-block-end: var(--space-4);
+  gap: var(--space-4);
+  min-inline-size: 0;
 }
 
-.pair {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--space-4);
+.band__body {
+  grid-column: 2 / -1;
+  min-inline-size: 0;
+  --key: calc(var(--grid) * 3);   /* inside a band the keys of a list need less room */
+
+  & > .more { display: inline-block; margin-block-start: var(--space-4); }
+  & > .prose { margin-block-end: var(--space-6); }
+}
+
+/* A band whose content needs the whole width: the title stands above it. */
+.band--wide > .band__head,
+.band--wide > .band__body { grid-column: 1 / -1; }
+
+.band__no {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+}
+
+.band__title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 600;
+  letter-spacing: var(--display-tracking);
+  line-height: 0.95;
+  text-box: trim-both cap alphabetic;
 }
 
 
 /* Rows: a mono key in the gutter, then the entry ------------------------------ */
 .rows > li {
   display: grid;
-  grid-template-columns: var(--gutter) minmax(0, 1fr) auto;
+  grid-template-columns: var(--key, var(--gutter)) minmax(0, 1fr) auto;
   align-items: baseline;
   padding-block: var(--space-3);
-  border-block-start: var(--rule) solid var(--color-rule);
+  border-block-end: var(--rule) solid var(--color-rule);
 }
+.rows > li:first-child { padding-block-start: 0; }
 
 .rows > li > * { min-inline-size: 0; }
 
@@ -247,20 +287,17 @@
 
 .entry__text { max-inline-size: 44rem; color: var(--color-ink-2); }
 
-/* A list that opens a section stands straight on the section's rule. */
-.section:has(> .rows:first-child) { padding-block-start: 0; }
-.section > .rows:first-child > li:first-child { border-block-start: 0; }
 
-.rows--log > li { grid-template-columns: var(--gutter) calc(var(--grid) * 4) minmax(0, 1fr); }
+.rows--log > li { grid-template-columns: calc(var(--grid) * 5) calc(var(--grid) * 4) minmax(0, 1fr); }
 
 
 /* What I do: three short columns ---------------------------------------------- */
 .skills {
   display: grid;
-  grid-template-columns: var(--gutter) repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--space-4);
 
-  & > div { padding-inline-end: var(--space-8); }
-  & > div:first-child { grid-column: 2; }
+  & > div { padding-inline-end: var(--space-4); }
   & dt { font-weight: 600; }
   & dd { color: var(--color-ink-2); }
 }
@@ -446,7 +483,8 @@ a.external::after {
 
 /* Narrower sheets ------------------------------------------------------------ */
 @container sheet (inline-size < 62rem) {
-  .pair { grid-template-columns: minmax(0, 1fr); }
+  .band { grid-template-columns: minmax(0, 1fr); }
+  .band__head, .band__body { grid-column: 1; }
 }
 
 @container sheet (inline-size < 40rem) {
@@ -466,26 +504,19 @@ a.external::after {
     & > li { flex: 0 0 min(78%, 20rem); scroll-snap-align: start; }
   }
 
-  .section__head {
-    grid-template-columns: minmax(0, 1fr) auto;
-    row-gap: var(--space-1);
-
-    & .label { grid-column: 1 / -1; }
-  }
-
   .rows > li { grid-template-columns: calc(var(--grid) * 3) minmax(0, 1fr); }
   .rows > li > * { min-inline-size: 0; }
 
 .rows > li > .meta { grid-column: 2; text-align: start; padding-inline-start: 0; }
 
-  .rows--log > li { grid-template-columns: var(--gutter) minmax(0, 1fr); }
+  .rows--log > li { grid-template-columns: calc(var(--grid) * 5) minmax(0, 1fr); }
   .rows--log > li > .entry__title { grid-column: 1 / -1; }
 
   .skills {
     grid-template-columns: minmax(0, 1fr);
     row-gap: var(--space-3);
 
-    & > div, & > div:first-child { grid-column: 1; padding-inline-end: 0; }
+    & > div { padding-inline-end: 0; }
   }
 }
 

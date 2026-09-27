@@ -7,7 +7,9 @@
   </aside>
   <div class="page__wide">
     {{- with .Content }}
-    <div class="prose">{{ . }}</div>
+    <section class="band">
+      <div class="band__body prose">{{ . }}</div>
+    </section>
     {{- end }}
     {{- /* Projects are grouped by kind, in this order; any other kind follows, in alphabetical order. */}}
     {{- $order := slice "software" "hardware" "research" "tinkering" }}
@@ -20,15 +22,11 @@
     {{- range $i, $kind := $kinds }}
       {{- $list := slice }}
       {{- range $pages }}{{ if eq (.Params.kind | default "other" | lower) $kind }}{{ $list = $list | append . }}{{ end }}{{ end }}
-    <section class="section" id="{{ $kind | anchorize }}">
+    <section class="band" id="{{ $kind | anchorize }}">
       {{- if gt (len $kinds) 1 }}
-      <header class="section__head">
-        <span class="label">§{{ add $i 1 }}</span>
-        <h2>{{ $kind | humanize }}</h2>
-        <span class="count">{{ len $list }}</span>
-      </header>
+      {{ partial "band-head.html" (dict "no" (add $i 1) "title" ($kind | humanize) "count" (partial "count.html" (dict "n" (len $list) "one" "project" "many" "projects"))) }}
       {{- end }}
-      <ol class="atlas">
+      <ol class="band__body atlas">
         {{- range $list }}
         {{ partial "entry-plate.html" . }}
         {{- end }}

@@ -11,7 +11,10 @@
     --color-rule: #bbb;
     --color-rule-strong: #000;
     --color-accent: #b71c1c;
-    --gutter: 34mm;
+    --band-pad: 6mm;
+    --text-title: 15pt;
+    --text-h1: 22pt;
+    --name-size: 22pt;
   }
 
   html { font-size: 9.5pt; }
@@ -19,16 +22,16 @@
 
   .site-header, .site-footer, .page__aside, .page__foot, .pager, .cv-actions, .heading-anchor { display: none !important; }
 
+  /* On paper the four columns become two: a narrow one for titles and dates, a wide one for the rest. */
   .sheet { inline-size: auto; margin: 0; container-type: normal; }
   .page { display: block; padding: 0; }
-  .page__body { padding-inline-start: var(--gutter); }
-  .head { grid-template-columns: var(--gutter) minmax(0, 1fr); padding-block-end: 6mm; }
-  .head > * { grid-column: 2; }
-  .head > .head__label { grid-column: 1; }
-
-  .cv-section { padding-block: 3mm 5mm; margin-inline-start: calc(-1 * var(--gutter)); }
-  .cv-section > .section__head { break-after: avoid; }
-  .cv-entries > li, .cv-list > li { grid-template-columns: var(--gutter) minmax(0, 1fr); padding-block: 2mm; break-inside: avoid; }
+  .head, .band { grid-template-columns: 34mm minmax(0, 1fr); column-gap: 6mm; }
+  .head > *, .band__body, .cv-head .name { grid-column: 2; }
+  .head > .head__label, .band__head { grid-column: 1; }
+  .head { padding-block-end: 6mm; }
+  .band { row-gap: 2mm; }
+  .band__head { gap: 1mm; break-after: avoid; }
+  .cv-entries > li, .cv-list > li { grid-template-columns: 26mm minmax(0, 1fr); padding-block: 2mm; break-inside: avoid; }
 
   a { text-decoration: none; }
   a.external::after { content: none; }

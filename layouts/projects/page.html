@@ -3,20 +3,10 @@
   {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
   <aside class="page__aside">
     {{ partial "plate.html" . }}
-    <dl class="facts">
-      <div><dt>When</dt><dd>{{ partial "date.html" (dict "page" . "format" "month") }}</dd></div>
-      {{- with .Params.kind }}
-      <div><dt>Kind</dt><dd>{{ . | humanize }}</dd></div>
-      {{- end }}
-      {{- with .Params.status }}
-      <div><dt>Status</dt><dd>{{ . | humanize }}</dd></div>
-      {{- end }}
-      {{- partial "facts-links.html" . }}
-      {{- if .GetTerms "tags" }}
-      <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
-      {{- end }}
-    </dl>
   </aside>
+  <div class="page__facts">
+    {{ partial "facts.html" (dict "page" .) }}
+  </div>
   <div class="page__body">
     <div class="prose">
       {{ .Content }}

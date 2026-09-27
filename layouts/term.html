@@ -1,25 +1,25 @@
 {{ define "main" }}
 <div class="page page--list">
-  {{ partial "page-head.html" (dict "page" . "label" (printf "<a href=%q>Tag</a>" .Parent.RelPermalink | safeHTML)) }}
+  {{ partial "page-head.html" (dict "page" . "label" (printf "<a href=%q>← Tags</a>" .Parent.RelPermalink | safeHTML)) }}
   <div class="page__wide">
     {{- range $i, $group := .Pages.GroupBy "Section" }}
-    <section class="section">
-      <header class="section__head">
-        <span class="label">§{{ add $i 1 }}</span>
-        <h2>{{ with site.GetPage (printf "/%s" .Key) }}{{ .Title }}{{ else }}{{ .Key | humanize }}{{ end }}</h2>
-        <span class="count">{{ len .Pages }}</span>
-      </header>
-      <ol class="rows{{ if not (in (slice "projects" "recipes") .Key) }} rows--log{{ end }}">
-        {{- range .Pages.ByDate.Reverse }}
-          {{- if eq .Section "projects" }}
-        {{ partial "project-row.html" . }}
-          {{- else if eq .Section "recipes" }}
-        {{ partial "recipe-row.html" . }}
-          {{- else }}
-        {{ partial "update-row.html" . }}
+    <section class="band">
+      {{- $title := .Key | humanize }}
+      {{- with site.GetPage (printf "/%s" .Key) }}{{ $title = .Title }}{{ end }}
+      {{ partial "band-head.html" (dict "no" (add $i 1) "title" $title "count" (len .Pages)) }}
+      <div class="band__body">
+        <ol class="rows{{ if not (in (slice "projects" "recipes") .Key) }} rows--log{{ end }}">
+          {{- range .Pages.ByDate.Reverse }}
+            {{- if eq .Section "projects" }}
+          {{ partial "project-row.html" . }}
+            {{- else if eq .Section "recipes" }}
+          {{ partial "recipe-row.html" . }}
+            {{- else }}
+          {{ partial "update-row.html" . }}
+            {{- end }}
           {{- end }}
-        {{- end }}
-      </ol>
+        </ol>
+      </div>
     </section>
     {{- end }}
   </div>

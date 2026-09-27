@@ -1,0 +1,32 @@
+{{- /*
+  The facts of a page, for the first column: when, kind, status, links, tags.
+  Pass (dict "page" . "when" "month|long" "whenLabel" "When"). Rows without a value are left out.
+*/ -}}
+{{- $page := .page -}}
+<dl class="facts">
+  {{- with $page.Params.time }}
+  <div><dt>Time</dt><dd>{{ . }}</dd></div>
+  {{- end }}
+  {{- with $page.Params.makes }}
+  <div><dt>Makes</dt><dd>{{ . | replaceRE `^(?i)(makes|serves)\s+` "" }}</dd></div>
+  {{- end }}
+  {{- if not $page.Date.IsZero }}
+  <div><dt>{{ .whenLabel | default "When" }}</dt><dd>{{ partial "date.html" (dict "page" $page "format" (.when | default "month")) }}</dd></div>
+  {{- end }}
+  {{- with $page.Params.location }}
+  <div><dt>Where</dt><dd>{{ . }}</dd></div>
+  {{- end }}
+  {{- with .photos }}
+  <div><dt>Photos</dt><dd>{{ . }}</dd></div>
+  {{- end }}
+  {{- with $page.Params.kind }}
+  <div><dt>Kind</dt><dd>{{ . | humanize }}</dd></div>
+  {{- end }}
+  {{- with $page.Params.status }}
+  <div><dt>Status</dt><dd>{{ . | humanize }}</dd></div>
+  {{- end }}
+  {{- partial "facts-links.html" $page }}
+  {{- if $page.GetTerms "tags" }}
+  <div><dt>Tags</dt><dd>{{ partial "tags.html" $page }}</dd></div>
+  {{- end }}
+</dl>

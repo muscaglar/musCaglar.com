@@ -19,8 +19,6 @@
 {{ partial "icons.html" . }}
 {{- partial "fonts.html" . }}
 {{ partial "css.html" . }}
-{{- /* The theme switch needs JavaScript; without it the three words would do nothing. */}}
-<noscript><style>.theme{display:none}</style></noscript>
 {{- if .IsHome }}
 {{ partial "person-schema.html" . }}
 {{- end }}

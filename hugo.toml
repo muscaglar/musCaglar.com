@@ -45,6 +45,7 @@ titleCaseStyle = "none"
     url = "https://www.linkedin.com/in/musc/"
   [[params.links]]
     name = "Google Scholar"
+    short = "Scholar"          # the word used in the header, where room is short
     url = "https://scholar.google.com/citations?user=MPi8qAYAAAAJ"
 
 # The navigation bar. A section with nothing published in it is left out automatically.

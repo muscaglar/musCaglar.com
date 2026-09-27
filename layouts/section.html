@@ -6,20 +6,22 @@
     {{ partial "plate.html" . }}
   </aside>
   <div class="page__wide">
-    {{- with .Content }}
-    <div class="prose">{{ . }}</div>
-    {{- end }}
-    {{- with $pages }}
-    <section class="section">
-      <ol class="rows rows--log">
-        {{- range . }}
-        {{ partial "update-row.html" . }}
+    <section class="band">
+      <div class="band__body">
+        {{- with .Content }}
+        <div class="prose">{{ . }}</div>
         {{- end }}
-      </ol>
+        {{- with $pages }}
+        <ol class="rows rows--log">
+          {{- range . }}
+          {{ partial "update-row.html" . }}
+          {{- end }}
+        </ol>
+        {{- else }}
+        <p class="empty">Nothing here yet.</p>
+        {{- end }}
+      </div>
     </section>
-    {{- else }}
-    <p class="empty">Nothing here yet.</p>
-    {{- end }}
   </div>
 </div>
 {{ end }}

@@ -1,4 +1,8 @@
-// The theme switch: Auto follows the system; Light and Dark are remembered on this device.
+// The theme switch: one word that goes from Auto (follow the system) to Light to Dark and round again.
+// The choice is remembered on this device.
+const ORDER = ["auto", "light", "dark"];
+const LABEL = { auto: "Auto", light: "Light", dark: "Dark" };
+
 function read() {
   try {
     const saved = localStorage.getItem("theme");
@@ -21,15 +25,20 @@ function apply(choice) {
 }
 
 export function themeSwitch() {
-  const buttons = [...document.querySelectorAll("[data-theme-set]")];
-  const show = (choice) => {
-    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.themeSet === choice));
+  const buttons = [...document.querySelectorAll("[data-theme-toggle]")];
+  let choice = read();
+  const show = () => {
+    for (const button of buttons) {
+      (button.querySelector("[data-theme-label]") ?? button).textContent = LABEL[choice];
+      button.hidden = false;
+    }
   };
   for (const button of buttons) {
     button.addEventListener("click", () => {
-      apply(button.dataset.themeSet);
-      show(button.dataset.themeSet);
+      choice = ORDER[(ORDER.indexOf(choice) + 1) % ORDER.length];
+      apply(choice);
+      show();
     });
   }
-  show(read());
+  show();
 }

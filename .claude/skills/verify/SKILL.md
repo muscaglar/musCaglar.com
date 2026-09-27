@@ -29,7 +29,7 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 
 | Flow | Where | Expect |
 |---|---|---|
-| Theme switch | the words Auto, Light, Dark in the header, any page | the chosen word is underlined and the page follows; the choice survives moving to another page; Auto forgets it |
+| Theme switch | "Theme: Auto" in the header and in the footer, any page | each click moves on: Auto, Light, Dark; both switches show the same word; the choice survives moving to another page; Auto forgets it |
 | Photo viewer | `/photos/sample-album/` | click opens a full-screen viewer; ← → move and wrap around; Esc closes |
 | Figures | `/projects/great-crested-newts/` | 5 figures with captions, 1 table, no broken pictures |
 | Feed | `/index.xml` | parses as XML; every `src` and `href` in it is a full address |
@@ -39,7 +39,8 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | CV | `/cv/` | sections come from `data/cv.yaml`; entries marked `hide: true` are absent; print view has no header or footer |
 | Old addresses | `curl -I /me`, `/posts_tem_recon`, `/posts_anything` | 301 to the new page; unknown `/posts_*` get a 302 |
 | Not found | any unknown address | status 404 with the site's own page |
-| Without JavaScript | album page | text readable, theme switch absent, a photo link opens the picture itself |
+| Without JavaScript | album page | text readable, theme switches absent, a photo link opens the picture itself |
+| Sections | `/`, `/projects/`, `/cv/` | a rule with a red mark opens each; number and title in the first column, content in the other three; one column below 62rem |
 | Drawings | `/`, `/projects/`, a project with `figure:` | inline SVG in the page, coloured by the theme; one red element; "Fig. n" counts up through a page |
 | Proof sheet | `/figures/` (drafts only) | every drawing at three sizes, on light and on dark paper |
 | Phone | `/` at 390 wide | the drawings are one row that swipes sideways; the page itself never scrolls sideways |

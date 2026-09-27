@@ -1,6 +1,6 @@
 <footer class="sheet">
   <div class="site-footer">
-    <span class="label">Elsewhere</span>
+    <h2 class="site-footer__title">Elsewhere</h2>
     <ul class="elsewhere">
       {{- range site.Params.links }}
       <li><a href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
@@ -12,6 +12,9 @@
       <li><a href="{{ .RelPermalink }}">RSS</a></li>
       {{- end }}
     </ul>
-    <span class="label">{{ site.Title }} · {{ now.Year }}</span>
+    <p class="site-footer__note">
+      <span>© {{ now.Year }} {{ site.Title }}</span>
+      {{ partial "theme-switch.html" . }}
+    </p>
   </div>
 </footer>

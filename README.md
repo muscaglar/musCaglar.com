@@ -63,7 +63,7 @@ assets/js/          Small scripts: theme switch, photo viewer
 static/             Files published exactly as they are (_headers sets Cloudflare's headers)
 archetypes/         The starting text of new files made with `hugo new content`
 scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally,
-                    signature/make.py redraws the name
+                    signature/ redraws the name and cuts the typeface of the titles
 wrangler.jsonc      How Cloudflare serves the site
 .github/workflows/  What GitHub does on every push: build, check, publish
 ```
@@ -269,22 +269,47 @@ Pictures inside a page are numbered after the drawing: figure 2, figure 3 and so
 | A colour, a type size, the spacing | `assets/css/tokens.css`. Every colour is given twice, for light and for dark. |
 | The red | `--color-accent` in `assets/css/tokens.css` |
 | The size of the name | `--name-size` in `assets/css/tokens.css` |
-| The typefaces | The files in `assets/fonts/`, their list in `layouts/_partials/fonts.html`, and `--font-sans` and `--font-mono` in `tokens.css` |
+| The typefaces | The files in `assets/fonts/`, their list in `layouts/_partials/fonts.html`, and `--font-sans`, `--font-mono` and `--font-display` in `tokens.css` |
+| The rule and the red mark that open a section | `--rule-strong`, `--mark-width` and `--mark-height` in `assets/css/tokens.css` |
+| The words in the header, such as "Scholar" for Google Scholar | `short` beside the link in `hugo.toml` |
 | The icon in the browser tab | `assets/images/icon.svg`, and `icon.png` (512 pixels square, for phones) |
 | The picture in link previews | `assets/images/social.png`, for pages without a cover of their own |
 
-The typefaces are IBM Plex Sans and IBM Plex Mono. Their licences are beside them in `assets/fonts/`.
+The text is set in IBM Plex Sans and IBM Plex Mono, the titles in Special Gothic, condensed and
+semi-bold. Their licences are beside them in `assets/fonts/`.
 
-The name is not set in a typeface that visitors download. It is a drawing,
-`assets/images/signature.svg`, made once from the typeface Special Gothic. To redraw it, for
-another wording or weight:
+Only a small part of Special Gothic is served: one weight, one width, and the letters of the
+European languages that are written in Latin script. A title with a letter from outside that set
+shows that letter in another typeface. To cut the file again, with other letters or another weight, change
+`scripts/signature/display-font.sh` and run it:
 
 ```sh
-brew install harfbuzz
+brew install harfbuzz woff2
+scripts/signature/display-font.sh path/to/SpecialGothic.ttf
+```
+
+The name is a drawing, `assets/images/signature.svg`, made from the same typeface, so that the
+marks on its letters can be red. To redraw it, for another wording or weight:
+
+```sh
 python3 scripts/signature/make.py path/to/SpecialGothic.ttf "Mustafa Çağlar"
 ```
 
 The typeface is free to download from <https://fonts.google.com/specimen/Special+Gothic>.
+
+### How a page is laid out
+
+Every page stands on four columns.
+
+| Page | First column | Second and third | Fourth |
+|---|---|---|---|
+| Home | The name, then the title of each section | The introduction, then what each section holds (it runs on into the fourth) | |
+| A project, a note | What it is filed under, and its facts | The title and the text | Its drawing |
+| A recipe | The ingredients | The title and the method | Its drawing and its facts |
+| A list, the CV | The title of each section | What the section holds (it runs on into the fourth) | The drawing of the section, beside the heading |
+
+Each section opens with a rule and a small red mark. On a narrow screen the columns follow one
+another down the page.
 
 ## Publishing
 
