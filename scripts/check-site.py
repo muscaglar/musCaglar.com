@@ -4,6 +4,8 @@
 It fails when
   - a page links to a page, picture, stylesheet or script on this site that does not exist;
   - a redirect (an old address kept alive through `aliases`) leads to a page that does not exist;
+  - the feed contains an address that a feed reader could not follow;
+  - a stylesheet or script still carries the notes of a development build;
   - a link points to a part of a page (#anchor) that does not exist;
   - an original photograph or a file carrying camera or location data has been published;
   - a page is missing its title or description.
@@ -156,6 +158,23 @@ def main() -> int:
         target, _ = target_file(root, file, match.group(1))
         if target is not None and not target.exists():
             problems.append(f"/{file.relative_to(root)}: redirects to a page that does not exist ({match.group(1)})")
+
+    # Feeds are read away from the site, so every address in them must be a full one.
+    for feed in sorted(root.rglob("*.xml")):
+        text = feed.read_text(encoding="utf-8", errors="replace")
+        if "<rss" not in text[:600]:
+            continue
+        shown = "/" + str(feed.relative_to(root))
+        for match in re.finditer(r"""(?:src|href|srcset)=(?:&quot;|&#34;|["'])([^"'&\s>]+)""", text):
+            address = match.group(1)
+            if not re.match(r"^(https?:|mailto:|tel:|#)", address):
+                problems.append(f"{shown}: {address} is not a full address")
+
+    # A development build leaves notes with folder names from the machine that made it.
+    for file in sorted(list(root.rglob("*.css")) + list(root.rglob("*.js"))):
+        text = file.read_text(encoding="utf-8", errors="replace")
+        if "ns-hugo-imp:" in text or "sourceMappingURL" in text:
+            problems.append(f"/{file.relative_to(root)}: made by a development build; build with scripts/build.sh")
 
     # Photographs: only resized copies may be published, and they must carry no camera or location data.
     markers = (b"Exif\x00\x00", b"GPSLatitude", b"http://ns.adobe.com/xap/1.0/")

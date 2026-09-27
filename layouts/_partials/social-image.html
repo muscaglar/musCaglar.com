@@ -5,7 +5,7 @@
 {{- $out := false -}}
 {{- with $source -}}
   {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg") (ne .MediaType.SubType "gif") -}}
-    {{- $out = .Fill "1200x630 jpeg q82 center" -}}
+    {{- $out = (partial "image-base.html" .).Fill "1200x630 jpeg q82 center" -}}
   {{- end -}}
 {{- end -}}
 {{- return $out -}}

@@ -1,0 +1,20 @@
+{{- /*
+  Returns a working copy of a picture: turned the right way up (cameras often store a portrait
+  picture on its side with a note saying so) and no larger than 2400 px on its longer side.
+  Every published size is cut from this copy instead of from the original. With camera-sized
+  originals that makes a build several times quicker. The working copy itself is never published.
+  Animated GIFs and SVGs are returned untouched.
+*/ -}}
+{{- $img := . -}}
+{{- $out := $img -}}
+{{- if eq $img.ResourceType "image" -}}
+  {{- $sub := $img.MediaType.SubType -}}
+  {{- if in (slice "jpeg" "tiff" "webp" "avif" "bmp") $sub -}}
+    {{- $out = $img.Filter (slice images.AutoOrient (images.Process "fit 2400x2400 jpeg q92")) -}}
+  {{- else if eq $sub "png" -}}
+    {{- if or (gt $img.Width 2400) (gt $img.Height 2400) -}}
+      {{- $out = $img.Process "fit 2400x2400 png" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $out -}}

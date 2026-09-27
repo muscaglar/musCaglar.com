@@ -1,0 +1,9 @@
+{{- /* The feed gets the same pictures one after another, with full addresses. */ -}}
+{{- $page := .Page -}}
+{{- range findRESubmatch `!\[([^\]]*)\]\(\s*([^\s)]+)(?:\s+"([^"]*)")?\s*\)` .Inner }}
+  {{- $img := partial "find-picture.html" (dict "page" $page "path" (index . 2)) }}
+  {{- if $img }}
+    {{- $large := partial "full-size.html" (dict "img" $img "absolute" true) }}
+<figure><img src="{{ $large.url }}"{{ if $large.width }} width="{{ $large.width }}" height="{{ $large.height }}"{{ end }} alt="{{ index . 1 }}">{{ with index . 3 }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>
+  {{- end }}
+{{- end }}

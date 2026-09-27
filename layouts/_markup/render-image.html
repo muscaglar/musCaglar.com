@@ -2,9 +2,8 @@
 {{- $url := urls.Parse .Destination -}}
 {{- $img := false -}}
 {{- if not $url.IsAbs -}}
-  {{- $path := strings.TrimPrefix "./" $url.Path -}}
-  {{- with .PageInner.Resources.Get $path }}{{ $img = . }}{{ else }}{{ with resources.Get $path }}{{ $img = . }}{{ end }}{{ end -}}
-  {{- if not $img }}{{ warnf "Picture %q was not found (used in %s)" .Destination .Page.File.Path }}{{ end -}}
+  {{- $img = partial "find-picture.html" (dict "page" .PageInner "path" $url.Path) -}}
+  {{- if not $img }}{{ warnf "Picture %q was not found (used in %s)" .Destination .Page.Path }}{{ end -}}
 {{- end -}}
 {{- if and $img .IsBlock -}}
   {{- partial "figure.html" (dict "img" $img "alt" .PlainText "caption" .Title) -}}

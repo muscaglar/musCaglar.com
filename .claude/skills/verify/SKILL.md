@@ -20,9 +20,10 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 - `scripts/preview-built.py` applies `_headers` (including the content security policy) and
   `_redirects`, and serves the not-found page. `hugo server -D` is quicker for looks, but applies
   none of those.
-- Cloudflare's own emulator (`wrangler dev`) would run `build.sh`, which downloads a Linux copy of
-  Hugo, so it does not work on a Mac. The stand-in above is the local substitute; Cloudflare's real
-  behaviour can only be confirmed on a preview deployment.
+- `scripts/preview-built.py` is a stand-in for Cloudflare, not Cloudflare. Its real behaviour can
+  only be confirmed on a preview, which the workflow publishes for every pull request.
+- `scripts/build.sh` is what GitHub runs. It needs the pinned Hugo version and stops on warnings
+  and deprecation notices.
 
 ## Flows worth driving
 
@@ -31,10 +32,11 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | Theme switch | button in the header, any page | Auto → Light → Dark → Auto; the choice survives moving to another page |
 | Photo viewer | `/photos/sample-album/` | click opens a full-screen viewer; ← → move and wrap around; Esc closes |
 | Figures | `/projects/great-crested-newts/` | 5 figures with captions, 1 table, no broken pictures |
+| Feed | `/index.xml` | parses as XML; every `src` and `href` in it is a full address |
+| Sideways photo | an album with a picture whose Exif orientation is 6 | published upright (taller than wide) |
 | CV | `/cv/` | sections come from `data/cv.yaml`; entries marked `hide: true` are absent; print view has no header or footer |
 | Old addresses | `curl -I /me`, `/posts_tem_recon`, `/posts_anything` | 301 to the new page; unknown `/posts_*` get a 302 |
 | Not found | any unknown address | status 404 with the site's own page |
-| Feed | `/index.xml` | parses as XML |
 | Without JavaScript | album page | text readable, theme button absent, a photo link opens the picture itself |
 
 Watch the browser console while driving: a blocked script or style shows up there as a content

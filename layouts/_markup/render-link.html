@@ -1,4 +1,3 @@
-{{- $url := urls.Parse .Destination -}}
-{{- $external := and $url.IsAbs (ne $url.Host (urls.Parse site.BaseURL).Host) (in (slice "http" "https") $url.Scheme) -}}
-<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $external }} class="external" rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- $target := partial "link-target.html" (dict "hook" .) -}}
+<a href="{{ $target.href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $target.external }} class="external" rel="noopener"{{ end }}>{{ .Text }}</a>
 {{- /* chomp trailing newline */ -}}

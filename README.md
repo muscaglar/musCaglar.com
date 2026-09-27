@@ -2,9 +2,9 @@
 
 My personal website: projects, photographs, short updates and a CV.
 
-The site is a folder of plain text files. [Hugo](https://gohugo.io) turns them into web pages, and
-Cloudflare publishes them whenever a change reaches GitHub. There is no database, no JavaScript
-framework and nothing to install besides Hugo itself.
+The site is a folder of plain text files. [Hugo](https://gohugo.io) turns them into web pages.
+Whenever a change reaches GitHub, the site is built, checked and published to Cloudflare. There is
+no database, no JavaScript framework and nothing to install besides Hugo itself.
 
 - [Day to day](#day-to-day)
 - [Where things are](#where-things-are)
@@ -28,8 +28,8 @@ framework and nothing to install besides Hugo itself.
 | Change the About page | Edit `content/about.md`. |
 | Change the links in the footer, or the menu | Edit `hugo.toml`. |
 | Keep something unpublished | Leave `draft: true` in its front matter. Delete the line to publish. |
-| Publish | Commit and push to `master`. The live site updates about a minute later. |
-| Try a change before it goes live | Push it to another branch. Cloudflare builds a preview with its own address. |
+| Publish | Commit and push to `master`. The live site updates a minute or two later. |
+| Try a change before it goes live | Push it to another branch and open a pull request. A preview with its own address is posted on the pull request. |
 
 New files made with `hugo new content` start as drafts.
 
@@ -50,10 +50,9 @@ assets/css/         The stylesheets (design tokens are in tokens.css)
 assets/js/          Small scripts: theme switch, photo viewer
 static/             Files published exactly as they are (_headers sets Cloudflare's headers)
 archetypes/         The starting text of new files made with `hugo new content`
-scripts/            The checker that runs on every push
-build.sh            How Cloudflare builds the site
+scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally
 wrangler.jsonc      How Cloudflare serves the site
-.github/workflows/  The checks that run on GitHub
+.github/workflows/  What GitHub does on every push: build, check, publish
 ```
 
 ## Writing
@@ -139,6 +138,10 @@ photos:                        # optional: captions, matched by file name
 Every picture in the folder appears in the album, oldest first. The camera, lens and exposure are
 read from each file and shown under the picture.
 
+**Before adding pictures.** Export them as JPEG in the sRGB colour space. Colour profiles are not
+carried over to the published copies, so a picture in a wider colour space would look dull, and
+HEIC files cannot be processed. Full camera resolution is fine.
+
 **Privacy.** The original files are never published. Visitors get resized copies, which carry no
 camera or location data. The check that runs on every push fails if an original photograph, or any
 file with such data in it, is about to be published.
@@ -148,45 +151,71 @@ draft, so it is never published; delete the folder when it is no longer useful.
 
 ## Publishing
 
-The site is served by Cloudflare. Whenever `master` changes on GitHub, Cloudflare runs `build.sh`
-and publishes the result. Other branches are built as previews with their own address, which
-Cloudflare posts as a comment on the pull request.
+GitHub does the work; Cloudflare serves the result. The steps are in `.github/workflows/site.yml`.
+
+| When | What happens |
+|---|---|
+| A push to `master` | The site is built and checked. If the checks pass, that same build is published to muscaglar.com. |
+| A pull request | The site is built and checked. A preview is published and its address is posted on the pull request. |
+| A pull request is closed | Its preview is removed. |
+
+If a check fails, nothing is published and the live site stays as it was.
 
 ### First-time set-up
 
-1. In the [Cloudflare dashboard](https://dash.cloudflare.com), open **Workers & Pages**, choose
-   **Create application**, then **Import a repository**.
-2. Connect the GitHub account, and allow access to the `musCaglar.com` repository only.
-3. Name the project **`muscaglar`**. It must match `name` in `wrangler.jsonc`.
-4. Leave the build command empty and the deploy command as `npx wrangler deploy`.
-   Under the advanced settings, add the variable `SKIP_DEPENDENCY_INSTALL` with the value `true`.
-5. Press **Deploy**. When the build finishes, the site is live at a `workers.dev` address.
-   Check it there before moving the domain.
-6. To build previews of other branches, open the project's **Settings → Builds** and switch on
-   builds for non-production branches, with `npx wrangler versions upload` as their deploy command.
+GitHub needs to know which Cloudflare account to publish to, and be allowed to.
+
+1. **Account ID.** In the [Cloudflare dashboard](https://dash.cloudflare.com), open
+   **Workers & Pages**. The account ID is shown in the panel on the right.
+2. **Token.** Open **My Profile → API Tokens → Create Token** and use the template
+   **Edit Cloudflare Workers**. Under account resources choose your account; under zone resources
+   choose `muscaglar.com`. Copy the token: it is shown once.
+3. **Give both to GitHub.** In the repository, open **Settings → Secrets and variables → Actions**.
+   - On the **Variables** tab, add `CLOUDFLARE_ACCOUNT_ID` with the account ID.
+   - On the **Secrets** tab, add `CLOUDFLARE_API_TOKEN` with the token.
+
+   Or from a terminal:
+
+   ```sh
+   gh variable set CLOUDFLARE_ACCOUNT_ID --repo muscaglar/musCaglar.com --body "the account ID"
+   gh secret set CLOUDFLARE_API_TOKEN --repo muscaglar/musCaglar.com      # paste the token when asked
+   ```
+
+4. **Publish once.** Push to `master`, or open **Actions → Site → Run workflow**. The first run
+   creates the project `muscaglar` on Cloudflare. The site is then live at a `workers.dev`
+   address, shown in the run's log and in the Cloudflare dashboard. Check it there before moving
+   the domain.
+
+Until the variable and the secret exist, the workflow still builds and checks the site. It just
+does not publish.
 
 ### Moving the domain
 
-Do this once the `workers.dev` address looks right.
+Do this once the `workers.dev` address looks right. The old site goes offline at step 1 and the
+new one appears at step 2, so do them together.
 
-1. In the project, open **Settings → Domains & Routes → Add → Custom domain** and enter
-   `muscaglar.com`. Cloudflare offers to replace the existing DNS record that points at the old
-   host; accept. Repeat for `www.muscaglar.com`.
-2. To send `www` to the bare domain, open the domain's **Rules → Redirect Rules** and create a rule:
-   when the hostname equals `www.muscaglar.com`, redirect to
-   `concat("https://muscaglar.com", http.request.uri.path)` with status 301.
+1. In the Cloudflare dashboard, open the domain `muscaglar.com`, then **DNS → Records**. Note down
+   and then delete the records named `muscaglar.com` and `www`. They point at the old host.
+2. Open **Workers & Pages → muscaglar → Settings → Domains & Routes → Add → Custom domain**. Add
+   `muscaglar.com`, then add `www.muscaglar.com`. Cloudflare creates the new records itself.
+3. Open the domain's **Rules → Redirect Rules** and create one rule that tidies up addresses:
+   - When: hostname equals `www.muscaglar.com`, or the request is not over HTTPS and the hostname
+     equals `muscaglar.com`.
+   - Then: a dynamic redirect to `concat("https://muscaglar.com", http.request.uri.path)`, status
+     301, keeping the query string.
 
 > [!IMPORTANT]
-> Change the records for `muscaglar.com` and `www` only. Other addresses on the domain, such as
-> `home.muscaglar.com`, must be left exactly as they are. For the same reason, avoid settings that
-> apply to the whole domain, and do not add `includeSubDomains` to the `Strict-Transport-Security`
-> header in `static/_headers`.
+> Change the records for `muscaglar.com` and `www` only. Every other address on the domain, such as
+> `home.muscaglar.com`, must be left exactly as it is. For the same reason, avoid settings that
+> apply to the whole domain (such as "Always Use HTTPS"; the redirect rule above does that job for
+> the website alone), and do not add `includeSubDomains` to the `Strict-Transport-Security` header
+> in `static/_headers`.
 
 ### Undoing a release
 
-Open the project in the Cloudflare dashboard, go to **Deployments**, and choose **Rollback** on the
-version to return to. Then fix or revert the change on GitHub, so that the next push does not
-publish it again.
+Open **Workers & Pages → muscaglar → Deployments** in the Cloudflare dashboard and choose
+**Rollback** on the version to return to. Then revert the change on GitHub, so that the next push
+does not publish it again.
 
 ### Headers and redirects
 
@@ -199,10 +228,10 @@ publish it again.
 
 ## Checks
 
-Every push and pull request runs `.github/workflows/build.yml` on GitHub. It builds the site twice,
-as it will be published and again with drafts included, and fails when
+Every push and pull request builds the site twice, as it will be published and again with drafts
+included, and stops when
 
-- Hugo reports an error or a warning;
+- Hugo reports an error or a warning, or says that something used here is deprecated;
 - a link, picture, stylesheet or script on the site is missing;
 - a redirect leads nowhere;
 - an original photograph, or a file with camera or location data, would be published;
@@ -211,7 +240,13 @@ as it will be published and again with drafts included, and fails when
 To run the same checks before pushing:
 
 ```sh
-hugo build --gc --minify --panicOnWarning && python3 scripts/check-site.py
+scripts/build.sh && python3 scripts/check-site.py
+```
+
+To look at the built site with Cloudflare's headers and redirects applied:
+
+```sh
+python3 scripts/preview-built.py          # http://127.0.0.1:8788
 ```
 
 ## Setting up on a new machine
@@ -228,7 +263,8 @@ hugo server -D
 The version that builds the live site is pinned, so that a new release of Hugo cannot change the
 site unannounced. To move to a newer version:
 
-1. `brew upgrade hugo`, then check the site with `hugo server -D` and run the checks above.
-2. Write the new version number and the checksum of `hugo_extended_<version>_linux-amd64.tar.gz`
-   into both `build.sh` and `.github/workflows/build.yml`. The checksums are in the
-   `checksums.txt` file of each [Hugo release](https://github.com/gohugoio/hugo/releases).
+1. `brew upgrade hugo`, then look at the site with `hugo server -D`.
+2. In `scripts/build.sh`, write the new version number and the checksum of
+   `hugo_extended_<version>_linux-amd64.tar.gz`. The checksums are in the `checksums.txt` file of
+   each [Hugo release](https://github.com/gohugoio/hugo/releases).
+3. Run the checks above, then push.

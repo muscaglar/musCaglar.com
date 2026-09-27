@@ -6,7 +6,8 @@
     widths   widths to make, e.g. (slice 480 960 1600)
     class    class for the <img>
     eager    true for a picture at the very top of a page
-    crop     optional "WIDTHxHEIGHT" ratio to crop to, e.g. "3x2"
+    crop     optional shape to crop to, as "WIDTHxHEIGHT", e.g. "3x2"
+    absolute true to write full addresses (for the feed)
   Pictures are resized and converted to the formats listed in params.imageFormats.
   Animated GIFs and SVGs are passed through untouched.
 */ -}}
@@ -15,25 +16,26 @@
 {{- $sizes := .sizes | default "100vw" -}}
 {{- $widths := .widths | default (slice 480 800 1200 1600 2400) -}}
 {{- $class := .class -}}
+{{- $absolute := .absolute | default false -}}
 {{- $loading := cond (eq .eager true) "eager" "lazy" -}}
 {{- $sub := $img.MediaType.SubType -}}
 {{- if or (eq $sub "gif") (eq $sub "svg") (ne $img.ResourceType "image") -}}
-<img{{ with $class }} class="{{ . }}"{{ end }} src="{{ $img.RelPermalink }}"{{ if ne $sub "svg" }} width="{{ $img.Width }}" height="{{ $img.Height }}"{{ end }} alt="{{ $alt }}" loading="{{ $loading }}" decoding="async">
+<img{{ with $class }} class="{{ . }}"{{ end }} src="{{ cond $absolute $img.Permalink $img.RelPermalink }}"{{ if ne $sub "svg" }} width="{{ $img.Width }}" height="{{ $img.Height }}"{{ end }} alt="{{ $alt }}" loading="{{ $loading }}" decoding="async">
 {{- else -}}
   {{- $hint := cond (eq $sub "png") "drawing" "photo" -}}
   {{- $formats := site.Params.imageFormats | default (slice "webp") -}}
-  {{- /* Never enlarge: keep the widths smaller than the original, and add the original width itself. */ -}}
+  {{- $base := partial "image-base.html" $img -}}
+  {{- /* Never enlarge: keep the widths smaller than the picture, and add its own width. */ -}}
   {{- $use := slice -}}
-  {{- range $widths }}{{ if lt . $img.Width }}{{ $use = $use | append . }}{{ end }}{{ end -}}
+  {{- range $widths }}{{ if lt . $base.Width }}{{ $use = $use | append . }}{{ end }}{{ end -}}
   {{- $largest := index $widths (sub (len $widths) 1) -}}
-  {{- if le $img.Width $largest }}{{ $use = $use | append $img.Width }}{{ end -}}
-  {{- $ratio := div (float $img.Height) (float $img.Width) -}}
+  {{- if le $base.Width $largest }}{{ $use = $use | append $base.Width }}{{ end -}}
+  {{- $ratio := div (float $base.Height) (float $base.Width) -}}
   {{- with .crop -}}
     {{- $parts := split . "x" -}}
     {{- $ratio = div (float (index $parts 1)) (float (index $parts 0)) -}}
   {{- end -}}
   {{- $crop := .crop -}}
-  {{- $fallback := false -}}
 <picture>
   {{- range $i, $format := $formats }}
     {{- $set := slice -}}
@@ -41,16 +43,16 @@
     {{- range $use }}
       {{- $out := false -}}
       {{- if $crop }}
-        {{- $out = $img.Fill (printf "%dx%d %s %s" . (int (math.Round (mul (float .) $ratio))) $format $hint) -}}
+        {{- $out = $base.Fill (printf "%dx%d %s %s" . (int (math.Round (mul (float .) $ratio))) $format $hint) -}}
       {{- else }}
-        {{- $out = $img.Resize (printf "%dx %s %s" . $format $hint) -}}
+        {{- $out = $base.Resize (printf "%dx %s %s" . $format $hint) -}}
       {{- end }}
-      {{- $set = $set | append (printf "%s %dw" $out.RelPermalink $out.Width) -}}
+      {{- $set = $set | append (printf "%s %dw" (cond $absolute $out.Permalink $out.RelPermalink) $out.Width) -}}
       {{- $last = $out -}}
     {{- end }}
     {{- if eq (add $i 1) (len $formats) }}
-      {{- /* The last format is the one every browser gets if it understands none of the others. */}}
-  <img{{ with $class }} class="{{ . }}"{{ end }} src="{{ $last.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ $sizes }}" width="{{ $last.Width }}" height="{{ $last.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ if eq $loading "eager" }} fetchpriority="high"{{ end }}>
+      {{- /* The last format in the list is what a browser gets when it understands none of the others. */}}
+  <img{{ with $class }} class="{{ . }}"{{ end }} src="{{ cond $absolute $last.Permalink $last.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ $sizes }}" width="{{ $last.Width }}" height="{{ $last.Height }}" alt="{{ $alt }}" loading="{{ $loading }}" decoding="async"{{ if eq $loading "eager" }} fetchpriority="high"{{ end }}>
     {{- else }}
   <source type="image/{{ $format }}" srcset="{{ delimit $set ", " }}" sizes="{{ $sizes }}">
     {{- end }}

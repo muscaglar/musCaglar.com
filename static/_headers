@@ -22,3 +22,8 @@
   Cache-Control: public, max-age=31556952, immutable
 /*.woff2
   Cache-Control: public, max-age=31556952, immutable
+
+# The site is also reachable at Cloudflare's own addresses (previews, and workers.dev).
+# Search engines should list muscaglar.com only.
+https://:name.:account.workers.dev/*
+  X-Robots-Tag: noindex

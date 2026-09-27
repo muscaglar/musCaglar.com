@@ -1,7 +1,8 @@
-{{- /* A picture with an optional caption. Pass (dict "img" … "alt" … "caption" … "sizes" … "class" …). */ -}}
+{{- /* A picture with an optional caption. Pass (dict "img" … "alt" … "caption" … "sizes" … "class" … "absolute" …). */ -}}
+{{- $absolute := .absolute | default false -}}
 <figure class="figure{{ with .class }} {{ . }}{{ end }}">
-  <a class="figure-link" href="{{ partial "full-size.html" .img }}">
-    {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" (.sizes | default "(min-width: 50rem) 46rem, 100vw") "widths" (slice 480 800 1200 1600)) -}}
+  <a class="figure-link" href="{{ (partial "full-size.html" (dict "img" .img "absolute" $absolute)).url }}">
+    {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" (.sizes | default "(min-width: 50rem) 46rem, 100vw") "widths" (slice 480 800 1200 1600) "absolute" $absolute) -}}
   </a>
   {{- with .caption }}
   <figcaption>{{ . | markdownify }}</figcaption>

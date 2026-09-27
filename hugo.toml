@@ -7,6 +7,8 @@ timeZone = "Europe/London"
 enableRobotsTXT = true
 disablePathToLower = false
 summaryLength = 40
+# How long one page may take to build. Pages full of pictures need a while the first time.
+timeout = "10m"
 # Old addresses (the `aliases` of a page) are published as one list of redirects for Cloudflare
 # (the file _redirects), rather than as a stub page per address.
 disableAliases = true
@@ -66,6 +68,7 @@ titleCaseStyle = "none"
 # name. Files without a date in their name use the `date` in their front matter.
 [frontmatter]
   date = [":filename", "date", "publishDate", ":fileModTime"]
+  publishDate = [":filename", "publishDate", "date"]
   lastmod = ["lastmod", ":filename", "date"]
 
 [mediaTypes."text/redirects"]
@@ -113,7 +116,6 @@ titleCaseStyle = "none"
   bgColor = "#ffffff"
   [imaging.avif]
     quality = 60
-    encoderSpeed = 8
   [imaging.webp]
     quality = 80
     method = 4

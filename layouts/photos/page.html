@@ -17,10 +17,10 @@
   {{- end }}
   <ul class="photos" data-lightbox>
     {{- range $i, $photo := $photos }}
-    {{- $full := partial "full-size.html" .img }}
-    <li class="photo" id="{{ .name | anchorize }}" style="--ratio: {{ div (float .img.Width) (float .img.Height) | printf "%.4f" }}">
+    {{- $full := partial "full-size.html" (dict "img" .img) }}
+    <li class="photo" id="{{ .name | anchorize }}" style="--ratio: {{ div (float $full.width) (float $full.height) | printf "%.4f" }}">
       <figure>
-        <a class="photo-link" href="{{ $full }}" data-lightbox-item data-width="{{ .img.Width }}" data-height="{{ .img.Height }}">
+        <a class="photo-link" href="{{ $full.url }}" data-lightbox-item data-width="{{ $full.width }}" data-height="{{ $full.height }}">
           {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw" "widths" (slice 480 800 1200 1600) "eager" (lt $i 3)) -}}
         </a>
         {{- if or .caption .camera }}

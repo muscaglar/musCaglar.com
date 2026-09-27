@@ -1,0 +1,185 @@
+# Builds the site, checks it, and publishes it.
+#
+#   push to master   build, check, publish to muscaglar.com
+#   pull request     build, check, publish a preview and post its address on the pull request
+#   closed request   remove the preview
+#
+# Publishing needs two settings in the repository (README.md, "Publishing"):
+#   variable CLOUDFLARE_ACCOUNT_ID and secret CLOUDFLARE_API_TOKEN.
+# Without them the site is still built and checked; nothing is published.
+
+name: Site
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  TZ: Europe/London
+  NODE_VERSION: "24"
+  WRANGLER_VERSION: "4.141.0"
+
+jobs:
+  build:
+    name: Build and check
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Reuse pictures processed by earlier builds
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/hugo
+          key: hugo-${{ hashFiles('scripts/build.sh', 'hugo.toml') }}-${{ github.run_id }}
+          restore-keys: |
+            hugo-${{ hashFiles('scripts/build.sh', 'hugo.toml') }}-
+
+      - name: Build the site as it will be published
+        run: bash scripts/build.sh
+
+      - name: Check the published site
+        run: python3 scripts/check-site.py public
+
+      - name: Build and check again with drafts included
+        run: |
+          bash scripts/build.sh --buildDrafts --buildFuture --destination "${RUNNER_TEMP}/with-drafts"
+          python3 scripts/check-site.py "${RUNNER_TEMP}/with-drafts"
+
+      - name: Keep the built site for the next step
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: site
+          path: public
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master' && vars.CLOUDFLARE_ACCOUNT_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: publish
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://muscaglar.com
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Fetch the built site
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site
+          path: public
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Publish to Cloudflare
+        run: npx --yes "wrangler@${WRANGLER_VERSION}" deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+  preview:
+    name: Preview
+    needs: build
+    # Pull requests from other people's copies of the repository get no preview: they must not see the token.
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && vars.CLOUDFLARE_ACCOUNT_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Fetch the built site
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: site
+          path: public
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Publish the preview
+        id: preview
+        run: |
+          set -o pipefail
+          output="$(npx --yes "wrangler@${WRANGLER_VERSION}" preview --name "pr-${PR_NUMBER}" --json)"
+          printf '%s\n' "${output}"
+          address="$(printf '%s' "${output}" | jq -er '.preview.urls[0]')"
+          case "${address}" in http*) ;; *) address="https://${address}" ;; esac
+          echo "address=${address}" >> "${GITHUB_OUTPUT}"
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Post the address on the pull request
+        run: |
+          body="Preview of this change: ${ADDRESS}"
+          gh pr comment "${PR_NUMBER}" --repo "${GITHUB_REPOSITORY}" --edit-last --body "${body}" \
+            || gh pr comment "${PR_NUMBER}" --repo "${GITHUB_REPOSITORY}" --body "${body}"
+        env:
+          ADDRESS: ${{ steps.preview.outputs.address }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+
+  remove-preview:
+    name: Remove the preview
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.action == 'closed'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && vars.CLOUDFLARE_ACCOUNT_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Remove the preview
+        run: npx --yes "wrangler@${WRANGLER_VERSION}" preview delete --name "pr-${PR_NUMBER}" --skip-confirmation
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

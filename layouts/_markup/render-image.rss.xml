@@ -1,0 +1,10 @@
+{{- /* The same picture for the feed: one size, with its full address, because feed readers cannot follow relative ones. */ -}}
+{{- $url := urls.Parse .Destination -}}
+{{- $img := false -}}
+{{- if not $url.IsAbs }}{{ $img = partial "find-picture.html" (dict "page" .PageInner "path" $url.Path) }}{{ end -}}
+{{- if $img -}}
+  {{- $large := partial "full-size.html" (dict "img" $img "absolute" true) -}}
+  <figure><img src="{{ $large.url }}"{{ if $large.width }} width="{{ $large.width }}" height="{{ $large.height }}"{{ end }} alt="{{ .PlainText }}">{{ with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}</figure>
+{{- else -}}
+  <img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}">
+{{- end -}}
