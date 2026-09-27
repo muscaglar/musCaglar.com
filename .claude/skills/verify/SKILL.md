@@ -29,7 +29,7 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 
 | Flow | Where | Expect |
 |---|---|---|
-| Theme switch | button in the header, any page | Auto → Light → Dark → Auto; the choice survives moving to another page |
+| Theme switch | the words Auto, Light, Dark in the header, any page | the chosen word is underlined and the page follows; the choice survives moving to another page; Auto forgets it |
 | Photo viewer | `/photos/sample-album/` | click opens a full-screen viewer; ← → move and wrap around; Esc closes |
 | Figures | `/projects/great-crested-newts/` | 5 figures with captions, 1 table, no broken pictures |
 | Feed | `/index.xml` | parses as XML; every `src` and `href` in it is a full address |
@@ -39,7 +39,10 @@ python3 scripts/preview-built.py /tmp/site-check 8788      # http://127.0.0.1:87
 | CV | `/cv/` | sections come from `data/cv.yaml`; entries marked `hide: true` are absent; print view has no header or footer |
 | Old addresses | `curl -I /me`, `/posts_tem_recon`, `/posts_anything` | 301 to the new page; unknown `/posts_*` get a 302 |
 | Not found | any unknown address | status 404 with the site's own page |
-| Without JavaScript | album page | text readable, theme button absent, a photo link opens the picture itself |
+| Without JavaScript | album page | text readable, theme switch absent, a photo link opens the picture itself |
+| Drawings | `/`, `/projects/`, a project with `figure:` | inline SVG in the page, coloured by the theme; one red element; "Fig. n" counts up through a page |
+| Proof sheet | `/figures/` (drafts only) | every drawing at three sizes, on light and on dark paper |
+| Phone | `/` at 390 wide | the drawings are one row that swipes sideways; the page itself never scrolls sideways |
 
 Watch the browser console while driving: a blocked script or style shows up there as a content
 security policy error.
@@ -47,6 +50,10 @@ security policy error.
 ## Gotchas
 
 - Pictures below the fold load lazily. Scroll the page before judging a full-page screenshot.
+- The layout answers to the width of the sheet (container queries), not of the window: 62rem and
+  40rem are where it changes. Check just above and just below both.
+- A drawing with a script, a link or an embedded picture in it stops the build on purpose
+  (`layouts/_partials/sketch.html`).
 - Asking for the address of an original picture in a template (`.RelPermalink` on the resource
   itself rather than on a resized copy) publishes the original. `scripts/check-site.py` catches it
   under `/photos/`.

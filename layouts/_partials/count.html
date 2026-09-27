@@ -1,0 +1,2 @@
+{{- /* "1 recipe", "3 recipes". Pass (dict "n" 3 "one" "recipe" "many" "recipes"). */ -}}
+{{- return (printf "%d %s" .n (cond (eq .n 1) .one .many)) -}}

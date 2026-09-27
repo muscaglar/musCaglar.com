@@ -1,21 +1,57 @@
 @view-transition { navigation: auto; }
 
-body {
-  background: var(--ground);
-  color: var(--ink);
-  font: 400 1.0625rem/1.6 var(--font);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+html {
+  scroll-padding-block-start: calc(var(--header-height) + var(--grid));
 }
-h1, h2, h3 { line-height: 1.15; text-wrap: balance; font-weight: 600; letter-spacing: -0.015em; }
-h1 { font-size: clamp(1.9rem, 1.4rem + 2vw, 2.75rem); }
-h2 { font-size: 1.25rem; }
-h3 { font-size: 1.0625rem; }
-p, li { text-wrap: pretty; }
-a { text-decoration-color: color-mix(in oklch, currentColor 35%, transparent); text-underline-offset: 0.2em; }
-a:hover { color: var(--accent); text-decoration-color: currentColor; }
-::selection { background: color-mix(in oklch, var(--accent) 25%, transparent); }
-time, .entry-date, .cv-dates { font-variant-numeric: tabular-nums; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svb;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.5;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  background-image: var(--paper-dots);
+  background-size: var(--grid) var(--grid);
+  background-position: calc(var(--grid) / -2) calc(var(--grid) / -2);
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+a {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--color-ink-3);
+
+  &:hover { color: var(--color-accent); text-decoration-color: currentColor; }
+}
+
+/* A word too long for its column breaks, rather than pushing the column wider. */
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; text-wrap: balance; overflow-wrap: anywhere; }
+h1 { font-size: var(--text-h1); line-height: 1.1; letter-spacing: -0.01em; }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+p, li, dd, figcaption { text-wrap: pretty; }
+time, .key, .count { font-variant-numeric: tabular-nums; }
+
+::selection { background: color-mix(in oklch, var(--color-accent) 22%, transparent); }
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }

@@ -1,0 +1,14 @@
+{{- /*
+  The name, drawn as outlines: assets/images/signature.svg, made by scripts/signature/make.py.
+  The drawing is 1000 units to the em. Its height and the depth below the baseline are handed to the
+  stylesheet, which sizes it like a word set at --name-size.
+*/ -}}
+<span class="visually-hidden">{{ site.Title }}</span>
+{{- with resources.Get "images/signature.svg" }}
+  {{- $svg := .Content | replaceRE `\s+xmlns="[^"]*"` "" | replaceRE `role="img" aria-label="[^"]*"` `aria-hidden="true"` }}
+  {{- $box := index (findRESubmatch `viewBox="(-?[\d.]+) (-?[\d.]+) ([\d.]+) ([\d.]+)"` $svg 1) 0 }}
+  {{- $height := div (float (index $box 4)) 1000 }}
+  {{- $depth := div (add (float (index $box 2)) (float (index $box 4))) 1000 }}
+  {{- $svg = replaceRE `^<svg` (printf `<svg style="--h: %.3f; --d: %.3f"` $height $depth) $svg 1 }}
+  {{- $svg | safeHTML }}
+{{- end -}}

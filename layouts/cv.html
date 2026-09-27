@@ -1,10 +1,11 @@
 {{ define "main" }}
 {{- $cv := hugo.Data.cv }}
-<article class="cv">
-  <header class="cv-head">
-    <h1>{{ $cv.name | default site.Title }}</h1>
+<article class="page page--cv">
+  <header class="page__head head cv-head">
+    <p class="label head__label">{{ .Title }}</p>
+    <h1 class="name">{{ partial "signature.html" . }}</h1>
     {{- with $cv.headline }}
-    <p class="cv-headline">{{ . }}</p>
+    <p class="head__lede">{{ . }}</p>
     {{- end }}
     <ul class="cv-contact">
       {{- with $cv.location }}<li>{{ . }}</li>{{ end }}
@@ -12,66 +13,78 @@
       {{- with $cv.website }}<li><a href="{{ . }}">{{ replaceRE `^https?://` "" . | strings.TrimSuffix "/" }}</a></li>{{ end }}
       {{- range $cv.links }}<li><a href="{{ .url }}">{{ .name }}</a></li>{{ end }}
     </ul>
-    <p class="cv-actions"><button type="button" data-print hidden>Print or save as PDF</button></p>
+    <p class="cv-actions"><button class="button" type="button" data-print hidden>Print or save as PDF</button></p>
   </header>
-
-  {{- with $cv.summary }}
-  <section class="cv-section cv-section--summary">
-    <p>{{ . | markdownify }}</p>
-  </section>
-  {{- end }}
-
-  {{- range $cv.sections }}
-    {{- $entries := slice }}
-    {{- range .entries }}{{ if not .hide }}{{ $entries = $entries | append . }}{{ end }}{{ end }}
-    {{- if and (not .hide) (or $entries .text) }}
-  <section class="cv-section cv-section--{{ .kind | default "timeline" }}"{{ with .id }} id="{{ . }}"{{ end }}>
-    <h2>{{ .title }}</h2>
-      {{- if eq .kind "prose" }}
-    <p>{{ .text | markdownify }}</p>
-      {{- else if eq .kind "groups" }}
-    <dl class="cv-groups">
-        {{- range $entries }}
-      <div><dt>{{ .title }}</dt><dd>{{ .text | markdownify }}</dd></div>
-        {{- end }}
-    </dl>
-      {{- else if eq .kind "list" }}
-    <ol class="cv-list">
-        {{- range $entries }}
-      <li>{{ .text | markdownify }}{{ with .url }} <a class="cv-ref" href="{{ . }}">{{ replaceRE `^https?://(www\.)?` "" . }}</a>{{ end }}</li>
-        {{- end }}
-    </ol>
-      {{- else }}
-    <ol class="cv-entries{{ if eq .kind "compact" }} cv-entries--compact{{ end }}">
-        {{- range $entries }}
-      <li class="cv-entry">
-        <p class="cv-dates">{{ .dates }}</p>
-        <div class="cv-body">
-          <h3>{{ .title }}{{ with .note }} <span class="cv-note">{{ . }}</span>{{ end }}</h3>
-          {{- if or .organisation .location }}
-          <p class="cv-org">{{ .organisation }}{{ if and .organisation .location }}, {{ end }}{{ .location }}</p>
-          {{- end }}
-          {{- with .summary }}
-          <p>{{ . | markdownify }}</p>
-          {{- end }}
-          {{- with .points }}
-          <ul>
-            {{- range . }}
-            <li>{{ . | markdownify }}</li>
-            {{- end }}
-          </ul>
-          {{- end }}
-        </div>
-      </li>
-        {{- end }}
-    </ol>
-      {{- end }}
-  </section>
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__body">
+    {{- with $cv.summary }}
+    <section class="cv-section cv-section--summary">
+      <p>{{ . | markdownify }}</p>
+    </section>
     {{- end }}
-  {{- end }}
 
-  {{- with .Content }}
-  <div class="prose">{{ . }}</div>
-  {{- end }}
+    {{- $n := 0 }}
+    {{- range $cv.sections }}
+      {{- $entries := slice }}
+      {{- range .entries }}{{ if not .hide }}{{ $entries = $entries | append . }}{{ end }}{{ end }}
+      {{- if and (not .hide) (or $entries .text) }}
+      {{- $n = add $n 1 }}
+    <section class="cv-section cv-section--{{ .kind | default "timeline" }}"{{ with .id }} id="{{ . }}"{{ end }}>
+      <header class="section__head">
+        <span class="label">§{{ $n }}</span>
+        <h2>{{ .title }}</h2>
+      </header>
+        {{- if eq .kind "prose" }}
+      <p>{{ .text | markdownify }}</p>
+        {{- else if eq .kind "groups" }}
+      <ol class="cv-entries cv-entries--compact">
+          {{- range $entries }}
+        <li>
+          <p class="key">{{ .title }}</p>
+          <div class="cv-body"><p>{{ .text | markdownify }}</p></div>
+        </li>
+          {{- end }}
+      </ol>
+        {{- else if eq .kind "list" }}
+      <ol class="cv-list">
+          {{- range $entries }}
+        <li><p>{{ .text | markdownify }}{{ with .url }} <a class="cv-ref" href="{{ . }}">{{ replaceRE `^https?://(www\.)?` "" . }}</a>{{ end }}</p></li>
+          {{- end }}
+      </ol>
+        {{- else }}
+      <ol class="cv-entries{{ if eq .kind "compact" }} cv-entries--compact{{ end }}">
+          {{- range $entries }}
+        <li>
+          <p class="key">{{ .dates }}</p>
+          <div class="cv-body">
+            <h3>{{ .title }}{{ with .note }} <span class="cv-note">{{ . }}</span>{{ end }}</h3>
+            {{- if or .organisation .location }}
+            <p class="cv-org">{{ .organisation }}{{ if and .organisation .location }}, {{ end }}{{ .location }}</p>
+            {{- end }}
+            {{- with .summary }}
+            <p>{{ . | markdownify }}</p>
+            {{- end }}
+            {{- with .points }}
+            <ul>
+              {{- range . }}
+              <li>{{ . | markdownify }}</li>
+              {{- end }}
+            </ul>
+            {{- end }}
+          </div>
+        </li>
+          {{- end }}
+      </ol>
+        {{- end }}
+    </section>
+      {{- end }}
+    {{- end }}
+
+    {{- with .Content }}
+    <div class="prose">{{ . }}</div>
+    {{- end }}
+  </div>
 </article>
 {{ end }}

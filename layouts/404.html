@@ -1,7 +1,17 @@
 {{ define "main" }}
-<section class="not-found">
-  <p class="eyebrow">404</p>
-  <h1>There is nothing at this address.</h1>
-  <p>The page may have moved when the site was rebuilt. The <a href="{{ site.Home.RelPermalink }}">home page</a> is a good place to start again.</p>
-</section>
+<div class="page lost">
+  <header class="page__head head">
+    <p class="label head__label">404</p>
+    <h1 class="head__title">There is nothing at this address.</h1>
+    <p class="head__lede">The page may have moved when the site was rebuilt. The <a href="{{ site.Home.RelPermalink }}">home page</a> is a good place to start again.</p>
+  </header>
+  <aside class="page__aside">
+    {{- with partial "sketch.html" (dict "page" . "name" "open-circuit.svg") }}
+    <figure class="plate plate--fig">
+      {{ . }}
+      <figcaption class="plate__caption"><span class="figno">Fig. 404</span> An open circuit. Nothing flows.</figcaption>
+    </figure>
+    {{- end }}
+  </aside>
+</div>
 {{ end }}

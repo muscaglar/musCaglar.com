@@ -1,33 +1,29 @@
 {{ define "main" }}
-<article class="page page--project">
-  <header class="page-head">
-    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
-    <h1>{{ .Title }}</h1>
-    {{- with .Params.summary }}
-    <p class="lede">{{ . }}</p>
-    {{- end }}
+<article class="page">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
     <dl class="facts">
       <div><dt>When</dt><dd>{{ partial "date.html" (dict "page" . "format" "month") }}</dd></div>
+      {{- with .Params.kind }}
+      <div><dt>Kind</dt><dd>{{ . | humanize }}</dd></div>
+      {{- end }}
       {{- with .Params.status }}
       <div><dt>Status</dt><dd>{{ . | humanize }}</dd></div>
       {{- end }}
-      {{- with .Params.links }}
-      <div><dt>Links</dt><dd>
-        <ul class="link-list">
-          {{- range . }}
-          <li><a class="external" href="{{ .url }}" rel="noopener">{{ .name }}</a></li>
-          {{- end }}
-        </ul>
-      </dd></div>
-      {{- end }}
+      {{- partial "facts-links.html" . }}
       {{- if .GetTerms "tags" }}
       <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
       {{- end }}
     </dl>
-  </header>
-  <div class="prose">
-    {{ .Content }}
+  </aside>
+  <div class="page__body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
   </div>
-  {{ partial "pager.html" . }}
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
 </article>
 {{ end }}

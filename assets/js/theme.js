@@ -1,42 +1,35 @@
-// Cycles the colour theme: follow the system → light → dark. The choice is remembered on this device.
-const ORDER = ["system", "light", "dark"];
-const LABEL = { system: "Auto", light: "Light", dark: "Dark" };
-
+// The theme switch: Auto follows the system; Light and Dark are remembered on this device.
 function read() {
   try {
     const saved = localStorage.getItem("theme");
-    return saved === "light" || saved === "dark" ? saved : "system";
+    return saved === "light" || saved === "dark" ? saved : "auto";
   } catch {
-    return "system";
+    return "auto";
   }
 }
 
 function apply(choice) {
   const root = document.documentElement;
-  if (choice === "system") delete root.dataset.theme;
+  if (choice === "auto") delete root.dataset.theme;
   else root.dataset.theme = choice;
   try {
-    if (choice === "system") localStorage.removeItem("theme");
+    if (choice === "auto") localStorage.removeItem("theme");
     else localStorage.setItem("theme", choice);
   } catch {
     // Private browsing: the choice lasts for this page only.
   }
 }
 
-export function themeToggle() {
-  for (const button of document.querySelectorAll("[data-theme-toggle]")) {
-    const label = button.querySelector("[data-theme-label]") ?? button;
-    let choice = read();
-    const show = () => {
-      label.textContent = LABEL[choice];
-      button.title = `Colour theme: ${LABEL[choice]}`;
-    };
-    button.hidden = false;
-    show();
+export function themeSwitch() {
+  const buttons = [...document.querySelectorAll("[data-theme-set]")];
+  const show = (choice) => {
+    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.themeSet === choice));
+  };
+  for (const button of buttons) {
     button.addEventListener("click", () => {
-      choice = ORDER[(ORDER.indexOf(choice) + 1) % ORDER.length];
-      apply(choice);
-      show();
+      apply(button.dataset.themeSet);
+      show(button.dataset.themeSet);
     });
   }
+  show(read());
 }

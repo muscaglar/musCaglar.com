@@ -10,6 +10,8 @@ no database, no JavaScript framework and nothing to install besides Hugo itself.
 - [Where things are](#where-things-are)
 - [Writing](#writing)
 - [Photographs](#photographs)
+- [Drawings](#drawings)
+- [The look](#the-look)
 - [Publishing](#publishing)
 - [Checks](#checks)
 - [Setting up on a new machine](#setting-up-on-a-new-machine)
@@ -24,6 +26,8 @@ no database, no JavaScript framework and nothing to install besides Hugo itself.
 | Add a recipe | `hugo new content recipes/a-title`. This makes a folder with an `index.md`; pictures go in the same folder. |
 | Add a project | `hugo new content projects/a-title`. Same: a folder with an `index.md`. |
 | Add photographs | `hugo new content photos/an-album`, then drop the pictures into the new folder. |
+| Give a page a drawing | Put `figure.svg` in the page's folder and name it in the front matter. See [Drawings](#drawings). |
+| See every drawing at once | `hugo server -D`, then open <http://localhost:1313/figures/>. |
 | Change the CV | Edit `data/cv.yaml`. The top of the file explains the layout. |
 | Change the words on the home page | Edit `intro` and `skills` in `content/_index.md`. |
 | Have an About page | Delete `draft: true` in `content/about.md`, and add it to the menu in `hugo.toml`. |
@@ -51,11 +55,15 @@ content/            Everything that is written: one file or folder per page
 data/cv.yaml        The CV
 hugo.toml           Settings: site title, menu, links, picture quality
 layouts/            The HTML templates
-assets/css/         The stylesheets (design tokens are in tokens.css)
+assets/css/         The stylesheets. Colours, sizes and typefaces are in tokens.css
+assets/figures/     The drawings that stand for the sections, and the one on the not-found page
+assets/fonts/       The typefaces, served from this site
+assets/images/      The name as a drawing, the icon, and the picture used in link previews
 assets/js/          Small scripts: theme switch, photo viewer
 static/             Files published exactly as they are (_headers sets Cloudflare's headers)
 archetypes/         The starting text of new files made with `hugo new content`
-scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally
+scripts/            build.sh builds the site, check-site.py checks it, preview-built.py serves it locally,
+                    signature/make.py redraws the name
 wrangler.jsonc      How Cloudflare serves the site
 .github/workflows/  What GitHub does on every push: build, check, publish
 ```
@@ -87,9 +95,12 @@ title: "A title"
 date: 2026-10-01
 period: "March – June 2026"    # optional: shown instead of the date
 summary: "One or two sentences, shown in lists and link previews."
-kind: tinkering                # research or tinkering
+kind: software                 # software, hardware, research or tinkering: the heading it is listed under
 tags: [Python]
-cover: picture.jpg             # optional: used in lists and link previews
+status: ongoing                # optional: ongoing, finished or paused
+figure: figure.svg             # optional: the drawing of the project (see Drawings)
+figure_caption: "What the drawing shows."
+cover: picture.jpg             # optional: used in link previews, and in lists when there is no drawing
 featured: true                 # optional: show on the home page
 links:
   - name: Code on GitHub
@@ -192,6 +203,88 @@ file with such data in it, is about to be published.
 
 `content/photos/sample-album/` holds placeholder pictures that show how an album looks. It is a
 draft, so it is never published; delete the folder when it is no longer useful.
+
+## Drawings
+
+Every section has a drawing, and so can every page: a thin line drawing with a few small labels and
+one thing in red. The home page shows the drawings of the sections as its way in; the list of
+projects shows one per project; a page shows its own in the margin, as figure 1.
+
+To give a page a drawing, put the file in the page's folder and name it in the front matter:
+
+```yaml
+figure: figure.svg
+figure_caption: "A moka pot in section. Steam pushes the water up through the grounds."
+```
+
+The drawings of the sections are in `assets/figures/` and are named in the same way, in the
+`_index.md` of each section (and in `content/cv.md`).
+
+A drawing is an SVG file that starts from this frame:
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="One sentence.">
+  <path class="sk-ink" d="…"/>
+  <path class="sk-accent" d="…"/>
+  <path class="sk-line" d="…"/>
+  <text x="…" y="…">label</text>
+</svg>
+```
+
+| Class | Use |
+|---|---|
+| `sk-ink` | the object itself |
+| `sk-line` | axes, leader lines, dimension lines, lesser detail |
+| `sk-dash` | hidden edges, levels, guides |
+| `sk-accent` | the one red element |
+| `sk-dot`, `sk-accent-dot` | small filled dots |
+| `sk-hole` | a shape that must cover what is behind it |
+| `sk-atoms` | a row of dots, as in a sheet of atoms seen side on |
+
+The rules that keep the drawings alike:
+
+1. The frame is 240 by 180. Keep 8 units free on every side.
+2. Lines only, all of one weight. No fills except small dots.
+3. One thing is red: what the drawing is about.
+4. At most five labels, in lower case, one to three words each.
+5. Draw what someone who knows the subject would call correct: a section, a circuit, a plan, a
+   graph of what the thing measures. Not a logo and not a cartoon.
+
+The site colours the drawing itself, in both themes, so a drawing needs no colours of its own. A
+`<style>` block in the file is ignored; the files in `assets/figures/` carry one only so that they
+also look right when opened on their own.
+
+A drawing may hold shapes and text only. A file with a script, a link or an embedded picture in it
+stops the build.
+
+`hugo server -D` and <http://localhost:1313/figures/> show every drawing at three sizes, on light
+and on dark paper. That page is a draft, so it is never published.
+
+Pictures inside a page are numbered after the drawing: figure 2, figure 3 and so on.
+
+## The look
+
+| To change | Edit |
+|---|---|
+| A colour, a type size, the spacing | `assets/css/tokens.css`. Every colour is given twice, for light and for dark. |
+| The red | `--color-accent` in `assets/css/tokens.css` |
+| The size of the name | `--name-size` in `assets/css/tokens.css` |
+| The typefaces | The files in `assets/fonts/`, their list in `layouts/_partials/fonts.html`, and `--font-sans` and `--font-mono` in `tokens.css` |
+| The icon in the browser tab | `assets/images/icon.svg`, and `icon.png` (512 pixels square, for phones) |
+| The picture in link previews | `assets/images/social.png`, for pages without a cover of their own |
+
+The typefaces are IBM Plex Sans and IBM Plex Mono. Their licences are beside them in `assets/fonts/`.
+
+The name is not set in a typeface that visitors download. It is a drawing,
+`assets/images/signature.svg`, made once from the typeface Special Gothic. To redraw it, for
+another wording or weight:
+
+```sh
+brew install harfbuzz
+python3 scripts/signature/make.py path/to/SpecialGothic.ttf "Mustafa Çağlar"
+```
+
+The typeface is free to download from <https://fonts.google.com/specimen/Special+Gothic>.
 
 ## Publishing
 

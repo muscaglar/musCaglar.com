@@ -1,9 +1,7 @@
-<li class="entry entry--recipe">
-  <a class="entry-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
-  {{- if or .Params.time .Params.makes }}
-  <span class="entry-meta">{{ with .Params.time }}{{ . }}{{ end }}{{ if and .Params.time .Params.makes }} · {{ end }}{{ with .Params.makes }}{{ . }}{{ end }}</span>
-  {{- end }}
-  {{- with .Params.summary }}
-  <span class="entry-summary">{{ . }}</span>
+<li>
+  <span class="key">{{ .Params.time }}</span>
+  <h3 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h3>
+  {{- with .Params.makes }}
+  <span class="meta">{{ . | lower }}</span>
   {{- end }}
 </li>

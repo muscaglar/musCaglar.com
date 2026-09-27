@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{- /* Collect every drawing: the ones that pages name in their front matter, then the rest of assets/figures. */}}
+{{- $drawings := slice }}
+{{- $seen := slice }}
+{{- range $page := site.Pages }}
+  {{- with $page.Params.figure }}
+    {{- $drawings = $drawings | append (dict "page" $page "name" . "where" ($page.Path | default "/") "caption" $page.Params.figure_caption) }}
+    {{- if not ($page.Resources.Get .) }}{{ $seen = $seen | append . }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- range resources.Match "figures/*.svg" }}
+  {{- $name := path.Base .Name }}
+  {{- if not (in $seen $name) }}
+    {{- $drawings = $drawings | append (dict "page" $.Page "name" $name "where" "assets/figures" "caption" "") }}
+  {{- end }}
+{{- end }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len $drawings) "one" "drawing" "many" "drawings")) "lede" .Description) }}
+  <div class="page__wide">
+    {{- range $scheme := slice "light" "dark" }}
+    <section class="proofs" style="color-scheme: {{ $scheme }}">
+      {{- range $drawings }}
+      {{- $sketch := partial "sketch.html" (dict "page" .page "name" .name) }}
+      <figure class="proof">
+        <div class="proof__sizes">
+          {{- range slice 480 300 180 }}
+          <div style="inline-size: {{ . }}px">{{ $sketch }}</div>
+          {{- end }}
+        </div>
+        <figcaption class="plate__caption"><span class="figno">{{ .where }} · {{ .name }}</span> {{ .caption }}</figcaption>
+      </figure>
+      {{- end }}
+    </section>
+    {{- end }}
+  </div>
+</div>
+{{ end }}

@@ -1,24 +1,27 @@
 {{ define "main" }}
-<header class="page-head">
-  <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">Tags</a></p>
-  <h1>{{ .Title }}</h1>
-</header>
-{{- range .Pages.GroupBy "Section" }}
-<section class="home-section">
-  <header class="section-head">
-    <h2>{{ with site.GetPage (printf "/%s" .Key) }}{{ .Title }}{{ else }}{{ .Key | humanize }}{{ end }}</h2>
-  </header>
-  <ul class="entry-list">
-    {{- range .Pages.ByDate.Reverse }}
-      {{- if eq .Section "projects" }}
-    {{ partial "project-row.html" . }}
-      {{- else if eq .Section "recipes" }}
-    {{ partial "recipe-row.html" . }}
-      {{- else }}
-    {{ partial "update-row.html" . }}
-      {{- end }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (printf "<a href=%q>Tag</a>" .Parent.RelPermalink | safeHTML)) }}
+  <div class="page__wide">
+    {{- range $i, $group := .Pages.GroupBy "Section" }}
+    <section class="section">
+      <header class="section__head">
+        <span class="label">§{{ add $i 1 }}</span>
+        <h2>{{ with site.GetPage (printf "/%s" .Key) }}{{ .Title }}{{ else }}{{ .Key | humanize }}{{ end }}</h2>
+        <span class="count">{{ len .Pages }}</span>
+      </header>
+      <ol class="rows{{ if not (in (slice "projects" "recipes") .Key) }} rows--log{{ end }}">
+        {{- range .Pages.ByDate.Reverse }}
+          {{- if eq .Section "projects" }}
+        {{ partial "project-row.html" . }}
+          {{- else if eq .Section "recipes" }}
+        {{ partial "recipe-row.html" . }}
+          {{- else }}
+        {{ partial "update-row.html" . }}
+          {{- end }}
+        {{- end }}
+      </ol>
+    </section>
     {{- end }}
-  </ul>
-</section>
-{{- end }}
+  </div>
+</div>
 {{ end }}

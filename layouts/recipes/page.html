@@ -1,32 +1,22 @@
 {{ define "main" }}
-<article class="page page--recipe recipe">
-  <header class="page-head">
-    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
-    <h1>{{ .Title }}</h1>
-    {{- with .Params.summary }}
-    <p class="lede">{{ . }}</p>
-    {{- end }}
+<article class="page page--recipe">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
     <dl class="facts">
       {{- with .Params.time }}
       <div><dt>Time</dt><dd>{{ . }}</dd></div>
       {{- end }}
       {{- with .Params.makes }}
-      <div><dt>Makes</dt><dd>{{ . }}</dd></div>
+      <div><dt>Makes</dt><dd>{{ . | replaceRE `^(?i)(makes|serves)\s+` "" }}</dd></div>
       {{- end }}
       <div><dt>Written</dt><dd>{{ partial "date.html" (dict "page" . "format" "long") }}</dd></div>
       {{- if .GetTerms "tags" }}
       <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
       {{- end }}
     </dl>
-  </header>
-
-  {{- with partial "cover.html" . }}
-  {{ partial "figure.html" (dict "img" . "alt" $.Title "class" "recipe-cover") }}
-  {{- end }}
-
-  <div class="recipe-body">
     {{- with .Params.ingredients }}
-    <section class="recipe-ingredients">
+    <section class="ingredients">
       <h2>Ingredients</h2>
       {{- $plain := slice }}
       {{- range . }}{{ if not (reflect.IsMap .) }}{{ $plain = $plain | append . }}{{ end }}{{ end }}
@@ -49,12 +39,19 @@
       {{- end }}
     </section>
     {{- end }}
-    <section class="recipe-method prose">
-      <h2>Method</h2>
+  </aside>
+  <div class="page__body">
+    {{- with partial "cover.html" . }}
+    {{ partial "figure.html" (dict "img" . "alt" $.Title "class" "recipe-cover") }}
+    {{- end }}
+    <section class="method prose">
+      <h2 class="visually-hidden">Method</h2>
       {{ .Content }}
     </section>
   </div>
-  {{ partial "pager.html" . }}
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
 </article>
 {{- partial "recipe-schema.html" . }}
 {{ end }}

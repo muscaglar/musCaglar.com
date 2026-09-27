@@ -1,14 +1,23 @@
 {{ define "main" }}
-<article class="page page--update note">
-  <header class="page-head">
-    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
-    <p class="note-date">{{ partial "date.html" (dict "page" . "format" "long") }}</p>
-    <h1>{{ .Title }}</h1>
-  </header>
-  <div class="prose">
-    {{ .Content }}
+<article class="page">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+    <dl class="facts">
+      <div><dt>Written</dt><dd>{{ partial "date.html" (dict "page" . "format" "long") }}</dd></div>
+      {{- partial "facts-links.html" . }}
+      {{- if .GetTerms "tags" }}
+      <div><dt>Tags</dt><dd>{{ partial "tags.html" . }}</dd></div>
+      {{- end }}
+    </dl>
+  </aside>
+  <div class="page__body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
   </div>
-  {{ partial "tags.html" . }}
-  {{ partial "pager.html" . }}
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
 </article>
 {{ end }}

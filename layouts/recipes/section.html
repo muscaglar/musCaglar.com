@@ -1,20 +1,36 @@
 {{ define "main" }}
-<header class="page-head">
-  <h1>{{ .Title }}</h1>
-  {{- with .Description }}
-  <p class="lede">{{ . }}</p>
-  {{- end }}
-</header>
-{{- with .Content }}
-<div class="prose">{{ . }}</div>
-{{- end }}
-{{- with .RegularPages.ByDate.Reverse }}
-<ul class="entry-list entry-list--recipes">
-  {{- range . }}
-  {{ partial "recipe-row.html" . }}
-  {{- end }}
-</ul>
-{{- else }}
-<p class="empty">Nothing here yet.</p>
-{{- end }}
+{{- $pages := .RegularPages.ByDate.Reverse }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len $pages) "one" "recipe" "many" "recipes")) "lede" .Description) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__wide">
+    {{- with .Content }}
+    <div class="prose">{{ . }}</div>
+    {{- end }}
+    {{- with $pages }}
+    <section class="section">
+      <ol class="rows">
+        {{- range . }}
+        <li>
+          <span class="key">{{ .Params.time }}</span>
+          <div>
+            <h2 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
+            {{- with .Params.summary }}
+            <p class="entry__text">{{ . }}</p>
+            {{- end }}
+          </div>
+          {{- with .Params.makes }}
+          <span class="meta">{{ . | lower }}</span>
+          {{- end }}
+        </li>
+        {{- end }}
+      </ol>
+    </section>
+    {{- else }}
+    <p class="empty">Nothing here yet.</p>
+    {{- end }}
+  </div>
+</div>
 {{ end }}

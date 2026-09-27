@@ -1,0 +1,35 @@
+/* On paper: white, no dots, no navigation. Made for the CV; every other page prints plainly too. */
+@media print {
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+
+  :root {
+    color-scheme: light;
+    --color-paper: #fff;
+    --color-ink: #000;
+    --color-ink-2: #222;
+    --color-ink-3: #555;
+    --color-rule: #bbb;
+    --color-rule-strong: #000;
+    --color-accent: #b71c1c;
+    --gutter: 34mm;
+  }
+
+  html { font-size: 9.5pt; }
+  body { display: block; background: none; line-height: 1.4; }
+
+  .site-header, .site-footer, .page__aside, .page__foot, .pager, .cv-actions, .heading-anchor { display: none !important; }
+
+  .sheet { inline-size: auto; margin: 0; container-type: normal; }
+  .page { display: block; padding: 0; }
+  .page__body { padding-inline-start: var(--gutter); }
+  .head { grid-template-columns: var(--gutter) minmax(0, 1fr); padding-block-end: 6mm; }
+  .head > * { grid-column: 2; }
+  .head > .head__label { grid-column: 1; }
+
+  .cv-section { padding-block: 3mm 5mm; margin-inline-start: calc(-1 * var(--gutter)); }
+  .cv-section > .section__head { break-after: avoid; }
+  .cv-entries > li, .cv-list > li { grid-template-columns: var(--gutter) minmax(0, 1fr); padding-block: 2mm; break-inside: avoid; }
+
+  a { text-decoration: none; }
+  a.external::after { content: none; }
+}

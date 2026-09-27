@@ -1,10 +1,12 @@
 {{ define "main" }}
-<header class="page-head">
-  <h1>{{ .Title }}</h1>
-</header>
-<ul class="tags tags--all">
-  {{- range .Data.Terms.Alphabetical }}
-  <li><a href="{{ .Page.RelPermalink }}" rel="tag">{{ .Page.LinkTitle }}</a> <span class="count">{{ .Count }}</span></li>
-  {{- end }}
-</ul>
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len .Data.Terms) "one" "tag" "many" "tags"))) }}
+  <div class="page__wide">
+    <ul class="tags tags--all">
+      {{- range .Data.Terms.Alphabetical }}
+      <li><a href="{{ .Page.RelPermalink }}" rel="tag">{{ .Page.LinkTitle }}</a> <span class="count">{{ .Count }}</span></li>
+      {{- end }}
+    </ul>
+  </div>
+</div>
 {{ end }}

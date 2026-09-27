@@ -1,0 +1,8 @@
+{{- /* The drawing of a page, as a numbered figure with its caption. Shows nothing when the page has none. */ -}}
+{{- $page := . -}}
+{{- with partial "sketch.html" (dict "page" $page "name" $page.Params.figure) }}
+<figure class="plate plate--fig">
+  {{ . }}
+  <figcaption class="plate__caption"><span class="figno figno--auto"></span> {{ with $page.Params.figure_caption }}{{ . | markdownify }}{{ end }}</figcaption>
+</figure>
+{{- end -}}

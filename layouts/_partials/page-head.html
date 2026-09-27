@@ -1,0 +1,17 @@
+{{- /*
+  The heading of a page: a small label in the gutter, the title, and one sentence.
+  Pass (dict "page" . "label" "…" "lede" "…"). Without a label, the label is a link to the section
+  the page belongs to.
+*/ -}}
+{{- $page := .page -}}
+<header class="page__head head">
+  <p class="label head__label">
+    {{- with .label }}{{ . }}
+    {{- else }}{{ with $page.Parent }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}{{ end }}
+    {{- end -}}
+  </p>
+  <h1 class="head__title">{{ $page.Title }}{{ partial "draft.html" $page }}</h1>
+  {{- with .lede }}
+  <p class="head__lede">{{ . }}</p>
+  {{- end }}
+</header>

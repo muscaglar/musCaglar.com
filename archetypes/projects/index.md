@@ -3,9 +3,11 @@ title: "{{ replace .File.ContentBaseName "-" " " | humanize }}"
 date: {{ .Date }}
 # period: "March – June 2026"   # optional: shown instead of the date
 summary: "One or two sentences. Shown in lists and in link previews."
-kind: tinkering                  # research | tinkering
+kind: tinkering                  # software | hardware | research | tinkering
 tags: []
-# cover: picture.jpg             # optional: a picture in this folder, used in lists and link previews
+# figure: figure.svg             # optional: a drawing in this folder (see "Drawings" in README.md)
+# figure_caption: "What the drawing shows."
+# cover: picture.jpg             # optional: a picture in this folder, used in link previews
 # featured: true                 # optional: show on the home page
 # status: ongoing                # optional
 links: []

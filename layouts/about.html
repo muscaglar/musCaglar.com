@@ -1,18 +1,25 @@
 {{ define "main" }}
-<article class="page page--about">
-  <header class="page-head">
-    <h1>{{ .Title }}</h1>
-  </header>
-  <div class="prose">
-    {{ .Content }}
+<article class="page">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+    <dl class="facts">
+      <div><dt>Elsewhere</dt><dd>
+        <ul>
+          {{- range site.Params.links }}
+          <li><a class="external" href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
+          {{- end }}
+          {{- with site.Params.email }}
+          <li><a href="mailto:{{ . }}">{{ . }}</a></li>
+          {{- end }}
+        </ul>
+      </dd></div>
+    </dl>
+  </aside>
+  <div class="page__body">
+    <div class="prose">
+      {{ .Content }}
+    </div>
   </div>
-  <ul class="site-links site-links--about">
-    {{- with site.Params.email }}
-    <li><a href="mailto:{{ . }}">{{ . }}</a></li>
-    {{- end }}
-    {{- range site.Params.links }}
-    <li><a href="{{ .url }}" rel="me noopener">{{ .name }}</a></li>
-    {{- end }}
-  </ul>
 </article>
 {{ end }}

@@ -1,0 +1,330 @@
+/* Home: a small signature and one sentence, then the figures ------------------
+   The top row stands on the same four columns as the figures: the name over the first, the
+   introduction over the other three. */
+.hero { padding-block: var(--space-8); }
+
+.hero__top {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: baseline;
+  gap: var(--space-3) var(--space-4);
+  margin-block-end: var(--space-8);
+}
+
+.name {
+  grid-column: 1;
+  line-height: 1;
+}
+
+.intro {
+  grid-column: 2 / -1;
+  max-inline-size: 45rem;
+  font-size: var(--text-intro);
+  line-height: 1.3;
+  color: var(--color-ink-2);
+
+  & strong { color: var(--color-ink); font-weight: 600; }
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-2);
+
+  & a { display: block; }
+  & img { inline-size: 100%; }
+}
+
+
+/* Updates: notes in full, everything else as a line that leads to it ---------- */
+.log > li {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  align-items: baseline;
+  row-gap: var(--space-2);
+  padding-block: var(--space-6);
+  border-block-start: var(--rule) solid var(--color-rule);
+
+  &:first-child { border-block-start-color: var(--color-rule-strong); }
+  & > * { grid-column: 2; min-inline-size: 0; }
+  & > .log__when { grid-column: 1; grid-row: 1 / span 3; display: grid; gap: var(--space-1); }
+  & h2 { font-size: var(--text-h2); }
+  & h2 a { text-decoration: none; }
+  & h2 a:hover { text-decoration: underline; }
+}
+.log__summary { color: var(--color-ink-2); max-inline-size: var(--measure); }
+
+
+/* Tags -------------------------------------------------------------------------- */
+.tags--all {
+  gap: var(--space-2) var(--space-6);
+  font-size: var(--text-body);
+  padding-inline-start: var(--gutter);
+}
+
+
+/* Recipes: the ingredients stand in the margin, beside the method ------------- */
+.ingredients {
+  font-size: var(--text-small);
+
+  & h2 {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    padding-block: var(--space-2);
+    border-block-start: var(--rule) solid var(--color-rule-strong);
+  }
+  & h3 {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 400;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+    padding-block: var(--space-4) var(--space-2);
+  }
+  & ul { padding: 0; list-style: none; }
+  & li {
+    padding-block: var(--space-2);
+    border-block-start: var(--rule) solid var(--color-rule);
+  }
+}
+
+.method > ol {
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+
+  & > li {
+    position: relative;
+    counter-increment: step;
+    padding-block: var(--space-3);
+    border-block-start: var(--rule) solid var(--color-rule);
+    margin: 0;
+  }
+  & > li::before {
+    content: counter(step);
+    position: absolute;
+    inset-inline-start: calc(-1 * var(--gutter));
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    line-height: calc(var(--text-body) * 1.5);
+    color: var(--color-ink-3);
+  }
+}
+
+
+/* Photos: albums, then the photographs of one album ---------------------------- */
+.albums {
+  padding-block-start: var(--space-6);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-8) var(--space-4);
+}
+
+.album {
+  display: grid;
+  gap: var(--space-2);
+  text-decoration: none;
+
+  & img { inline-size: 100%; }
+  &:hover .album__title { color: var(--color-accent); }
+}
+.album__title { font-weight: 600; }
+
+/* Rows of equal height, each photograph as wide as its shape asks for. */
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-2);
+
+  &::after { content: ""; flex-grow: 1000000; }
+}
+
+.photo {
+  flex-grow: calc(var(--ratio) * 100);
+  flex-basis: calc(var(--ratio) * 15rem);
+  min-inline-size: 0;
+
+  & figure { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
+  & img { inline-size: 100%; aspect-ratio: var(--ratio); object-fit: cover; }
+  & figcaption {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    font-size: var(--text-small);
+    color: var(--color-ink-2);
+  }
+  & figcaption > * { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  & .photo-camera {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    color: var(--color-ink-3);
+  }
+}
+
+.lightbox {
+  inline-size: 100vw;
+  block-size: 100dvh;
+  max-inline-size: 100vw;
+  max-block-size: 100dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-night-ink);
+
+  &::backdrop { background: color-mix(in oklch, var(--color-night) 96%, transparent); }
+
+  & button {
+    position: fixed;
+    padding: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-lead);
+    line-height: 1;
+    color: var(--color-night-ink);
+  }
+  & button:hover { color: oklch(0.725 0.145 27); }
+  & [data-close] { inset-block-start: 0; inset-inline-end: 0; }
+  & [data-prev]  { inset-block-start: calc(50% - var(--space-6)); inset-inline-start: 0; }
+  & [data-next]  { inset-block-start: calc(50% - var(--space-6)); inset-inline-end: 0; }
+}
+
+.lightbox-stage {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: var(--space-12) var(--space-4);
+
+  & img { max-inline-size: 100%; max-block-size: calc(100dvh - 2 * var(--space-12)); object-fit: contain; }
+}
+
+.lightbox-caption {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  text-align: center;
+  color: color-mix(in oklch, var(--color-night-ink) 80%, transparent);
+}
+
+
+/* CV ------------------------------------------------------------------------------ */
+.cv-head .name { grid-column: 2; }
+
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+  font-size: var(--text-small);
+  color: var(--color-ink-2);
+}
+
+.cv-section {
+  padding-block: var(--space-4) var(--space-8);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+  margin-inline-start: calc(-1 * var(--gutter));
+
+  & > .section__head { grid-template-columns: var(--gutter) minmax(0, 1fr); margin-block-end: var(--space-2); }
+  & > p { padding-inline-start: var(--gutter); max-inline-size: calc(var(--gutter) + var(--measure)); }
+}
+
+.cv-entries > li {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  align-items: baseline;
+  padding-block: var(--space-3);
+  border-block-start: var(--rule) solid var(--color-rule);
+  break-inside: avoid;
+}
+.cv-entries--compact > li { padding-block: var(--space-2); }
+
+.cv-body {
+  display: grid;
+  gap: var(--space-1);
+  max-inline-size: var(--measure);
+
+  & h3 { font-size: var(--text-body); }
+  & ul { padding-inline-start: 1.25em; color: var(--color-ink-2); }
+  & li::marker { color: var(--color-ink-3); }
+}
+.cv-note, .cv-org { font-weight: 400; color: var(--color-ink-2); }
+.cv-ref {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-ink-3);
+  overflow-wrap: anywhere;
+}
+
+.cv-list {
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+
+  & > li {
+    display: grid;
+    grid-template-columns: var(--gutter) minmax(0, var(--measure));
+    align-items: baseline;
+    counter-increment: item;
+    padding-block: var(--space-3);
+    border-block-start: var(--rule) solid var(--color-rule);
+  }
+  & > li::before {
+    content: "[" counter(item) "]";
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-ink-3);
+  }
+}
+
+
+/* Figures: the proof sheet of every drawing (a draft page, for the workshop) ------ */
+.proofs {
+  display: grid;
+  gap: var(--space-8);
+  margin-inline: calc(-1 * var(--page-pad));
+  padding: var(--space-8) var(--page-pad);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  background-image: var(--paper-dots);
+  background-size: var(--grid) var(--grid);
+  overflow-x: auto;
+}
+.proof { display: grid; gap: var(--space-2); }
+.proof__sizes { display: flex; align-items: end; gap: var(--space-8); }
+.proof__sizes > div { flex: none; }
+
+
+/* Nothing at this address ------------------------------------------------------ */
+.lost p { max-inline-size: var(--measure); }
+
+
+/* Narrower sheets ------------------------------------------------------------ */
+@container sheet (inline-size < 62rem) {
+  .hero__top { grid-template-columns: minmax(0, 1fr); }
+  .name, .intro { grid-column: 1; }
+  .intro { max-inline-size: 36rem; }
+  .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@container sheet (inline-size < 40rem) {
+  .hero { padding-block-start: var(--space-6); }
+  .hero__top { row-gap: var(--space-2); margin-block-end: var(--space-6); }
+  .name { --name-size: 1.75rem; }
+
+  .log > li { grid-template-columns: minmax(0, 1fr); }
+  .log > li > *, .log > li > .log__when { grid-column: 1; grid-row: auto; }
+  .log > li > .log__when { display: flex; gap: var(--space-4); align-items: baseline; }
+
+  .tags--all { padding-inline-start: 0; }
+  .method > ol > li { padding-inline-start: var(--space-8); }
+  .method > ol > li::before { inset-inline-start: 0; }
+
+  .cv-section { margin-inline-start: 0; }
+  .cv-section > p { padding-inline-start: 0; }
+  .cv-entries > li, .cv-list > li { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-1); }
+}

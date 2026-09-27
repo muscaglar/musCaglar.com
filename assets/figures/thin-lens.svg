@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A lens forms a smaller, upside-down image of an upright arrow. Three rays from the tip of the arrow meet again at the tip of the image.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-atoms { stroke: currentColor; stroke-width: 4.5; stroke-dasharray: 0 9; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- optical axis, with the two focal points marked -->
+  <path class="sk-line" d="M16 90H224M90 87v6M162 87v6"/>
+  <!-- the lens -->
+  <path class="sk-ink" d="M126 38A150 150 0 0 1 126 142A150 150 0 0 1 126 38Z"/>
+  <!-- three rays from the tip of the object to the tip of the image -->
+  <path class="sk-line" d="M36 54H126L186 114M36 54L186 114M36 54L126 114H186"/>
+  <!-- the object -->
+  <path class="sk-ink" d="M36 90V54M32.5 60.5L36 54L39.5 60.5"/>
+  <!-- the image -->
+  <path class="sk-accent" d="M186 90V114M182.5 107.5L186 114L189.5 107.5"/>
+  <text x="36" y="106" text-anchor="middle">object</text>
+  <text x="194" y="106">image</text>
+  <text x="90" y="106" text-anchor="middle">f</text>
+  <text x="162" y="82" text-anchor="middle">f</text>
+  <text x="126" y="30" text-anchor="middle">lens</text>
+</svg>

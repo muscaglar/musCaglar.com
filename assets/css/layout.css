@@ -1,15 +1,185 @@
-.site-header, .site-main, .site-footer {
-  inline-size: min(100% - 2 * var(--gutter), var(--wide));
+/* The sheet: one centred column that everything sits on. It is also the container that the
+   narrower layouts further down measure themselves against. */
+.sheet {
+  inline-size: min(100% - 2 * var(--page-pad), var(--sheet-max));
   margin-inline: auto;
+  container: sheet / inline-size;
 }
-.site-header { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: baseline; padding-block: 1.5rem; }
-.site-name { font-weight: 600; text-decoration: none; margin-inline-end: auto; }
-.site-nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-.site-nav a { text-decoration: none; color: var(--ink-soft); }
-.site-nav a:hover, .site-nav a[aria-current] { color: var(--ink); }
-.theme-toggle { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 0.15rem 0.7rem; font-size: 0.8125rem; color: var(--ink-soft); cursor: pointer; }
-.site-main { padding-block: clamp(2rem, 6vw, 5rem); display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
-.site-footer { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; padding-block: 2rem 3rem; border-block-start: 1px solid var(--line); color: var(--ink-soft); font-size: 0.875rem; }
-.site-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-.page, .intro, .page-head { display: grid; gap: var(--space); max-inline-size: var(--measure); }
-.page--album, .cv { max-inline-size: none; }
+
+.site-main { flex: 1; }
+
+
+/* Navigation: one open row, always in view ---------------------------------- */
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background: var(--color-paper);
+  border-block-end: var(--rule) solid var(--color-rule);
+  view-transition-name: site-header;
+}
+
+/* Links and theme switch share one wrapping row, so another section simply takes the next place. */
+.site-header__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) clamp(var(--space-3), 3cqi, var(--space-8));
+  padding-block: var(--space-3);
+}
+
+.nav {
+  display: contents;
+
+  & a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    text-decoration: none;
+
+    &:hover { color: var(--color-accent); }
+  }
+
+  & [aria-current] {
+    font-weight: 600;
+
+    &::before {
+      content: "";
+      inline-size: 6px;
+      block-size: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      align-self: center;
+    }
+  }
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 400;
+  color: var(--color-ink-3);
+}
+
+.theme {
+  display: flex;
+  gap: var(--space-3);
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+
+  & button { letter-spacing: inherit; text-transform: inherit; }
+  & button:hover { color: var(--color-accent); }
+  & button[aria-pressed="true"] {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+  }
+}
+
+
+/* Footer ---------------------------------------------------------------------- */
+.site-footer {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr) auto;
+  align-items: baseline;
+  row-gap: var(--space-2);
+  padding-block: var(--space-6) var(--space-12);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+}
+
+.elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+}
+
+
+/* A page: four columns, the same four the figures of the home page stand on ---
+   The heading and the text take the first three; the fourth is the margin, which holds the page's
+   drawing and its facts. */
+.page {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: auto 1fr;
+  column-gap: var(--space-4);
+  align-items: start;
+  padding-block: var(--space-8) var(--space-12);
+  counter-reset: fig;
+}
+
+.page > * { min-inline-size: 0; }
+.page__head  { grid-column: 1 / span 3; grid-row: 1; }
+.page__body  { grid-column: 1 / span 3; grid-row: 2; padding-inline-start: var(--gutter); }
+.page__aside { grid-column: 4; grid-row: 1 / span 2; display: grid; gap: var(--space-6); }
+.page__wide  { grid-column: 1 / -1; }
+.page__wide > .prose {
+  max-inline-size: calc(var(--gutter) + var(--measure));
+  padding-inline-start: var(--gutter);
+  margin-block-end: var(--space-8);
+}
+.page__foot  { grid-column: 1 / -1; }
+
+/* A page that is mostly a list or a grid: the margin only runs beside the heading. */
+.page--list .page__aside { grid-row: 1; padding-block-end: var(--space-8); }
+
+/* The margin stays in view while the text scrolls, on screens tall enough to hold it. */
+@media (min-height: 50rem) {
+  @container sheet (inline-size >= 62rem) {
+    .page:not(.page--list) > .page__aside {
+      position: sticky;
+      inset-block-start: calc(var(--header-height) + var(--space-8));
+    }
+  }
+}
+
+/* The heading of a page: a label in the gutter, then the title and one sentence. */
+.head {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, 1fr);
+  align-items: baseline;
+  row-gap: var(--space-3);
+  padding-block-end: var(--space-8);
+
+  & > * { grid-column: 2; min-inline-size: 0; }
+  & > .head__label { grid-column: 1; grid-row: 1; }
+}
+
+.head__label a { text-decoration: none; }
+.head__lede {
+  max-inline-size: var(--measure);
+  font-size: var(--text-lead);
+  line-height: 1.4;
+  color: var(--color-ink-2);
+}
+
+
+/* Narrower sheets ------------------------------------------------------------ */
+@container sheet (inline-size < 62rem) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+  .page__head, .page__body, .page__aside, .page__wide, .page__foot,
+  .page--list .page__aside { grid-column: 1; grid-row: auto; }
+  .page__aside { padding-block-end: var(--space-8); }
+  .page__aside .plate { max-inline-size: 24rem; }
+}
+
+@container sheet (inline-size < 40rem) {
+  .head { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-2); padding-block-end: var(--space-6); }
+  .head > *, .head > .head__label { grid-column: 1; grid-row: auto; }
+  .page { padding-block-start: var(--space-6); }
+  .page__body, .page__wide > .prose { padding-inline-start: 0; }
+  .site-footer { grid-template-columns: minmax(0, 1fr); }
+  .theme { gap: var(--space-2); }
+}
+
+/* On a phone the navigation scrolls away with the page: two rows of it are too much to keep. */
+@media (max-width: 40rem) {
+  .site-header { position: static; }
+  html { scroll-padding-block-start: var(--grid); }
+}

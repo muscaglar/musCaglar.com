@@ -1,29 +1,32 @@
 {{ define "main" }}
-<header class="page-head">
-  <h1>{{ .Title }}</h1>
-  {{- with .Description }}
-  <p class="lede">{{ . }}</p>
-  {{- end }}
-</header>
-{{- with .Content }}
-<div class="prose">{{ . }}</div>
-{{- end }}
-{{- with .RegularPages.ByDate.Reverse }}
-<ul class="albums">
-  {{- range . }}
-  {{- $photos := partial "album-photos.html" . }}
-  <li class="album-card">
-    <a href="{{ .RelPermalink }}">
-      {{- with partial "cover.html" . }}
-      {{ partial "picture.html" (dict "img" . "alt" "" "sizes" "(min-width: 60rem) 30vw, (min-width: 36rem) 46vw, 100vw" "widths" (slice 480 800 1200) "crop" "3x2") }}
+{{- $pages := .RegularPages.ByDate.Reverse }}
+<div class="page page--list">
+  {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len $pages) "one" "album" "many" "albums")) "lede" .Description) }}
+  <aside class="page__aside">
+    {{ partial "plate.html" . }}
+  </aside>
+  <div class="page__wide">
+    {{- with .Content }}
+    <div class="prose">{{ . }}</div>
+    {{- end }}
+    {{- with $pages }}
+    <ul class="albums">
+      {{- range . }}
+      {{- $photos := partial "album-photos.html" . }}
+      <li>
+        <a class="album" href="{{ .RelPermalink }}">
+          {{- with partial "cover.html" . }}
+          {{ partial "picture.html" (dict "img" . "alt" "" "sizes" "(min-width: 62rem) 24rem, (min-width: 40rem) 46vw, 100vw" "widths" (slice 480 800 1200) "crop" "3x2") }}
+          {{- end }}
+          <span class="album__title">{{ .Title }}{{ partial "draft.html" . }}</span>
+          <span class="meta">{{ partial "date.html" (dict "page" . "format" "year") }} · {{ partial "count.html" (dict "n" (len $photos) "one" "photo" "many" "photos") }}</span>
+        </a>
+      </li>
       {{- end }}
-      <span class="album-title">{{ .Title }}</span>
-      <span class="album-meta">{{ partial "date.html" (dict "page" . "format" "year") }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}</span>
-    </a>
-  </li>
-  {{- end }}
-</ul>
-{{- else }}
-<p class="empty">Nothing here yet.</p>
-{{- end }}
+    </ul>
+    {{- else }}
+    <p class="empty">Nothing here yet.</p>
+    {{- end }}
+  </div>
+</div>
 {{ end }}

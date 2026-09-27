@@ -5,10 +5,10 @@
 {{- if or $newer $older }}
 <nav class="pager" aria-label="More in {{ .CurrentSection.Title }}">
   {{- with $newer }}
-  <a class="pager-link pager-link--newer" href="{{ .RelPermalink }}" rel="prev"><span>Newer</span> {{ .Title }}</a>
+  <a class="pager-link pager-link--newer" href="{{ .RelPermalink }}" rel="prev"><span>← Newer</span> {{ .Title }}</a>
   {{- end }}
   {{- with $older }}
-  <a class="pager-link pager-link--older" href="{{ .RelPermalink }}" rel="next"><span>Older</span> {{ .Title }}</a>
+  <a class="pager-link pager-link--older" href="{{ .RelPermalink }}" rel="next"><span>Older →</span> {{ .Title }}</a>
   {{- end }}
 </nav>
 {{- end }}

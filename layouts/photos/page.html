@@ -1,38 +1,41 @@
 {{ define "main" }}
 {{- $photos := partial "album-photos.html" . }}
-<article class="page page--album">
-  <header class="page-head">
-    <p class="eyebrow"><a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a></p>
-    <h1>{{ .Title }}</h1>
-    {{- with .Params.summary }}
-    <p class="lede">{{ . }}</p>
+<article class="page page--list page--album">
+  {{ partial "page-head.html" (dict "page" . "lede" .Params.summary) }}
+  <aside class="page__aside">
+    <dl class="facts">
+      <div><dt>When</dt><dd>{{ partial "date.html" (dict "page" . "format" "month") }}</dd></div>
+      {{- with .Params.location }}
+      <div><dt>Where</dt><dd>{{ . }}</dd></div>
+      {{- end }}
+      <div><dt>Photos</dt><dd>{{ len $photos }}</dd></div>
+    </dl>
+  </aside>
+  <div class="page__wide">
+    {{- with .Content }}
+    <div class="prose">{{ . }}</div>
     {{- end }}
-    <p class="album-meta">
-      {{- with .Params.location }}{{ . }} · {{ end -}}
-      {{ partial "date.html" (dict "page" . "format" "month") }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}
-    </p>
-  </header>
-  {{- with .Content }}
-  <div class="prose">{{ . }}</div>
-  {{- end }}
-  <ul class="photos" data-lightbox>
-    {{- range $i, $photo := $photos }}
-    {{- $full := partial "full-size.html" (dict "img" .img) }}
-    <li class="photo" id="{{ .name | anchorize }}" style="--ratio: {{ div (float $full.width) (float $full.height) | printf "%.4f" }}">
-      <figure>
-        <a class="photo-link" href="{{ $full.url }}" data-lightbox-item data-width="{{ $full.width }}" data-height="{{ $full.height }}">
-          {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw" "widths" (slice 480 800 1200 1600) "eager" (lt $i 3)) -}}
-        </a>
-        {{- if or .caption .camera }}
-        <figcaption>
-          {{- with .caption }}<span class="photo-caption">{{ . | markdownify }}</span>{{ end }}
-          {{- with .camera }}<span class="photo-camera">{{ . }}</span>{{ end }}
-        </figcaption>
-        {{- end }}
-      </figure>
-    </li>
-    {{- end }}
-  </ul>
-  {{ partial "pager.html" . }}
+    <ul class="photos" data-lightbox>
+      {{- range $i, $photo := $photos }}
+      {{- $full := partial "full-size.html" (dict "img" .img) }}
+      <li class="photo" id="{{ .name | anchorize }}" style="--ratio: {{ div (float $full.width) (float $full.height) | printf "%.4f" }}">
+        <figure>
+          <a class="photo-link" href="{{ $full.url }}" data-lightbox-item data-width="{{ $full.width }}" data-height="{{ $full.height }}">
+            {{- partial "picture.html" (dict "img" .img "alt" .alt "sizes" "(min-width: 62rem) 33vw, (min-width: 40rem) 50vw, 100vw" "widths" (slice 480 800 1200 1600) "eager" (lt $i 3)) -}}
+          </a>
+          {{- if or .caption .camera }}
+          <figcaption>
+            {{- with .caption }}<span class="photo-caption">{{ . | markdownify }}</span>{{ end }}
+            {{- with .camera }}<span class="photo-camera">{{ . }}</span>{{ end }}
+          </figcaption>
+          {{- end }}
+        </figure>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+  <div class="page__foot">
+    {{ partial "pager.html" . }}
+  </div>
 </article>
 {{ end }}

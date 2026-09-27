@@ -1,8 +1,8 @@
 // Small enhancements. The site works without any of this.
-import { themeToggle } from "./theme.js";
+import { themeSwitch } from "./theme.js";
 import { lightbox } from "./lightbox.js";
 
-themeToggle();
+themeSwitch();
 lightbox();
 
 for (const button of document.querySelectorAll("[data-print]")) {

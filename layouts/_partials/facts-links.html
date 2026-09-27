@@ -1,0 +1,10 @@
+{{- /* The links of a page ("Code on GitHub"), one per line. */ -}}
+{{- with .Params.links }}
+<div><dt>Links</dt><dd>
+  <ul>
+    {{- range . }}
+    <li><a class="external" href="{{ .url }}" rel="noopener">{{ .name }}</a></li>
+    {{- end }}
+  </ul>
+</dd></div>
+{{- end }}
