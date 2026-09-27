@@ -64,7 +64,7 @@
 </section>
 {{- end }}
 
-{{- with first (site.Params.homeRecipes | default 3) (where site.RegularPages "Section" "recipes").ByDate.Reverse }}
+{{- with first (site.Params.homeRecipes | default 3) (partial "recipes.html" .) }}
 {{- $n = add $n 1 }}
 <section class="band" id="recipes">
   {{ partial "band-head.html" (dict "no" $n "title" "Recipes" "fig" (index $figure "recipes")) }}

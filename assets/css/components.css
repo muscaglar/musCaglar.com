@@ -177,8 +177,9 @@
 /* A plate that is a figure in the margin of a page, not a way in */
 .plate--fig { grid-template-rows: none; block-size: auto; }
 
-/* A drawing inside the text */
+/* A drawing inside the text; a diagram with many parts takes the full width */
 .plate--inline { max-inline-size: 24rem; }
+.plate--wide { max-inline-size: none; }
 
 /* Inside a page the figures number themselves, in the order they appear. */
 .page figure { counter-increment: fig; }

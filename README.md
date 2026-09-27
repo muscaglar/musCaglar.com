@@ -119,10 +119,16 @@ The write-up.
 title: "Flatbreads in a pan"
 date: 2026-10-01
 summary: "One line about the dish."
+course: side                   # snack, breakfast, main, side or dessert: the heading it is listed under
+status: tested                 # tested, or concept for an idea that has not been cooked yet
 time: "40 min"
 makes: "Makes 6"
 tags: [Bread]
+figure: figure.svg             # optional: the drawing of the dish (see Drawings)
+figure_caption: "What the drawing shows."
 cover: picture.jpg             # optional
+develop:                       # optional: what is still to be worked out
+  - "How long the dough rests."
 ingredients:
   - 250 g plain flour
   - 200 g natural yoghurt
@@ -147,6 +153,11 @@ ingredients:
     items:
       - Olive oil
 ```
+
+A recipe can be unfinished, and say so. Whatever is listed under `develop` appears at the foot of
+the page under "Still to work out", each with a box to tick in the mind. Take a line out when it
+is settled. A recipe with `status: concept` is marked as an idea in every list. Projects can have
+a `develop` list too.
 
 `content/recipes/sample-flatbreads/` is a draft that shows the layout; delete it when it is no
 longer useful.
@@ -197,7 +208,11 @@ A drawing inside the text (see [Drawings](#drawings)):
 
 ```markdown
 {{< drawing file="first-version.svg" caption="What it shows." >}}
+{{< drawing file="architecture.svg" caption="How the parts fit." wide=true >}}
 ```
+
+With `wide=true` the drawing takes the full width of the text. That is for a diagram with many
+parts: draw it in a frame of 480 by 270, with up to twelve labels.
 
 ## Photographs
 

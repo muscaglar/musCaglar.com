@@ -7,8 +7,6 @@
 */ -}}
 {{- $page := . -}}
 {{- $notes := dict -}}
-{{- range $page.Params.photos }}{{ with .file }}{{ $notes = merge $notes (dict (lower .) $) }}{{ end }}{{ end -}}
-{{- $notes = dict -}}
 {{- range $page.Params.photos -}}
   {{- $entry := . -}}
   {{- with .file }}{{ $notes = merge $notes (dict (lower .) $entry) }}{{ end -}}
@@ -17,7 +15,8 @@
 {{- range $page.Resources.ByType "image" -}}
   {{- $img := . -}}
   {{- $note := index $notes (lower (path.Base $img.Name)) | default dict -}}
-  {{- if not $note.hide -}}
+  {{- /* A drawing is not a photograph: SVG files are left out. */ -}}
+  {{- if and (not $note.hide) (ne $img.MediaType.SubType "svg") -}}
     {{- $date := time.AsTime "0001-01-01" -}}
     {{- $camera := slice -}}
     {{- if reflect.IsImageResourceWithMeta $img -}}

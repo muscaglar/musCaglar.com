@@ -1,7 +1,7 @@
 {{- /* One entry of a section as a plate: its title, its drawing (or its picture), and one sentence. */ -}}
 <li>
   <a class="plate" href="{{ .RelPermalink }}">
-    <span class="plate__head"><span class="plate__name">{{ .Title }}{{ partial "draft.html" . }}</span> <span class="plate__go">→</span></span>
+    <span class="plate__head"><span class="plate__name">{{ .Title }}{{ partial "status.html" . }}</span> <span class="plate__go">→</span></span>
     {{- $sketch := partial "sketch.html" (dict "page" . "name" .Params.figure) }}
     {{- if $sketch }}
     {{ $sketch }}

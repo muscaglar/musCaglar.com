@@ -1,38 +1,41 @@
 {{ define "main" }}
-{{- $pages := .RegularPages.ByDate.Reverse }}
+{{- $pages := partial "recipes.html" . }}
 <div class="page page--list">
   {{ partial "page-head.html" (dict "page" . "label" (partial "count.html" (dict "n" (len $pages) "one" "recipe" "many" "recipes")) "lede" .Description) }}
   <aside class="page__aside">
     {{ partial "plate.html" . }}
   </aside>
   <div class="page__wide">
+    {{- with .Content }}
     <section class="band">
-      <div class="band__body">
-        {{- with .Content }}
-        <div class="prose">{{ . }}</div>
-        {{- end }}
-        {{- with $pages }}
-        <ol class="rows">
-          {{- range . }}
-          <li>
-            <span class="key">{{ .Params.time }}</span>
-            <div>
-              <h2 class="entry__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ partial "draft.html" . }}</h2>
-              {{- with .Params.summary }}
-              <p class="entry__text">{{ . }}</p>
-              {{- end }}
-            </div>
-            {{- with .Params.makes }}
-            <span class="meta">{{ . | lower }}</span>
-            {{- end }}
-          </li>
-          {{- end }}
-        </ol>
-        {{- else }}
-        <p class="empty">Nothing here yet.</p>
-        {{- end }}
-      </div>
+      <div class="band__body prose">{{ . }}</div>
     </section>
+    {{- end }}
+    {{- /* Recipes are grouped by course, in this order; any other course follows, in alphabetical order. */}}
+    {{- $order := slice "snack" "breakfast" "main" "side" "dessert" }}
+    {{- $names := dict "snack" "Snacks" "breakfast" "Breakfast" "main" "Mains" "side" "Sides" "dessert" "Desserts" "other" "Other" }}
+    {{- $present := slice }}
+    {{- range $pages }}{{ $present = $present | append (.Params.course | default "other" | lower) }}{{ end }}
+    {{- $present = $present | uniq }}
+    {{- $courses := slice }}
+    {{- range $order }}{{ if in $present . }}{{ $courses = $courses | append . }}{{ end }}{{ end }}
+    {{- range sort $present }}{{ if not (in $courses .) }}{{ $courses = $courses | append . }}{{ end }}{{ end }}
+    {{- range $i, $course := $courses }}
+      {{- $list := slice }}
+      {{- range $pages }}{{ if eq (.Params.course | default "other" | lower) $course }}{{ $list = $list | append . }}{{ end }}{{ end }}
+    <section class="band" id="{{ $course | anchorize }}">
+      {{- if gt (len $courses) 1 }}
+      {{ partial "band-head.html" (dict "no" (add $i 1) "title" (index $names $course | default ($course | humanize)) "count" (partial "count.html" (dict "n" (len $list) "one" "recipe" "many" "recipes"))) }}
+      {{- end }}
+      <ol class="band__body atlas">
+        {{- range $list }}
+        {{ partial "entry-plate.html" . }}
+        {{- end }}
+      </ol>
+    </section>
+    {{- else }}
+    <p class="empty">Nothing here yet.</p>
+    {{- end }}
   </div>
 </div>
 {{ end }}

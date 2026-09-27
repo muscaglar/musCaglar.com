@@ -117,6 +117,50 @@
 }
 
 
+/* What is still to be worked out: a list to come back to */
+.develop {
+  position: relative;
+  max-inline-size: var(--measure);
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-4);
+  border-block-start: var(--rule) solid var(--color-rule-strong);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(var(--rule) * -1);
+    inset-inline-start: 0;
+    inline-size: var(--mark-width);
+    block-size: var(--mark-height);
+    background: var(--color-accent);
+  }
+  & h2 {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    padding-block: var(--space-2);
+  }
+  & ul { padding: 0; list-style: none; }
+  & li {
+    display: grid;
+    grid-template-columns: var(--space-8) minmax(0, 1fr);
+    padding-block: var(--space-2);
+    border-block-start: var(--rule) solid var(--color-rule);
+    color: var(--color-ink-2);
+  }
+  /* an empty box, to be ticked */
+  & li::before {
+    content: "";
+    inline-size: 0.7em;
+    block-size: 0.7em;
+    margin-block-start: 0.45em;
+    border: var(--rule) solid var(--color-ink-3);
+  }
+}
+
+
 /* Photos: albums, then the photographs of one album ---------------------------- */
 .albums {
   display: grid;

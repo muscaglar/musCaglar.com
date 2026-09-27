@@ -1,0 +1,6 @@
+{{- /* Returns the recipes in the order they are listed: the ones that have been cooked first, newest
+       first, then the ideas, by name. */ -}}
+{{- $all := where site.RegularPages "Section" "recipes" -}}
+{{- $ideas := where $all "Params.status" "eq" "concept" -}}
+{{- $cooked := $all | complement $ideas -}}
+{{- return ($cooked.ByDate.Reverse | append $ideas.ByTitle) -}}

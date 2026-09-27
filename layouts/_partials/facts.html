@@ -20,11 +20,14 @@
   {{- with .photos }}
   <div><dt>Photos</dt><dd>{{ . }}</dd></div>
   {{- end }}
+  {{- with $page.Params.course }}
+  <div><dt>Course</dt><dd>{{ . | humanize }}</dd></div>
+  {{- end }}
   {{- with $page.Params.kind }}
   <div><dt>Kind</dt><dd>{{ . | humanize }}</dd></div>
   {{- end }}
   {{- with $page.Params.status }}
-  <div><dt>Status</dt><dd>{{ . | humanize }}</dd></div>
+  <div><dt>Status</dt><dd>{{ cond (eq . "concept") "An idea, not yet cooked" (. | humanize) }}</dd></div>
   {{- end }}
   {{- partial "facts-links.html" $page }}
   {{- if $page.GetTerms "tags" }}

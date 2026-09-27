@@ -39,10 +39,12 @@
       <h2 class="visually-hidden">Method</h2>
       {{ .Content }}
     </section>
+    {{ partial "develop.html" . }}
   </div>
   <div class="page__foot">
     {{ partial "pager.html" . }}
   </div>
 </article>
-{{- partial "recipe-schema.html" . }}
+{{- /* Search engines are told about a recipe once there is one: ingredients, and more than an idea. */}}
+{{- if and .Params.ingredients (ne .Params.status "concept") }}{{ partial "recipe-schema.html" . }}{{ end }}
 {{ end }}

@@ -1,0 +1,3 @@
+{{- /* Marks a recipe that is still an idea, and any page that is a draft. */ -}}
+{{- if eq .Params.status "concept" }} <span class="sample">idea</span>{{ end -}}
+{{- partial "draft.html" . -}}
