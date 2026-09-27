@@ -119,8 +119,8 @@ The write-up.
 title: "Flatbreads in a pan"
 date: 2026-10-01
 summary: "One line about the dish."
-course: side                   # snack, breakfast, main, side or dessert: the heading it is listed under
-status: tested                 # tested, or concept for an idea that has not been cooked yet
+course: side                   # snack, breakfast, main, side, dessert or coffee: the heading it is listed under
+status: tested                 # tested, developing (made, not settled yet) or concept (an idea, not made yet)
 time: "40 min"
 makes: "Makes 6"
 tags: [Bread]
@@ -156,8 +156,10 @@ ingredients:
 
 A recipe can be unfinished, and say so. Whatever is listed under `develop` appears at the foot of
 the page under "Still to work out", each with a box to tick in the mind. Take a line out when it
-is settled. A recipe with `status: concept` is marked as an idea in every list. Projects can have
-a `develop` list too.
+is settled. A recipe with `status: concept` is marked as an idea in every list, and one with
+`status: developing` as in progress. Projects can have a `develop` list too.
+
+Any other word under `course` makes a heading of its own, after the ones named above.
 
 `content/recipes/sample-flatbreads/` is a draft that shows the layout; delete it when it is no
 longer useful.

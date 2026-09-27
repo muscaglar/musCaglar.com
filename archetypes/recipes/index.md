@@ -2,8 +2,8 @@
 title: "{{ replace .File.ContentBaseName "-" " " | humanize }}"
 date: {{ .Date }}
 summary: "One line about the dish."
-course: main                    # snack | breakfast | main | side | dessert: the heading it is listed under
-status: tested                  # tested, or concept for an idea that has not been cooked yet
+course: main                    # snack | breakfast | main | side | dessert | coffee: the heading it is listed under
+status: tested                  # tested | developing (made, not settled yet) | concept (an idea, not made yet)
 time: ""                        # for example "45 min"
 makes: ""                       # for example "Serves 4"
 tags: []

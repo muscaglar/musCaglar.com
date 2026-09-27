@@ -3,8 +3,8 @@ title: "Flatbreads in a pan"
 date: 2026-09-20
 summary: "A sample recipe that shows how a recipe page is laid out. Delete this folder once you have added your own."
 draft: true
-course: side                  # snack | breakfast | main | side | dessert: the heading it is listed under
-status: tested                # tested, or concept for an idea that has not been cooked yet
+course: side                  # snack | breakfast | main | side | dessert | coffee: the heading it is listed under
+status: tested                # tested | developing (made, not settled yet) | concept (an idea, not made yet)
 time: "40 min"
 makes: "Makes 6"
 tags: [Bread]

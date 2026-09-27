@@ -45,6 +45,6 @@
     {{ partial "pager.html" . }}
   </div>
 </article>
-{{- /* Search engines are told about a recipe once there is one: ingredients, and more than an idea. */}}
-{{- if and .Params.ingredients (ne .Params.status "concept") }}{{ partial "recipe-schema.html" . }}{{ end }}
+{{- /* Search engines are told about a recipe once there is one: ingredients, and a settled method. */}}
+{{- if and .Params.ingredients (not (in (slice "concept" "developing") (.Params.status | default "" | lower))) }}{{ partial "recipe-schema.html" . }}{{ end }}
 {{ end }}

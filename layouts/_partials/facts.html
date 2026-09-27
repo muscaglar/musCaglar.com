@@ -27,7 +27,7 @@
   <div><dt>Kind</dt><dd>{{ . | humanize }}</dd></div>
   {{- end }}
   {{- with $page.Params.status }}
-  <div><dt>Status</dt><dd>{{ cond (eq . "concept") "An idea, not yet cooked" (. | humanize) }}</dd></div>
+  <div><dt>Status</dt><dd>{{ if eq (lower .) "concept" }}An idea, not yet cooked{{ else if eq (lower .) "developing" }}In progress{{ else }}{{ . | humanize }}{{ end }}</dd></div>
   {{- end }}
   {{- partial "facts-links.html" $page }}
   {{- if $page.GetTerms "tags" }}

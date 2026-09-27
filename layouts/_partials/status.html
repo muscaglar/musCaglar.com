@@ -1,3 +1,5 @@
-{{- /* Marks a recipe that is still an idea, and any page that is a draft. */ -}}
-{{- if eq .Params.status "concept" }} <span class="sample">idea</span>{{ end -}}
+{{- /* Marks a recipe that is still an idea or still being worked out, and any page that is a draft. */ -}}
+{{- $status := .Params.status | default "" | lower -}}
+{{- if eq $status "concept" }} <span class="sample">idea</span>{{ end -}}
+{{- if eq $status "developing" }} <span class="sample">in progress</span>{{ end -}}
 {{- partial "draft.html" . -}}
