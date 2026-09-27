@@ -115,7 +115,7 @@ def main() -> int:
             target, anchor = target_file(root, file, link)
             if target is None:
                 continue
-            if not str(target).startswith(str(root)):
+            if not target.is_relative_to(root):
                 problems.append(f"{shown}: link leaves the site folder: {link}")
                 continue
             if not target.exists():

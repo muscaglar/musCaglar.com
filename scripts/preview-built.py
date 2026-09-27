@@ -19,7 +19,7 @@ import re
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "public").resolve()
 PORT = int(sys.argv[2]) if len(sys.argv) > 2 else 8788
@@ -89,7 +89,22 @@ class Handler(BaseHTTPRequestHandler):
         self.respond(body=True)
 
     def respond(self, body: bool) -> None:
+        # Answer only when addressed as this machine, so that a page on another site cannot read
+        # the preview (which includes drafts) through the browser.
+        host = (self.headers.get("Host") or "").rsplit(":", 1)[0].strip("[]").lower()
+        if host not in ("127.0.0.1", "localhost", "::1"):
+            self.send_response(421)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+
         path = unquote(urlsplit(self.path).path)
+        # Nothing on this site has a control character in its address. Refusing them here keeps
+        # line breaks out of the Location header below.
+        if any(ord(c) < 32 or ord(c) == 127 for c in path):
+            return self.not_found(body)
+        # "//example.org/" would otherwise be read by a browser as another site.
+        path = "/" + path.lstrip("/")
 
         for rule, to, status in REDIRECTS:
             match = rule.match(path)
@@ -99,7 +114,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.redirect(to, status)
 
         file = (ROOT / path.lstrip("/")).resolve()
-        if not str(file).startswith(str(ROOT)):
+        if not file.is_relative_to(ROOT):
             return self.not_found(body)
         if file.is_dir():
             if not path.endswith("/"):
@@ -107,15 +122,26 @@ class Handler(BaseHTTPRequestHandler):
             file = file / "index.html"
         elif not file.exists() and (ROOT / (path.strip("/") + "/index.html")).exists():
             return self.redirect(path + "/", 307)
-        if path.endswith("/index.html"):
-            return self.redirect(path[: -len("index.html")], 307)
         if not file.is_file() or file.name in ("_headers", "_redirects"):
             return self.not_found(body)
+        if path.endswith("/index.html"):
+            return self.redirect(path[: -len("index.html")], 307)
         self.send_file(file, 200, path, body)
 
     def redirect(self, to: str, status: int) -> None:
+        # Addresses on this site are sent as one clean path; addresses elsewhere (from _redirects)
+        # are sent as written, minus anything that could start a new header line.
+        parts = urlsplit(to)
+        if parts.scheme or parts.netloc:
+            location = "".join(c for c in to if ord(c) >= 32 and ord(c) != 127)
+        else:
+            location = quote("/" + parts.path.lstrip("/"), safe="/")
+            if parts.query:
+                location += "?" + quote(parts.query, safe="=&")
+            if parts.fragment:
+                location += "#" + quote(parts.fragment, safe="")
         self.send_response(status)
-        self.send_header("Location", to)
+        self.send_header("Location", location)
         self.send_header("Content-Length", "0")
         self.end_headers()
 
