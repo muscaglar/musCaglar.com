@@ -7,7 +7,6 @@ tags: [Python, Image processing, Microscopy]
 figure: figure.svg
 figure_caption: "A focal series of images, taken above, in and below focus, is combined through the inverse of the contrast transfer function. The result is one image in which the atoms are resolved."
 cover: focal-series.png
-featured: true
 links:
   - name: Code on GitHub
     url: https://github.com/muscaglar/HRTEM_Recon
@@ -16,7 +15,6 @@ links:
 aliases:
   - /posts_tem_recon
   - /posts_tem_recon.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 Since the majority of my work involves 2D materials, studying the surface morphology and defects within the materials is important. I use Raman spectroscopy to infer some of the properties within the material, such as how many layers I am working with or how many holes or defects the material has, but imaging the surface morphology and defects within the material can be far more useful and convincing.

@@ -7,7 +7,6 @@ tags: [Python, Signal processing, Clustering, Nanopores]
 figure: figure.svg
 figure_caption: "A strand of DNA passing through a nanopore, beside the current measured across it. The current dips while the strand is in the pore, and that dip is what the analysis looks for in the noise."
 cover: current-trace-analysis.png
-featured: true
 links:
   - name: Python code on GitHub
     url: https://github.com/muscaglar/DNA
@@ -16,7 +15,6 @@ links:
 aliases:
   - /posts_DNA
   - /posts_DNA.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 DNA translocation through nanopores can be studied by applying a voltage and measuring the current — 'resistive pulse sensing'. In order to increase the resolution of such systems, nanopores in 2D membranes could be used; however, these are inherently noisy. With many terabytes of noisy data, a trained CNN could be used to detangle the translocations from the noise.

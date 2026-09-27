@@ -7,14 +7,12 @@ tags: [R, Logistic regression, Naive Bayes, GIS]
 figure: figure.svg
 figure_caption: "An invented plan of ponds beside a railway line, with a ring around one pond and the sightings recorded near it. Each pond is scored for how likely it is to be occupied."
 cover: gis-boundaries.png
-featured: true
 links:
   - name: Code on GitHub
     url: https://github.com/muscaglar/GCN
 aliases:
   - /posts_GCN
   - /posts_GCN.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 As a protected species, knowledge of the extent and distribution of habitats of the great crested newt (GCN) is of paramount importance within both the rail and construction sectors. Using data sourced from Network Rail, I apply an adjusted 10-point scale (Oldham et al.) to determine the likelihood of areas being occupied by GCNs — alleviating the need for costly site visits.

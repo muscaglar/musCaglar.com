@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A list of two-letter pairs on the left and a square grid of pixels on the right; the first pair fills the first two pixels and the rest follow row by row.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the list of letter pairs -->
+  <path class="sk-ink" d="M36 59h16v8h-16zM44 59v8M36 72h16v8h-16zM44 72v8M36 85h16v8h-16zM44 85v8M36 98h16v8h-16zM44 98v8M36 111h16v8h-16zM44 111v8"/>
+  <path class="sk-dash" d="M44 124V134"/>
+  <!-- the image, one cell per letter -->
+  <path class="sk-line" d="M127 44.5V132.5M138 44.5V132.5M149 44.5V132.5M160 44.5V132.5M171 44.5V132.5M182 44.5V132.5M193 44.5V132.5M116 55.5H204M116 66.5H204M116 77.5H204M116 88.5H204M116 99.5H204M116 110.5H204M116 121.5H204"/>
+  <path class="sk-ink" d="M116 44.5H204V132.5H116z"/>
+  <!-- the order in which the cells are filled: two rows are enough -->
+  <path class="sk-dash" d="M143.5 50H198.5M121.5 61H197"/>
+  <path class="sk-line" d="M194 58l4 3l-4 3"/>
+  <!-- one pair becomes two pixels -->
+  <g class="sk-accent">
+    <path d="M36 46h16v8h-16zM44 46v8"/>
+    <path d="M56 50H111M107 47l4 3l-4 3"/>
+    <path d="M116 44.5h22v11h-22zM127 44.5v11"/>
+  </g>
+  <text x="36" y="36">letter pairs</text>
+  <text x="116" y="36">two pixels</text>
+  <text x="116" y="148">image</text>
+</svg>

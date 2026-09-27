@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A block diagram: text goes into a language model, which writes a list of solid primitives and operations, which becomes a cube mesh that is compared with a target mesh.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- three stages -->
+  <path class="sk-ink" d="M24 28h48v40H24zM96 28h48v40H96zM168 28h48v40H168z"/>
+  <!-- text: three lines -->
+  <path class="sk-line" d="M32 40H64M32 48H58M32 56H62"/>
+  <!-- model: a small layered net -->
+  <path class="sk-line" d="M106 40L120 34M106 40L120 48M106 40L120 62M106 56L120 34M106 56L120 48M106 56L120 62M134 40L120 34M134 40L120 48M134 40L120 62M134 56L120 34M134 56L120 48M134 56L120 62"/>
+  <g class="sk-dot"><circle cx="106" cy="40" r="1.5"/><circle cx="106" cy="56" r="1.5"/><circle cx="120" cy="34" r="1.5"/><circle cx="120" cy="48" r="1.5"/><circle cx="120" cy="62" r="1.5"/><circle cx="134" cy="40" r="1.5"/><circle cx="134" cy="56" r="1.5"/></g>
+  <!-- csg: an operation over two primitives -->
+  <path class="sk-line" d="M190 40.5L182 55.5M194 40.5L202 55.5"/>
+  <circle class="sk-ink" cx="192" cy="38" r="3"/>
+  <circle class="sk-ink" cx="180" cy="58" r="3"/>
+  <circle class="sk-ink" cx="204" cy="58" r="3"/>
+  <!-- arrows -->
+  <path class="sk-line" d="M76 48H92M88 45L92 48L88 51M148 48H164M160 45L164 48L160 51M192 73V97M189 93L192 97L195 93"/>
+  <!-- the generated mesh: one cube -->
+  <path class="sk-accent" d="M192 102L211 113V135L192 146L173 135V113ZM173 113L192 124L211 113M192 124V146"/>
+  <!-- the target mesh -->
+  <path class="sk-ink" d="M29 120L38 105L56 101L69 112L67 134L51 147L34 140Z"/>
+  <path class="sk-line" d="M45 120L29 120M45 120L38 105M45 120L56 101M45 120L34 140M45 120L57 127M57 127L56 101M57 127L69 112M57 127L67 134M57 127L51 147M57 127L34 140"/>
+  <!-- comparison -->
+  <path class="sk-dash" d="M82 124H160"/>
+  <path class="sk-line" d="M82 124L86 121M82 124L86 127M160 124L156 121M160 124L156 127"/>
+  <text x="48" y="20" text-anchor="middle">text</text>
+  <text x="120" y="20" text-anchor="middle">model</text>
+  <text x="192" y="20" text-anchor="middle">csg json</text>
+  <text x="48" y="163" text-anchor="middle">target</text>
+  <text x="192" y="163" text-anchor="middle">mesh</text>
+</svg>

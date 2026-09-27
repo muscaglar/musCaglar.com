@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="Five small round biscuits in a row, seen from the side, each with a dusting of icing sugar on top.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the tray -->
+  <path class="sk-line" d="M14 108H226"/>
+  <!-- five small balls, baked -->
+  <path class="sk-ink" d="M25 108C19 101 19 86 36 86C53 86 53 101 47 108M67 108C61 101 61 86 78 86C95 86 95 101 89 108M109 108C103 101 103 86 120 86C137 86 137 101 131 108M151 108C145 101 145 86 162 86C179 86 179 101 173 108M193 108C187 101 187 86 204 86C221 86 221 101 215 108"/>
+  <!-- the icing sugar, on top -->
+  <path class="sk-accent" d="M21.5 88C24 85 28.5 82.5 36 82.5C43.5 82.5 48 85 50.5 88M63.5 88C66 85 70.5 82.5 78 82.5C85.5 82.5 90 85 92.5 88M105.5 88C108 85 112.5 82.5 120 82.5C127.5 82.5 132 85 134.5 88M147.5 88C150 85 154.5 82.5 162 82.5C169.5 82.5 174 85 176.5 88M189.5 88C192 85 196.5 82.5 204 82.5C211.5 82.5 216 85 218.5 88"/>
+  <!-- leader -->
+  <path class="sk-line" d="M120 77V62"/>
+  <text x="120" y="54" text-anchor="middle">icing sugar</text>
+  <text x="120" y="132" text-anchor="middle">once cooled</text>
+</svg>

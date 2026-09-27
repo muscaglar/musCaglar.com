@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A round cake cut in half, with holes poked into it from the top and the soak of three milks ladled over it.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the tin, in section -->
+  <path class="sk-ink" d="M36 78V132H148V78"/>
+  <!-- the top of the cake -->
+  <path class="sk-ink" d="M36 90Q92 82 148 90"/>
+  <!-- the holes, poked from the top -->
+  <path class="sk-line" d="M44 89V114M60 88V114M76 87.5V114M92 87V114M108 87.5V114M124 88V114M140 89V114"/>
+  <!-- the soak: ladled on, and taken up by the cake -->
+  <g class="sk-accent">
+    <path d="M60 46V70M56.5 66L60 70L63.5 66M92 46V70M88.5 66L92 70L95.5 66M124 46V70M120.5 66L124 70L127.5 66"/>
+    <path d="M38.5 108C38.5 126 52 126 52 108C52 126 68 126 68 108C68 126 84 126 84 108C84 126 100 126 100 108C100 126 116 126 116 108C116 126 132 126 132 108C132 126 145.5 126 145.5 108"/>
+  </g>
+  <!-- leaders -->
+  <path class="sk-line" d="M142 93H168M144 116H168"/>
+  <text x="92" y="36" text-anchor="middle">three milks</text>
+  <text x="172" y="96">holes</text>
+  <text x="172" y="119">soak</text>
+  <text x="92" y="154" text-anchor="middle">fridge overnight</text>
+</svg>

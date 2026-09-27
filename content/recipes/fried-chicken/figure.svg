@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="Four vessels in a row, cut in half, in the order the chicken goes through them: spice rub, batter, dry mix, fry. The dry mix, the second coat, is in red.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- three bowls and the frying pan, in section -->
+  <path class="sk-ink" d="M14 76L20 108H52L58 76M70 76L76 108H108L114 76M126 76L132 108H164L170 76M182 76V108H226V76"/>
+  <!-- the spice rub: dry, a little heap -->
+  <g class="sk-dot">
+    <circle cx="28" cy="103" r="1.5"/><circle cx="36" cy="103" r="1.5"/><circle cx="44" cy="103" r="1.5"/><circle cx="32" cy="97" r="1.5"/><circle cx="40" cy="97" r="1.5"/>
+  </g>
+  <!-- the batter: thick, with lumps -->
+  <path class="sk-line" d="M73 90H82q3 -4 6 0H96q3 -4 6 0H111"/>
+  <!-- the dry mix: the second coat -->
+  <path class="sk-accent" d="M130.5 100Q148 80 165.5 100"/>
+  <!-- the fry: a level, and bubbles -->
+  <path class="sk-line" d="M182 88H226"/>
+  <circle class="sk-line" cx="194" cy="100" r="2"/>
+  <circle class="sk-line" cx="204" cy="95" r="2"/>
+  <circle class="sk-line" cx="214" cy="101" r="2"/>
+  <!-- from one to the next -->
+  <path class="sk-line" d="M36 68Q64 42 92 68M90 63.5L92 68L87 66.5M96 67Q122 43 148 68M146 63.5L148 68L143 66.5M152 67Q178 43 204 68M202 63.5L204 68L199 66.5"/>
+  <text x="36" y="125" text-anchor="middle">spice rub</text>
+  <text x="92" y="125" text-anchor="middle">batter</text>
+  <text x="148" y="125" text-anchor="middle">dry mix</text>
+  <text x="204" y="125" text-anchor="middle">fry</text>
+</svg>

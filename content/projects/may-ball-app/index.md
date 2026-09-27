@@ -8,14 +8,9 @@ tags: [Swift, iOS, ARKit, MapKit]
 figure: figure.svg
 figure_caption: "An invented plan of two courts with food stalls, and the queue at one stall. The app had a map of the grounds and live queue times for the stalls."
 cover: walkthrough-1.png
-featured: true
-links:
-  - name: App Store
-    url: https://apps.apple.com/gb/app/g-c-may-ball/id1468647308
 aliases:
   - /posts_odysseyApp
   - /posts_odysseyApp.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 My first app on the iOS App Store — the companion app to the Gonville & Caius May Ball. Over 4,000 impressions and 600 downloads in the first week.

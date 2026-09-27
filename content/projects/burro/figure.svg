@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A plan of a city divided into twenty-four areas, with journeys drawn from two places to reach to the one area that fits best.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the borders of twenty-four areas -->
+  <path class="sk-ink" d="M42 67.5L52.5 58.5L50.5 48.5L43 41.5L32.5 47L30.5 59.5L42 67.5L43 77L30 83L22 76.5L20 64.5L30.5 59.5M61.5 64.5L70.5 61L73 46.5L64 41.5L50.5 48.5M52.5 58.5L61.5 64.5L63 77L50 83L43 77M84 65L93 62L94.5 48.5L84.5 43L73 46.5M70.5 61L84 65L81 77.5L73.5 83L63 77M102 67L114 61L115.5 46.5L105.5 44L94.5 48.5M93 62L102 67L101.5 76.5L94 84.5L81 77.5M115 83.5L126 78.5L126 64.5L114 61M101.5 76.5L115 83.5L112.5 95.5L102 101L93 97.5L83 101M20.5 101.5L32 95L30 83M20.5 101.5L10.5 94.5L11.5 83.5L22 76.5M42.5 100.5L50 94.5L50 83M32 95L42.5 100.5L42.5 112L32 120.5L22.5 113L20.5 101.5M50 94.5L63 103M74 98L73.5 83M93 97.5L94 84.5M133 95.5L124 101.5L112.5 95.5M126 78.5L133.5 83L133 95.5M52 120.5L61.5 114.5M42.5 112L52 120.5L50 130.5L41.5 138.5L30.5 133L32 120.5M94.5 121L102.5 114.5L102 101M83.5 114.5L94.5 121L94 130.5L83.5 139.5L72.5 130.5L62.5 139L50 130.5M125 113.5L115.5 120L102.5 114.5M124 101.5L125 113.5M72.5 130.5L72.5 121.5M112.5 133.5L102 139.5L94 130.5M115.5 120L112.5 133.5"/>
+  <!-- the journeys -->
+  <path class="sk-dash" d="M68.5 100.5L34.5 75M79.5 100L110.5 75"/>
+  <!-- the area that fits best -->
+  <g>
+    <path class="sk-accent" d="M83.5 114.5L72.5 121.5L61.5 114.5L63 103L74 98L83 101Z"/>
+    <circle class="sk-accent-dot" cx="73" cy="109" r="2"/>
+  </g>
+  <!-- the places to reach -->
+  <circle class="sk-hole" cx="31" cy="72" r="2.5"/>
+  <circle class="sk-hole" cx="114" cy="72" r="2.5"/>
+  <!-- leaders -->
+  <path class="sk-line" d="M118.5 72H146M127 90.5H146M77.5 109H146"/>
+  <text x="150" y="75">place to reach</text>
+  <text x="150" y="93.5">area</text>
+  <text x="150" y="112">best fit</text>
+</svg>

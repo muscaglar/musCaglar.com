@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A graph of exhaust-air temperature against time for one roast: a fast climb to the setpoint, a saw-tooth hold, first crack, then cooling.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- axes: temperature up (a tick every 50 degrees), time across (a tick every minute) -->
+  <path class="sk-line" d="M23 16V150H219"/>
+  <path class="sk-line" d="M23 125h-2.5M23 100h-2.5M23 75h-2.5M23 50h-2.5M23 25h-2.5M37 150v2.5M51 150v2.5M65 150v2.5M79 150v2.5M93 150v2.5M107 150v2.5M121 150v2.5M135 150v2.5M149 150v2.5M163 150v2.5M177 150v2.5M191 150v2.5M205 150v2.5"/>
+  <!-- setpoint level, first-crack and cool guides -->
+  <path class="sk-dash" d="M25 32H80M165 39V148M183 39V148"/>
+  <!-- exhaust-air temperature: climb, thermostat saw-tooth, cooling -->
+  <path class="sk-accent" d="M23 136C26 121 28.5 109.5 31.5 100.5C35.5 88.5 40 77.5 44 70.5C51 58.5 58 52 65 46.5C72 40.5 80 35.5 87 31L89.5 35.5L93 31L95.5 35.5L99 31L101.5 35.5L105 31L107.5 35.5L111 31L113.5 35.5L117 31L119.5 35.5L123 31L125.5 35.5L129 31L131.5 35.5L135 31L137.5 35.5L141 31L143.5 35.5L147 31L149.5 35.5L153 31L155.5 35.5L159 31L161.5 35.5L165 31L167.5 35.5L171 31L173.5 35.5L177 31L179.5 35.5L183 31C187 49 202 76 212 84.5"/>
+  <!-- marks on the curve -->
+  <circle class="sk-dot" cx="165" cy="31" r="2"/>
+  <circle class="sk-dot" cx="183" cy="31" r="2"/>
+  <!-- leader and labels -->
+  <path class="sk-line" d="M44.5 78H51.5"/>
+  <text x="55" y="81">exhaust air</text>
+  <text x="27" y="26">setpoint</text>
+  <text x="161" y="128" text-anchor="end">first crack</text>
+  <text x="187" y="128">cool</text>
+  <text x="219" y="165" text-anchor="end">time</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A triangle with chickpea, chicken and rice at its three corners. A red ring somewhere inside it marks the variant that is still to be worked out.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the three parts, one at each corner -->
+  <path class="sk-ink" d="M120 32L180 136H60Z"/>
+  <!-- ticks along the sides, at quarters, pointing out -->
+  <path class="sk-line" d="M90 136V141M120 136V141M150 136V141M105 58L100.5 55.5M90 84L85.5 81.5M75 110L70.5 107.5M135 58L139.5 55.5M150 84L154.5 81.5M165 110L169.5 107.5"/>
+  <!-- the corners -->
+  <circle class="sk-dot" cx="120" cy="32" r="2"/>
+  <circle class="sk-dot" cx="60" cy="136" r="2"/>
+  <circle class="sk-dot" cx="180" cy="136" r="2"/>
+  <!-- the variant: somewhere in here -->
+  <circle class="sk-accent" cx="120" cy="96" r="13"/>
+  <text x="120" y="22" text-anchor="middle">chickpea</text>
+  <text x="60" y="155" text-anchor="middle">chicken</text>
+  <text x="180" y="155" text-anchor="middle">rice</text>
+  <text x="120" y="126" text-anchor="middle">some variant</text>
+</svg>
