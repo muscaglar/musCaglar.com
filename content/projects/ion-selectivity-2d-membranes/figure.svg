@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A membrane with one pore separating a salty reservoir from a dilute one, with a positive ion passing through the pore.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- tank -->
+  <path class="sk-ink" d="M36 36V144H188V36"/>
+  <!-- liquid level -->
+  <path class="sk-line" d="M36 46H112M112 46H188"/>
+  <!-- the membrane, with a pore -->
+  <path class="sk-accent" d="M112 28V83M112 97V144"/>
+  <!-- positive ions, salty side -->
+  <g class="sk-dot">
+    <circle cx="48" cy="60" r="2.5"/><circle cx="80" cy="60" r="2.5"/>
+    <circle cx="72" cy="75" r="2.5"/>
+    <circle cx="48" cy="90" r="2.5"/><circle cx="80" cy="90" r="2.5"/>
+    <circle cx="56" cy="105" r="2.5"/><circle cx="88" cy="105" r="2.5"/>
+    <circle cx="48" cy="120" r="2.5"/><circle cx="80" cy="120" r="2.5"/>
+    <circle cx="72" cy="135" r="2.5"/>
+  </g>
+  <!-- negative ions, salty side -->
+  <g class="sk-ink">
+    <circle cx="64" cy="60" r="2.5"/><circle cx="96" cy="60" r="2.5"/>
+    <circle cx="56" cy="75" r="2.5"/><circle cx="88" cy="75" r="2.5"/>
+    <circle cx="64" cy="90" r="2.5"/>
+    <circle cx="72" cy="105" r="2.5"/>
+    <circle cx="64" cy="120" r="2.5"/><circle cx="96" cy="120" r="2.5"/>
+    <circle cx="56" cy="135" r="2.5"/><circle cx="88" cy="135" r="2.5"/>
+  </g>
+  <!-- ions, dilute side -->
+  <g class="sk-dot">
+    <circle cx="152" cy="68" r="2.5"/><circle cx="132" cy="128" r="2.5"/><circle cx="172" cy="92" r="2.5"/>
+  </g>
+  <g class="sk-ink">
+    <circle cx="152" cy="116" r="2.5"/><circle cx="132" cy="62" r="2.5"/><circle cx="172" cy="134" r="2.5"/>
+  </g>
+  <!-- the ion in the pore, and where it is going -->
+  <circle class="sk-dot" cx="112" cy="90" r="2.5"/>
+  <path class="sk-ink" d="M119 90H133M129 87l4 3l-4 3"/>
+  <!-- leaders -->
+  <path class="sk-line" d="M157 68H192M157 116H192"/>
+  <text x="196" y="71">cation</text>
+  <text x="196" y="119">anion</text>
+  <text x="112" y="19" text-anchor="middle">membrane</text>
+  <text x="74" y="163" text-anchor="middle">more salt</text>
+  <text x="150" y="163" text-anchor="middle">less salt</text>
+</svg>

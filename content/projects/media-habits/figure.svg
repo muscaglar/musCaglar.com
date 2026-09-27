@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="Ten features for each survey answer feed a set of decision trees, whose votes give one answer: uses an ad blocker or not.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- ten numbers for each person who answered -->
+  <circle class="sk-ink" cx="30" cy="45" r="2.5"/><circle class="sk-ink" cx="30" cy="55" r="2.5"/><circle class="sk-ink" cx="30" cy="65" r="2.5"/><circle class="sk-ink" cx="30" cy="75" r="2.5"/><circle class="sk-ink" cx="30" cy="85" r="2.5"/><circle class="sk-ink" cx="30" cy="95" r="2.5"/><circle class="sk-ink" cx="30" cy="105" r="2.5"/><circle class="sk-ink" cx="30" cy="115" r="2.5"/><circle class="sk-ink" cx="30" cy="125" r="2.5"/><circle class="sk-ink" cx="30" cy="135" r="2.5"/>
+  <path class="sk-line" d="M33.5 45H44M33.5 55H44M33.5 65H44M33.5 75H44M33.5 85H44M33.5 95H44M33.5 105H44M33.5 115H44M33.5 125H44M33.5 135H44M44 45V135M44 52H90M87 49l3 3l-3 3M44 90H90M87 87l3 3l-3 3M44 128H90M87 125l3 3l-3 3"/>
+  <!-- three of the hundred trees -->
+  <path class="sk-ink" d="M96 52L110 44M96 52L110 60M110 44L124 40M110 44L124 48M110 60L124 56M110 60L124 64"/>
+  <path class="sk-ink" d="M96 90L110 82M96 90L110 98M110 82L124 78M110 82L124 86"/>
+  <path class="sk-ink" d="M96 128L110 120M96 128L110 136M110 136L124 132M110 136L124 140"/>
+  <circle class="sk-dot" cx="96" cy="52" r="1.5"/><circle class="sk-dot" cx="110" cy="44" r="1.5"/><circle class="sk-dot" cx="110" cy="60" r="1.5"/><circle class="sk-dot" cx="124" cy="40" r="1.5"/><circle class="sk-dot" cx="124" cy="48" r="1.5"/><circle class="sk-dot" cx="124" cy="56" r="1.5"/><circle class="sk-dot" cx="124" cy="64" r="1.5"/><circle class="sk-dot" cx="96" cy="90" r="1.5"/><circle class="sk-dot" cx="110" cy="82" r="1.5"/><circle class="sk-dot" cx="110" cy="98" r="1.5"/><circle class="sk-dot" cx="124" cy="78" r="1.5"/><circle class="sk-dot" cx="124" cy="86" r="1.5"/><circle class="sk-dot" cx="96" cy="128" r="1.5"/><circle class="sk-dot" cx="110" cy="120" r="1.5"/><circle class="sk-dot" cx="110" cy="136" r="1.5"/><circle class="sk-dot" cx="124" cy="132" r="1.5"/><circle class="sk-dot" cx="124" cy="140" r="1.5"/>
+  <!-- the votes -->
+  <path class="sk-line" d="M130 52L193.5 86.5M130 90H193M130 128L193.5 93.5"/>
+  <!-- the answer -->
+  <circle class="sk-accent" cx="200" cy="90" r="5"/>
+  <path class="sk-line" d="M200 97V109"/>
+  <text x="24" y="30">features</text>
+  <text x="96" y="30">random forest</text>
+  <text x="200" y="120" text-anchor="middle">ad blocker</text>
+</svg>

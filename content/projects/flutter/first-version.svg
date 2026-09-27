@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A graph of torch brightness against time: it rises for four seconds, falls for six, and repeats.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- axes and ticks at 0, 4, 10, 14 and 20 seconds -->
+  <path class="sk-line" d="M30 40V134H198M30 134v4M62 134v4M110 134v4M142 134v4M190 134v4"/>
+  <!-- brightness of the light over two breaths -->
+  <path class="sk-accent" d="M30 134C32 133.5 42 132 48 121.5C54 111 59 85.5 62 55.5C89 59.5 103.5 94 110 134C112 133.5 122 132 128 121.5C134 111 139 85.5 142 55.5C169 59.5 183.5 94 190 134"/>
+  <text x="30" y="31">brightness</text>
+  <text x="46" y="152" text-anchor="middle">in 4 s</text>
+  <text x="166" y="152" text-anchor="middle">out 6 s</text>
+  <text x="204" y="137">time</text>
+</svg>

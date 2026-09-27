@@ -14,7 +14,6 @@ links:
 aliases:
   - /posts_steam
   - /posts_steam.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 Looking for trends in Steam data.

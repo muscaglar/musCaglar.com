@@ -26,9 +26,9 @@ titleCaseStyle = "none"
   # Set this to true to show them again: years in lists, full dates on notes, dates on the CV.
   showYears = false
   # Projects, recipes and albums dated before this day are left out of Updates and of the feed.
-  # They are older than this log, and a day and a month without a year would mislead.
+  # They were there when the site opened, or are older still: Updates is for what came after.
   # Leave it empty ("") to list everything.
-  streamSince = "2026-09-01"
+  streamSince = "2026-09-28"
   # How many items the home page shows.
   homeProjects = 5
   homeRecipes = 3

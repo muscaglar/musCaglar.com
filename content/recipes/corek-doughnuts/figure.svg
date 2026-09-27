@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="Two filled doughnuts cut in half, a savoury one above a sweet one, each with yogurt filling inside and a sprinkling on top.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- the two doughnuts, in section -->
+  <path class="sk-ink" d="M47 26H83A22 22 0 0 1 83 70H47A22 22 0 0 1 47 26Z"/>
+  <path class="sk-ink" d="M47 102H83A22 22 0 0 1 83 146H47A22 22 0 0 1 47 102Z"/>
+  <!-- the yogurt fillings, each a closed pocket -->
+  <g class="sk-accent">
+    <path d="M51 40H79A8 8 0 0 1 79 56H51A8 8 0 0 1 51 40Z"/>
+    <path d="M51 116H79A8 8 0 0 1 79 132H51A8 8 0 0 1 51 116Z"/>
+  </g>
+  <!-- the sprinkling on top -->
+  <g class="sk-dot">
+    <circle cx="49" cy="21.5" r="1.5"/><circle cx="57" cy="21.5" r="1.5"/><circle cx="65" cy="21.5" r="1.5"/><circle cx="73" cy="21.5" r="1.5"/><circle cx="81" cy="21.5" r="1.5"/>
+    <circle cx="49" cy="97.5" r="1.5"/><circle cx="57" cy="97.5" r="1.5"/><circle cx="65" cy="97.5" r="1.5"/><circle cx="73" cy="97.5" r="1.5"/><circle cx="81" cy="97.5" r="1.5"/>
+  </g>
+  <!-- leaders -->
+  <path class="sk-line" d="M87 21.5H119M90 124H119"/>
+  <text x="123" y="24.5">seasoning, sumac</text>
+  <text x="123" y="127">yogurt filling</text>
+  <text x="65" y="86" text-anchor="middle">savoury</text>
+  <text x="65" y="162" text-anchor="middle">sweet</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 480 270" role="img" aria-label="The path of a turn. Sound from the microphone passes the wake word, is captured and turned into text. A fast path or a chat model works out what to do. Every call to a tool leaves through one door, to servers and to the node's own tools. The answer is turned into speech for the loudspeaker.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- hearing: microphone, wake, capture, speech to text -->
+  <circle class="sk-ink" cx="28" cy="57" r="9"/>
+  <path class="sk-ink" d="M56 40H108V74H56ZM126 40H186V74H126ZM204 40H292V74H204Z"/>
+  <!-- thinking: the fast path first, the chat model on a miss -->
+  <path class="sk-ink" d="M126 118H186V152H126ZM204 118H292V152H204Z"/>
+  <!-- the one door every call to a tool leaves through -->
+  <path class="sk-accent" d="M326 106H342V164H326Z"/>
+  <!-- what is behind the door -->
+  <path class="sk-ink" d="M376 96H468V126H376ZM376 144H468V174H376Z"/>
+  <!-- speaking: text to speech, loudspeaker -->
+  <path class="sk-ink" d="M204 196H292V230H204Z"/>
+  <path class="sk-ink" d="M20 206H30L40 198V228L30 220H20Z"/>
+  <!-- the way through -->
+  <path class="sk-line" d="M37 57H56M108 57H126M186 57H204M248 74V96H156V118M186 135H204M292 135H326M342 120H358V111H376M342 150H358V159H376M248 152V196M204 213H40"/>
+  <path class="sk-line" d="M52 54.5L56 57L52 59.5M122 54.5L126 57L122 59.5M200 54.5L204 57L200 59.5M153.5 114L156 118L158.5 114M200 132.5L204 135L200 137.5M322 132.5L326 135L322 137.5M372 108.5L376 111L372 113.5M372 156.5L376 159L372 161.5M245.5 192L248 196L250.5 192M44 210.5L40 213L44 215.5"/>
+  <text x="12" y="84">microphone</text>
+  <text x="82" y="60" text-anchor="middle">wake</text>
+  <text x="156" y="60" text-anchor="middle">capture</text>
+  <text x="248" y="60" text-anchor="middle">speech to text</text>
+  <text x="156" y="138" text-anchor="middle">fast path</text>
+  <text x="248" y="138" text-anchor="middle">chat model</text>
+  <text x="195" y="110" text-anchor="middle">miss</text>
+  <text x="334" y="98" text-anchor="middle">one door</text>
+  <text x="422" y="114" text-anchor="middle">mcp servers</text>
+  <text x="422" y="162" text-anchor="middle">its own tools</text>
+  <text x="248" y="216" text-anchor="middle">text to speech</text>
+  <text x="12" y="246">loudspeaker</text>
+</svg>

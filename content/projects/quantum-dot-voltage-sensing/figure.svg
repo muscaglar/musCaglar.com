@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="Two traces against time: a voltage switched on and off in steps, and the light from quantum dots changing each time the voltage is switched.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+  <!-- axes -->
+  <path class="sk-line" d="M64 24V148H220"/>
+  <!-- switching times -->
+  <path class="sk-dash" d="M100 72V96M128 72V96M156 72V96M184 72V96"/>
+  <!-- applied voltage -->
+  <path class="sk-ink" d="M72 68H100V44H128V68H156V44H184V68H212"/>
+  <!-- light from the dots -->
+  <path class="sk-accent" d="M72 100H100C101 114 106 124 118 124H128C129 110 134 100 146 100H156C157 114 162 124 174 124H184C185 110 190 100 202 100H212"/>
+  <text x="56" y="59" text-anchor="end">voltage</text>
+  <text x="56" y="115" text-anchor="end">light</text>
+  <text x="220" y="163" text-anchor="end">time</text>
+</svg>

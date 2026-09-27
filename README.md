@@ -177,8 +177,9 @@ Years are left off the pages.
 The `date` of a page is still needed: it puts the page in its place in a list.
 
 Projects, recipes and albums dated before `streamSince` in `hugo.toml` stay out of **Updates** and
-of the feed. Set that day to when the log began; work from before it is listed in its own section
-only.
+of the feed. That day is the day after the site opened: what was there from the start is listed
+in its own section only, and Updates is for what came after. So give a new page the date of the
+day you add it.
 
 To show years again, set `showYears = true` in `hugo.toml`. Lists then show the year, notes their
 full date, and the CV its dates.

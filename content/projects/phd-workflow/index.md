@@ -12,7 +12,6 @@ aliases:
   - /posts_phdWorkflow_1.html
   - /posts_phdWorkflow_2
   - /posts_phdWorkflow_2.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 ## Data capture and storage

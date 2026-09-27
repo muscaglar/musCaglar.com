@@ -13,7 +13,6 @@ links:
 aliases:
   - /posts_GHK
   - /posts_GHK.html
-draft: true   # carried over from the old site; delete this line to publish
 ---
 
 Bayesian statistics is used to determine a favourable model for the charge flow across defects in graphene. Following this, R is used to perform non-linear regression to fit to experimental data and extract fitting statistics.
