@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="sketch" viewBox="0 0 240 180" role="img" aria-label="A focal series of images, taken above, in and below focus, is combined through the inverse of the contrast transfer function into one image in which the atoms are resolved.">
+  <style>
+    .sketch { fill: none; stroke-linecap: round; stroke-linejoin: round; color: var(--color-ink-2, #262c3a); font-family: var(--font-mono, "IBM Plex Mono", ui-monospace, Menlo, monospace); }
+    .sketch text { fill: var(--color-ink-3, #6b7180); stroke: none; font-size: 9px; letter-spacing: 0.04em; }
+    .sk-ink { stroke: currentColor; stroke-width: 1.25; }
+    .sk-line { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; }
+    .sk-dash { stroke: var(--color-ink-3, #6b7180); stroke-width: 1; stroke-dasharray: 2 3; }
+    .sk-accent { stroke: var(--color-accent, #b71c1c); stroke-width: 1.25; }
+    .sk-dot { fill: currentColor; stroke: none; }
+    .sk-accent-dot { fill: var(--color-accent, #b71c1c); stroke: none; }
+    .sk-hole { fill: var(--color-paper, #fbfaf7); stroke: currentColor; stroke-width: 1.25; }
+    @media (prefers-color-scheme: dark) {
+      .sketch { color: var(--color-ink-2, #d9dce3); }
+      .sketch text { fill: var(--color-ink-3, #9aa0ad); }
+      .sk-line, .sk-dash { stroke: var(--color-ink-3, #9aa0ad); }
+      .sk-accent { stroke: var(--color-accent, #ef6a5e); }
+      .sk-accent-dot { fill: var(--color-accent, #ef6a5e); }
+      .sk-hole { fill: var(--color-paper, #14161b); }
+    }
+  </style>
+
+  <!-- focal series: three of its image planes -->
+  <path class="sk-ink" d="M14 40H58L74 24H30ZM14 90H58L74 74H30ZM14 140H58L74 124H30Z"/>
+  <path class="sk-dash" d="M44 58V71M44 108V121"/>
+  <!-- the series is combined -->
+  <path class="sk-line" d="M78 40L118 79M78 82H118M78 124L118 85"/>
+  <circle class="sk-ink" cx="122" cy="82" r="4"/>
+  <path class="sk-line" d="M126 82H152M148 79L152 82L148 85"/>
+  <!-- atoms resolved -->
+  <circle class="sk-dot" cx="170" cy="58" r="1.5"/>
+  <circle class="sk-dot" cx="181" cy="58" r="1.5"/>
+  <circle class="sk-dot" cx="192" cy="58" r="1.5"/>
+  <circle class="sk-dot" cx="203" cy="58" r="1.5"/>
+  <circle class="sk-dot" cx="214" cy="58" r="1.5"/>
+  <circle class="sk-dot" cx="175.5" cy="67.5" r="1.5"/>
+  <circle class="sk-dot" cx="186.5" cy="67.5" r="1.5"/>
+  <circle class="sk-dot" cx="197.5" cy="67.5" r="1.5"/>
+  <circle class="sk-dot" cx="208.5" cy="67.5" r="1.5"/>
+  <circle class="sk-dot" cx="170" cy="77" r="1.5"/>
+  <circle class="sk-dot" cx="181" cy="77" r="1.5"/>
+  <circle class="sk-dot" cx="192" cy="77" r="1.5"/>
+  <circle class="sk-dot" cx="203" cy="77" r="1.5"/>
+  <circle class="sk-dot" cx="214" cy="77" r="1.5"/>
+  <circle class="sk-dot" cx="175.5" cy="86.5" r="1.5"/>
+  <circle class="sk-dot" cx="186.5" cy="86.5" r="1.5"/>
+  <circle class="sk-dot" cx="197.5" cy="86.5" r="1.5"/>
+  <circle class="sk-dot" cx="208.5" cy="86.5" r="1.5"/>
+  <circle class="sk-dot" cx="170" cy="96" r="1.5"/>
+  <circle class="sk-dot" cx="181" cy="96" r="1.5"/>
+  <circle class="sk-dot" cx="192" cy="96" r="1.5"/>
+  <circle class="sk-dot" cx="203" cy="96" r="1.5"/>
+  <circle class="sk-dot" cx="214" cy="96" r="1.5"/>
+  <circle class="sk-dot" cx="175.5" cy="105.5" r="1.5"/>
+  <circle class="sk-dot" cx="186.5" cy="105.5" r="1.5"/>
+  <circle class="sk-dot" cx="197.5" cy="105.5" r="1.5"/>
+  <circle class="sk-dot" cx="208.5" cy="105.5" r="1.5"/>
+  <!-- the reconstructed image -->
+  <path class="sk-accent" d="M160 50H224V114H160Z"/>
+  <!-- leader and labels -->
+  <path class="sk-line" d="M122 88V142"/>
+  <text x="14" y="52">above focus</text>
+  <text x="14" y="102">in focus</text>
+  <text x="14" y="152">below focus</text>
+  <text x="122" y="152" text-anchor="middle">inverse ctf</text>
+  <text x="192" y="127" text-anchor="middle">exit wave</text>
+</svg>

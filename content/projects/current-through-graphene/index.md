@@ -4,6 +4,8 @@ date: 2019-09-01
 summary: "Using Bayesian statistics to choose a model for charge flow across defects in graphene, then fitting it to experimental data."
 kind: research
 tags: [Python, R, Bayesian statistics, Regression]
+figure: figure.svg
+figure_caption: "A sketch of current against voltage, with the straight line of Ohm's law and a curved model drawn through the same points. The points are illustrative."
 cover: bayes-linear.png
 links:
   - name: Code on GitHub

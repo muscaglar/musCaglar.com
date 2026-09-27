@@ -4,6 +4,8 @@ date: 2018-12-01
 summary: "A LabVIEW program that makes nanopores in graphene by electroporation, large enough for DNA to pass through."
 kind: research
 tags: [LabVIEW, Nanopores, Instrumentation]
+figure: figure.svg
+figure_caption: "One of the two electrodes, above a sheet of graphene, with one carbon atom leaving the lattice. Enough atoms displaced in one place make a pore."
 cover: labview.png
 links:
   - name: Code on GitHub

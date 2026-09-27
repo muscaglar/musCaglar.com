@@ -4,6 +4,8 @@ date: 2019-05-01
 summary: "Removing lens aberrations from transmission electron microscope images by reconstructing the exit wave from a focal series."
 kind: research
 tags: [Python, Image processing, Microscopy]
+figure: figure.svg
+figure_caption: "A focal series of images, taken above, in and below focus, is combined through the inverse of the contrast transfer function. The result is one image in which the atoms are resolved."
 cover: focal-series.png
 featured: true
 links:

@@ -5,6 +5,8 @@ period: "March – August 2017"
 summary: "Keeping track of the data an experiment generates: where it is stored, how it is analysed, and how the results are kept."
 kind: research
 tags: [SQL, Matlab, Python, Java, Azure]
+figure: figure.svg
+figure_caption: "An experiment feeds a database, and the database feeds the analysis. The results of the analysis are stored as well."
 aliases:
   - /posts_phdWorkflow_1
   - /posts_phdWorkflow_1.html

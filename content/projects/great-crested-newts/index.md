@@ -4,6 +4,8 @@ date: 2019-01-01
 summary: "Scoring ponds along the rail network for how likely they are to hold a protected species, to cut down on costly site visits."
 kind: research
 tags: [R, Logistic regression, Naive Bayes, GIS]
+figure: figure.svg
+figure_caption: "An invented plan of ponds beside a railway line, with a ring around one pond and the sightings recorded near it. Each pond is scored for how likely it is to be occupied."
 cover: gis-boundaries.png
 featured: true
 links:

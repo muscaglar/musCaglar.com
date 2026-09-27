@@ -5,6 +5,8 @@ period: "January – February 2020"
 summary: "Looking for trends in Steam data: what sells, what gets played, and how players cluster."
 kind: tinkering
 tags: [Python, Clustering, Data analysis]
+figure: figure.svg
+figure_caption: "A sketch of games plotted by critic rating and units sold per day on sale, with a fitted line. The vertical scale is logarithmic."
 cover: fig-1.png
 links:
   - name: Code on GitHub

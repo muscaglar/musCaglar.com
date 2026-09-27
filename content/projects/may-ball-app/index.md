@@ -5,6 +5,8 @@ period: "April – July 2019"
 summary: "My first app on the App Store: the companion app to the Gonville & Caius May Ball, with live queue times, a map and an AR camera."
 kind: tinkering
 tags: [Swift, iOS, ARKit, MapKit]
+figure: figure.svg
+figure_caption: "An invented plan of two courts with food stalls, and the queue at one stall. The app had a map of the grounds and live queue times for the stalls."
 cover: walkthrough-1.png
 featured: true
 links:

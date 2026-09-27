@@ -4,6 +4,8 @@ date: 2020-01-26
 summary: "Finding DNA translocations in noisy nanopore current recordings: filtering, event detection and clustering."
 kind: research
 tags: [Python, Signal processing, Clustering, Nanopores]
+figure: figure.svg
+figure_caption: "A strand of DNA passing through a nanopore, beside the current measured across it. The current dips while the strand is in the pore, and that dip is what the analysis looks for in the noise."
 cover: current-trace-analysis.png
 featured: true
 links:
