@@ -1,6 +1,6 @@
 ---
 title: "Mustafa Çağlar"
-description: "Mustafa (Mus) Çağlar — physicist and engineer. Projects, recipes, photographs and notes."
+description: "Mustafa (Mus) Çağlar — ex-physicist, now engineer. Projects, recipes, photographs and notes."
 # The words that open the home page. Words between ** and ** are set in bold, and a backslash
 # at the end of a line starts a new line.
 intro: |-
